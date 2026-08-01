@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,6 +17,9 @@
       transform: scale(1.03);
       box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.2);
     }
+    /* Sembunyikan scrollbar untuk menu horizontal */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-800">
@@ -25,7 +28,7 @@
   <header class="bg-gradient-to-r from-emerald-800 to-teal-700 text-white shadow-lg relative">
     <div class="max-w-5xl mx-auto px-4 py-8 text-center flex flex-col items-center">
       
-      <!-- LOGO MASJID -->
+      <!-- LOGO MAN 2 NGANJUK -->
       <img src="logo-man2.png" 
            alt="Logo MAN 2 Nganjuk" 
            class="w-20 h-20 md:w-24 md:h-24 mb-3 object-contain drop-shadow-md bg-white/10 p-2 rounded-2xl border border-white/20">
@@ -43,7 +46,7 @@
         Pusat Kegiatan Keagamaan, Peradaban Siswa, dan Informasi Takmir Masjid
       </p>
 
-      <!-- BANNER LIVE JAM & COUNTDOWN SHOLAT (ALA NU ONLINE) -->
+      <!-- BANNER LIVE JAM & COUNTDOWN SHOLAT -->
       <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 w-full max-w-md shadow-inner flex flex-col items-center gap-1">
         <div class="flex items-center gap-2 text-xs text-emerald-100 font-medium">
           <i class="fa-solid fa-clock text-amber-300 animate-pulse"></i>
@@ -52,7 +55,6 @@
         <div id="live-jam" class="text-3xl font-extrabold tracking-wider text-amber-300 font-mono">
           00:00:00 WIB
         </div>
-        <!-- BAR COUNTDOWN SHOLAT -->
         <div id="box-countdown" class="mt-1 bg-emerald-900/80 text-emerald-100 px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1.5 border border-emerald-500/30">
           <i class="fa-solid fa-hourglass-half text-amber-300"></i>
           <span id="info-hitung-mundur">Menghitung jadwal sholat...</span>
@@ -62,11 +64,35 @@
     </div>
   </header>
 
+  <!-- NAVIGASI MENU TOMBOL ALTERNATIF (RESPONSIF) -->
+  <nav class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-slate-200 shadow-sm">
+    <div class="max-w-5xl mx-auto px-4 py-2.5 flex items-center justify-between overflow-x-auto gap-2 no-scrollbar">
+      <a href="#seksi-sholat" class="px-3 py-1.5 text-xs font-bold text-slate-700 hover:text-emerald-700 hover:bg-emerald-50 rounded-lg whitespace-nowrap transition flex items-center gap-1.5">
+        <i class="fa-solid fa-mosque text-emerald-600"></i> Jadwal Sholat
+      </a>
+      <a href="#seksi-jumat" class="px-3 py-1.5 text-xs font-bold text-slate-700 hover:text-emerald-700 hover:bg-emerald-50 rounded-lg whitespace-nowrap transition flex items-center gap-1.5">
+        <i class="fa-solid fa-calendar-check text-emerald-600"></i> Jadwal Jumat
+      </a>
+      <button onclick="bukaModalPengurus()" class="px-3 py-1.5 text-xs font-bold text-slate-700 hover:text-emerald-700 hover:bg-emerald-50 rounded-lg whitespace-nowrap transition flex items-center gap-1.5">
+        <i class="fa-solid fa-users-gear text-emerald-600"></i> Pengurus Takmir
+      </button>
+      <a href="#seksi-layanan" class="px-3 py-1.5 text-xs font-bold text-slate-700 hover:text-emerald-700 hover:bg-emerald-50 rounded-lg whitespace-nowrap transition flex items-center gap-1.5">
+        <i class="fa-solid fa-hand-holding-hand text-emerald-600"></i> Layanan Keagamaan
+      </a>
+      <a href="#seksi-infaq" class="px-3 py-1.5 text-xs font-bold text-slate-700 hover:text-emerald-700 hover:bg-emerald-50 rounded-lg whitespace-nowrap transition flex items-center gap-1.5">
+        <i class="fa-solid fa-hand-holding-dollar text-emerald-600"></i> Infaq & Donasi
+      </a>
+      <a href="#seksi-berita" class="px-3 py-1.5 text-xs font-bold text-slate-700 hover:text-emerald-700 hover:bg-emerald-50 rounded-lg whitespace-nowrap transition flex items-center gap-1.5">
+        <i class="fa-solid fa-newspaper text-emerald-600"></i> Informasi & Berita
+      </a>
+    </div>
+  </nav>
+
   <!-- KONTEN UTAMA -->
-  <main class="max-w-5xl mx-auto px-4 -mt-4 mb-12 space-y-8">
+  <main class="max-w-5xl mx-auto px-4 mt-6 mb-12 space-y-8">
 
     <!-- 1. JADWAL SHOLAT WAKTU NGANJUK -->
-    <section class="bg-white rounded-2xl p-6 shadow-xl border border-emerald-100">
+    <section id="seksi-sholat" class="bg-white rounded-2xl p-6 shadow-xl border border-emerald-100 scroll-mt-20">
       <div class="flex items-center justify-between mb-4 border-b pb-3">
         <h2 class="text-lg font-bold text-emerald-800 flex items-center gap-2">
           <i class="fa-solid fa-mosque"></i> Jadwal Sholat Hari Ini (Nganjuk)
@@ -153,13 +179,11 @@
           <span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded">294.25° NW</span>
         </div>
 
-        <!-- Jarum Kompas Visual -->
         <div class="relative w-20 h-20 bg-slate-100 rounded-full border-2 border-emerald-500 flex items-center justify-center my-1 shadow-inner">
           <div class="absolute text-[9px] font-bold text-slate-400 top-1">N</div>
           <div class="absolute text-[9px] font-bold text-slate-400 bottom-1">S</div>
           <div class="absolute text-[9px] font-bold text-slate-400 left-1.5">W</div>
           <div class="absolute text-[9px] font-bold text-slate-400 right-1.5">E</div>
-          <!-- Panah Kiblat diarahkan ke 294 derajat -->
           <div id="jarum-kiblat" class="w-full h-full flex items-center justify-center transition-transform duration-500" style="transform: rotate(294deg);">
             <i class="fa-solid fa-location-arrow text-emerald-600 text-xl transform -rotate-45"></i>
           </div>
@@ -170,7 +194,7 @@
 
     </section>
 
-    <!-- 3. DO A HARIAN SLIDER / COLLAPSIBLE -->
+    <!-- 3. DOA HARIAN SLIDER / COLLAPSIBLE -->
     <section class="bg-white rounded-2xl p-6 shadow-xl border border-slate-100">
       <h2 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2 border-b pb-3">
         <i class="fa-solid fa-book-open-reader text-emerald-600"></i> Doa-Doa Harian Singkat
@@ -190,7 +214,7 @@
     </section>
 
     <!-- 4. JADWAL PETUGAS JUMAT -->
-    <section class="bg-white rounded-2xl p-6 shadow-xl border border-slate-100">
+    <section id="seksi-jumat" class="bg-white rounded-2xl p-6 shadow-xl border border-slate-100 scroll-mt-20">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 border-b pb-4">
         <div>
           <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
@@ -214,8 +238,79 @@
       <div id="wadah-jumat-bulan" class="space-y-4"></div>
     </section>
 
-    <!-- 5. BERITA & INFORMASI MASJID -->
-    <section class="bg-white rounded-2xl p-6 shadow-xl border border-slate-100">
+    <!-- 5. LAYANAN KEAGAMAAN & PERADABAN SISWA -->
+    <section id="seksi-layanan" class="bg-white rounded-2xl p-6 shadow-xl border border-slate-100 scroll-mt-20">
+      <h2 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2 border-b pb-3">
+        <i class="fa-solid fa-hand-holding-hand text-emerald-600"></i> Layanan Keagamaan & Peradaban Siswa
+      </h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+        <div class="p-4 bg-emerald-50/60 rounded-xl border border-emerald-100 flex flex-col justify-between">
+          <div>
+            <div class="w-8 h-8 bg-emerald-600 text-white rounded-lg flex items-center justify-center mb-2 font-bold text-sm">
+              <i class="fa-solid fa-comments"></i>
+            </div>
+            <h3 class="font-bold text-slate-800 text-sm mb-1">Konsultasi Agama</h3>
+            <p class="text-slate-600">Bimbingan konseling keagamaan, fikih ibadah, dan fikih remaja bersama Guru Agama MAN 2 Nganjuk.</p>
+          </div>
+        </div>
+        <div class="p-4 bg-emerald-50/60 rounded-xl border border-emerald-100 flex flex-col justify-between">
+          <div>
+            <div class="w-8 h-8 bg-emerald-600 text-white rounded-lg flex items-center justify-center mb-2 font-bold text-sm">
+              <i class="fa-solid fa-book-bookmark"></i>
+            </div>
+            <h3 class="font-bold text-slate-800 text-sm mb-1">Perpustakaan Islam</h3>
+            <p class="text-slate-600">Koleksi kitab-kitab kuning, tafsir Al-Qur'an, dan buku pengetahuan Islam untuk siswa-siswi.</p>
+          </div>
+        </div>
+        <div class="p-4 bg-emerald-50/60 rounded-xl border border-emerald-100 flex flex-col justify-between">
+          <div>
+            <div class="w-8 h-8 bg-emerald-600 text-white rounded-lg flex items-center justify-center mb-2 font-bold text-sm">
+              <i class="fa-solid fa-hands-holding-circle"></i>
+            </div>
+            <h3 class="font-bold text-slate-800 text-sm mb-1">Pengelolaan ZIS</h3>
+            <p class="text-slate-600">Penerimaan dan penyaluran Zakat, Infaq, dan Sedekah bagi warga madrasah & masyarakat sekitar.</p>
+          </div>
+        </div>
+        <div class="p-4 bg-emerald-50/60 rounded-xl border border-emerald-100 flex flex-col justify-between">
+          <div>
+            <div class="w-8 h-8 bg-emerald-600 text-white rounded-lg flex items-center justify-center mb-2 font-bold text-sm">
+              <i class="fa-solid fa-school-flag"></i>
+            </div>
+            <h3 class="font-bold text-slate-800 text-sm mb-1">Kajian Rutin Siswa</h3>
+            <p class="text-slate-600">Pengajian rutin Kitab Hadits Arbain, Tajwid, dan Pembiasaan Sholat Dhuha Berjamaah.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. INFAQ & DONASI MASJID -->
+    <section id="seksi-infaq" class="bg-gradient-to-r from-emerald-900 to-teal-800 text-white rounded-2xl p-6 shadow-xl border border-emerald-700 scroll-mt-20">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="space-y-2 text-center md:text-left">
+          <span class="bg-amber-400 text-slate-900 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+            Infaq & Sedekah Subuh
+          </span>
+          <h2 class="text-xl md:text-2xl font-bold">Mari Sisihkan Infaq Terbaik Anda</h2>
+          <p class="text-emerald-100 text-xs md:text-sm max-w-xl">
+            Infaq Anda dipergunakan untuk operasional kebersihan masjid, pemeliharaan sarana ibadah, serta kegiatan keagamaan siswa MAN 2 Nganjuk.
+          </p>
+        </div>
+
+        <div class="bg-white text-slate-800 p-4 rounded-xl shadow-lg w-full md:w-auto text-center border border-emerald-100">
+          <span class="text-xs font-bold text-emerald-800 block mb-1">Bank Syariah Indonesia (BSI)</span>
+          <div class="bg-slate-100 p-2.5 rounded-lg border font-mono font-bold text-base text-emerald-900 flex items-center justify-center gap-2">
+            <span id="no-rekening">7123-4567-8901</span>
+            <button onclick="salinRekening()" class="text-xs bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded font-sans transition">
+              <i class="fa-solid fa-copy"></i> Salin
+            </button>
+          </div>
+          <span class="text-[11px] text-slate-500 block mt-1">a.n Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. BERITA & INFORMASI MASJID -->
+    <section id="seksi-berita" class="bg-white rounded-2xl p-6 shadow-xl border border-slate-100 scroll-mt-20">
       <div class="flex items-center justify-between mb-4 border-b pb-3">
         <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
           <i class="fa-solid fa-newspaper text-emerald-600"></i> Informasi & Berita Masjid
@@ -230,17 +325,73 @@
 
   </main>
 
+  <!-- MODAL POP-UP SUSUNAN PENGURUS TAKMIR -->
+  <div id="modal-pengurus" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 shadow-2xl relative border border-slate-200">
+      <div class="flex items-center justify-between border-b pb-3 mb-4">
+        <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+          <i class="fa-solid fa-sitemap text-emerald-600"></i> Susunan Pengurus Takmir Masjid
+        </h3>
+        <button onclick="tutupModalPengurus()" class="text-slate-400 hover:text-slate-600 text-xl font-bold">
+          &times;
+        </button>
+      </div>
+
+      <div class="space-y-4 text-xs">
+        <div class="bg-emerald-50 p-3 rounded-xl border border-emerald-100 text-center">
+          <span class="text-[10px] font-bold text-emerald-700 uppercase block">Pelindung / Penasihat</span>
+          <h4 class="font-bold text-slate-800 text-sm">Kepala MAN 2 Nganjuk</h4>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+            <span class="text-[10px] font-bold text-emerald-700 uppercase block">Ketua Takmir</span>
+            <h4 class="font-bold text-slate-800 text-sm">Ustadz Bryan Azzam Maulana</h4>
+          </div>
+          <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+            <span class="text-[10px] font-bold text-emerald-700 uppercase block">Wakil Ketua Takmir</span>
+            <h4 class="font-bold text-slate-800 text-sm">Ustadz Ahmad Fauzi, S.Pd.I</h4>
+          </div>
+          <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+            <span class="text-[10px] font-bold text-emerald-700 uppercase block">Sekretaris Takmir</span>
+            <h4 class="font-bold text-slate-800 text-sm">Muhammad Rayhan (Siswa)</h4>
+          </div>
+          <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+            <span class="text-[10px] font-bold text-emerald-700 uppercase block">Bendahara Takmir</span>
+            <h4 class="font-bold text-slate-800 text-sm">Hafiz Wahyu Akmal</h4>
+          </div>
+        </div>
+
+        <div class="border-t pt-3">
+          <h4 class="font-bold text-slate-800 text-xs mb-2">Divisi-Divisi Operasional:</h4>
+          <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-slate-600">
+            <li class="bg-slate-100 p-2 rounded-lg"><strong>Divisi Imarah (Ibadah & Kajian):</strong> OSIS Sekbid Keagamaan</li>
+            <li class="bg-slate-100 p-2 rounded-lg"><strong>Divisi Ri'ayah (Kebersihan & Sarana):</strong> Pengurus Remaja Masjid</li>
+            <li class="bg-slate-100 p-2 rounded-lg"><strong>Divisi Humas & Publikasi:</strong> Tim Media Takmir</li>
+            <li class="bg-slate-100 p-2 rounded-lg"><strong>Divisi Logistik & Konsumsi:</strong> Tim Perlengkapan</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-6 text-right">
+        <button onclick="tutupModalPengurus()" class="bg-slate-800 hover:bg-slate-900 text-white text-xs px-4 py-2 rounded-xl font-semibold transition">
+          Tutup Menu
+        </button>
+      </div>
+    </div>
+  </div>
+
   <footer class="bg-slate-900 text-slate-400 text-center py-6 text-xs border-t border-slate-800">
     <p>&copy; 2026 Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk. Dibuat dengan HTML & Tailwind CSS.</p>
   </footer>
 
-  <!-- JAVASCRIPT LOGIC LENGKAP -->
+  <!-- JAVASCRIPT LOGIC LENGKAP & CLEAN -->
   <script>
     const PIN_ADMIN_BENAR = "1234";
     let isAdmin = false;
     let jadwalSholatHariIni = null;
 
-    // Default Data
+    // Default Data Berita
     const beritaDefault = [
       {
         kategori: "Kegiatan",
@@ -254,6 +405,7 @@
       }
     ];
 
+    // Default Data Petugas Jumat
     const petugasDefault = {
       imamKhotib: "Ustadz Bryan Azzam Maulana",
       waImam: "6289603286661",
@@ -261,23 +413,34 @@
       waBilal: "6285850711594"
     };
 
-    // 1. JAM LIVE & HITUNG MUNDUR SHOLAT REALTIME
+    // 1. MODAL PENGURUS & SALIN REKENING
+    function bukaModalPengurus() {
+      document.getElementById('modal-pengurus').classList.remove('hidden');
+    }
+    function tutupModalPengurus() {
+      document.getElementById('modal-pengurus').classList.add('hidden');
+    }
+
+    function salinRekening() {
+      const rek = document.getElementById('no-rekening').innerText;
+      navigator.clipboard.writeText(rek);
+      alert("Nomor Rekening BSI berhasil disalin: " + rek);
+    }
+
+    // 2. JAM LIVE & HITUNG MUNDUR SHOLAT REALTIME
     function updateLiveJamAndCountdown() {
       const now = new Date();
       
-      // Tanggal Lengkap
       const namaHari = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
       const namaBulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
       const strTanggalFull = `${namaHari[now.getDay()]}, ${now.getDate()} ${namaBulan[now.getMonth()]} ${now.getFullYear()}`;
       document.getElementById('live-tanggal-full').innerText = strTanggalFull;
 
-      // Jam Live (HH:MM:SS)
       const hh = String(now.getHours()).padStart(2, '0');
       const mm = String(now.getMinutes()).padStart(2, '0');
       const ss = String(now.getSeconds()).padStart(2, '0');
       document.getElementById('live-jam').innerText = `${hh}:${mm}:${ss} WIB`;
 
-      // Hitung Mundur Sholat
       if (!jadwalSholatHariIni) return;
 
       const daftarSholat = [
@@ -288,7 +451,6 @@
         { id: 'isya', nama: 'Isya', waktu: jadwalSholatHariIni.isya }
       ];
 
-      // Reset Highlight Card
       daftarSholat.forEach(s => {
         const card = document.getElementById(`card-${s.id}`);
         if(card) card.classList.remove('active-sholat');
@@ -308,18 +470,15 @@
         }
       }
 
-      // Jika lewat Isya, target berikutnya Subuh Besok
       if (!nextSholat) {
         nextSholat = daftarSholat[0];
         const [jamS, minS] = nextSholat.waktu.split(':').map(Number);
         targetTime = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, jamS, minS, 0);
       }
 
-      // Highlight Kartu Sholat Berikutnya
       const activeCard = document.getElementById(`card-${nextSholat.id}`);
       if(activeCard) activeCard.classList.add('active-sholat');
 
-      // Selisih Waktu (Milikisecond)
       const diffMs = targetTime - now;
       const diffSec = Math.floor(diffMs / 1000);
       const jamMundur = Math.floor(diffSec / 3600);
@@ -332,7 +491,7 @@
 
     setInterval(updateLiveJamAndCountdown, 1000);
 
-    // 2. MUTIARA HIKMAH (EDITABLE BY ADMIN)
+    // 3. MUTIARA HIKMAH (EDITABLE BY ADMIN)
     function renderMutiaraHikmah() {
       const simpanan = localStorage.getItem('mutiara_hikmah_masjid');
       const data = simpanan ? JSON.parse(simpanan) : {
@@ -361,7 +520,7 @@
       alert("Mutiara Hikmah berhasil diperbarui!");
     }
 
-    // 3. TASBIH DIGITAL INTERAKTIF
+    // 4. TASBIH DIGITAL INTERAKTIF
     let tasbihCount = 0;
     const dzikirList = ["Subhanallah", "Alhamdulillah", "Allahu Akbar", "Astaghfirullah"];
     let dzikirIndex = 0;
@@ -369,7 +528,7 @@
     function tambahTasbih() {
       tasbihCount++;
       document.getElementById('angka-tasbih').innerText = tasbihCount;
-      if (navigator.vibrate) navigator.vibrate(40); // Getar HP saat di-klik
+      if (navigator.vibrate) navigator.vibrate(40);
 
       if (tasbihCount % 33 === 0) {
         dzikirIndex = (dzikirIndex + 1) % dzikirList.length;
@@ -384,11 +543,10 @@
       document.getElementById('label-tasbih').innerText = dzikirList[0];
     }
 
-    // 4. WA REMINDER & ADMIN TOGGLE
+    // 5. WA REMINDER DENGAN TEMPLATE RESMI KHOTIB
     function kirimPengingatWA(peran, nama, nomorWA, tanggalStr) {
       let pesan = "";
 
-      // Jika petugas adalah Khotib atau Imam & Khotib
       if (peran.toLowerCase().includes("khotib") || peran.toLowerCase().includes("khatib") || peran.toLowerCase().includes("imam")) {
         pesan = `Assalamu'alaikum warahmatullahi wabarakatuh.
 
@@ -408,7 +566,6 @@ Wassalamu'alaikum warahmatullahi wabarakatuh.
 Takmir Masjid Baitul Muttaqin
 MAN 2 Nganjuk`;
       } else {
-        // Template pesan singkat untuk Bilal / Muadzin
         pesan = `Assalamu'alaikum Sdr. ${nama}, mengingatkan jadwal tugas sebagai *${peran}* Sholat Jumat di Masjid Baitul Muttaqin MAN 2 Nganjuk pada tanggal *${tanggalStr}*. Mohon persiapannya. Syukron.
 
 Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
@@ -418,13 +575,7 @@ Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
       window.open(urlWA, '_blank');
     }
 
-    function toggleAdmin() {
-      // ... (kode toggle admin selanjutnya) ...
-    }
-
-
-    // 5. PASARAN JAWA & JADWAL JUMAT BULANAN
-    // ... (kode pasaran jawa ada di bawahnya) ...
+    // 6. MODE ADMIN TOGGLE
     function toggleAdmin() {
       if (isAdmin) {
         isAdmin = false;
@@ -460,7 +611,7 @@ Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
       renderMutiaraHikmah();
     }
 
-    // 5. PASARAN JAWA & JADWAL JUMAT BULANAN
+    // 7. PASARAN JAWA & JADWAL JUMAT BULANAN
     function hitungPasaranJawa(dateObj) {
       const pasarans = ['Legi', 'Pahing', 'Pon', 'Wage', 'Kliwon'];
       const tglAcuan = new Date(2024, 0, 5); // 5 Jan 2024 = Jumat Legi
@@ -604,7 +755,7 @@ Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
       alert(`Jadwal Jumat tanggal ${labelTanggal} berhasil disimpan!`);
     }
 
-    // 6. BERITA MASJID
+    // 8. BERITA MASJID
     function ambilDataBerita() {
       const dataSimpanan = localStorage.getItem('berita_masjid');
       return dataSimpanan ? JSON.parse(dataSimpanan) : beritaDefault;
@@ -666,7 +817,7 @@ Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
       }
     }
 
-    // 7. API JADWAL SHOLAT OTOMATIS (NGANJUK)
+    // 9. API JADWAL SHOLAT OTOMATIS (NGANJUK)
     async function ambilJadwalSholat() {
       try {
         const hariIni = new Date();
@@ -698,12 +849,10 @@ Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
     if (window.DeviceOrientationEvent) {
       window.addEventListener('deviceorientation', function(e) {
         if (e.webkitCompassHeading) {
-          // iOS
           let alpha = e.webkitCompassHeading;
           let kiblatRotate = (294.25 - alpha);
           document.getElementById('jarum-kiblat').style.transform = `rotate(${kiblatRotate}deg)`;
         } else if (e.alpha) {
-          // Android
           let alpha = e.alpha;
           let kiblatRotate = (294.25 - (360 - alpha));
           document.getElementById('jarum-kiblat').style.transform = `rotate(${kiblatRotate}deg)`;
@@ -711,7 +860,7 @@ Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
       }, true);
     }
 
-    // Inisialisasi
+    // Inisialisasi Saat Dimuat
     isiOpsiBulan();
     renderJadwalJumat();
     renderBerita();
