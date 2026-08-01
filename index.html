@@ -385,14 +385,6 @@
     }
 
     // 4. WA REMINDER & ADMIN TOGGLE
-    // 3. TASBIH DIGITAL INTERAKTIF
-    // ... (kode tasbih ada di sini) ...
-
-
-    // =========================================================================
-    // >>> GANTI KODE DI SUB-NOMOR 4 INI <<<
-    // =========================================================================
-    // 4. WA REMINDER DENGAN TEMPLATE RESMI UNTUK KHOTIB
     function kirimPengingatWA(peran, nama, nomorWA, tanggalStr) {
       let pesan = "";
 
@@ -403,7 +395,7 @@
 Yth. ${nama}
 Petugas Khatib Shalat Jumat
 
-Dengan hormat, kami mengingatkan bahwa pada hari Jumat (${tanggalStr}), Bapak/Ibu mendapatkan amanah sebagai Petugas Khatib Shalat Jumat di Masjid Baitul Muttaqin MAN 2 Nganjuk.
+Dengan hormat, kami mengingatkan bahwa pada hari Jumat (${tanggalStr}), Bapak mendapatkan amanah sebagai Petugas Khatib Shalat Jumat di Masjid Baitul Muttaqin MAN 2 Nganjuk.
 
 Mohon berkenan mempersiapkan materi khutbah dengan sebaik-baiknya serta hadir lebih awal (11.45 WIB) sebelum pelaksanaan Shalat Jumat agar seluruh rangkaian ibadah dapat berlangsung dengan tertib dan khusyuk.
 
@@ -417,7 +409,7 @@ Takmir Masjid Baitul Muttaqin
 MAN 2 Nganjuk`;
       } else {
         // Template pesan singkat untuk Bilal / Muadzin
-        pesan = `Assalamu'alaikum Bp/Sdr. ${nama}, mengingatkan jadwal tugas sebagai *${peran}* Sholat Jumat di Masjid Baitul Muttaqin MAN 2 Nganjuk pada tanggal *${tanggalStr}*. Mohon persiapannya. Syukron.
+        pesan = `Assalamu'alaikum Sdr. ${nama}, mengingatkan jadwal tugas sebagai *${peran}* Sholat Jumat di Masjid Baitul Muttaqin MAN 2 Nganjuk pada tanggal *${tanggalStr}*. Mohon persiapannya. Syukron.
 
 Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
       }
