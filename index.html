@@ -169,7 +169,7 @@
         </button>
       </div>
 
-      <!-- CARD 3: ARAH KIBLAT NGANJUK (PIRINGAN PIRINGAN MATA ANGIN DYNAMIC) -->
+      <!-- CARD 3: ARAH KIBLAT NGANJUK (DINAMIS SENSOR HP) -->
       <div class="bg-white rounded-2xl p-5 shadow-lg border border-slate-100 flex flex-col justify-between items-center text-center">
         <div class="w-full flex items-center justify-between border-b pb-2 mb-2">
           <span class="text-xs font-bold text-slate-700 uppercase flex items-center gap-1.5">
@@ -178,18 +178,13 @@
           <span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded">294.25° NW</span>
         </div>
 
-        <!-- Piringan Kompas Visual Utuh yang Berputar -->
         <div class="relative w-24 h-24 bg-slate-100 rounded-full border-4 border-emerald-600 flex items-center justify-center my-1 shadow-inner overflow-hidden">
-          
-          <!-- Piringan Mata Angin N, S, E, W + Arah Ka'bah yang ikut berputar -->
           <div id="piringan-kompas" class="absolute w-full h-full transition-transform duration-300">
-            <!-- Label Mata Angin -->
             <span class="absolute text-[10px] font-extrabold text-red-600 top-1 left-1/2 -translate-x-1/2">N</span>
             <span class="absolute text-[10px] font-bold text-slate-400 bottom-1 left-1/2 -translate-x-1/2">S</span>
             <span class="absolute text-[10px] font-bold text-slate-400 left-1.5 top-1/2 -translate-y-1/2">W</span>
             <span class="absolute text-[10px] font-bold text-slate-400 right-1.5 top-1/2 -translate-y-1/2">E</span>
 
-            <!-- Penunjuk Ka'bah / Kiblat terkunci di sudut 294.25 derajat pada piringan -->
             <div class="absolute inset-0 flex items-center justify-center" style="transform: rotate(294.25deg);">
               <div class="flex flex-col items-center -translate-y-4">
                 <i class="fa-solid fa-kaaba text-emerald-700 text-[11px] mb-0.5"></i>
@@ -197,8 +192,6 @@
               </div>
             </div>
           </div>
-
-          <!-- Pin Tengah / Jarum HP Statis -->
           <div class="w-2.5 h-2.5 bg-emerald-700 rounded-full z-10 border-2 border-white shadow"></div>
         </div>
 
@@ -212,22 +205,18 @@
 
     </section>
 
-    <!-- 3. DOA HARIAN -->
+    <!-- 3. DOA HARIAN (EDITABLE BY ADMIN) -->
     <section class="bg-white rounded-2xl p-6 shadow-xl border border-slate-100">
-      <h2 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2 border-b pb-3">
-        <i class="fa-solid fa-book-open-reader text-emerald-600"></i> Doa-Doa Harian Singkat
-      </h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
-          <span class="font-bold text-emerald-800 block mb-1">Doa Masuk Masjid:</span>
-          <p class="font-serif text-sm text-right mb-1">BISMILLAHI WASSALATU WASSALAMU 'ALA RASULILLAH, ALLAHUMMAF TAHLII ABWAABA RAHMATIK.</p>
-          <p class="text-slate-600 italic">"Ya Allah, bukakanlah untukku pintu-pintu rahmat-Mu."</p>
-        </div>
-        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
-          <span class="font-bold text-emerald-800 block mb-1">Doa Keluar Masjid:</span>
-          <p class="font-serif text-sm text-right mb-1">ALLAHUMMA INNII AS'ALUKA MIN FADHLIK.</p>
-          <p class="text-slate-600 italic">"Ya Allah, sesungguhnya aku memohon keutamaan dari-Mu."</p>
-        </div>
+      <div class="flex items-center justify-between mb-4 border-b pb-3">
+        <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+          <i class="fa-solid fa-book-open-reader text-emerald-600"></i> Doa-Doa Harian Singkat
+        </h2>
+        <button onclick="tambahDoa()" class="admin-only hidden bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-3 py-1.5 rounded-lg font-semibold flex items-center gap-1.5 transition">
+          <i class="fa-solid fa-plus"></i> Tambah Doa
+        </button>
+      </div>
+      <div id="wadah-doa" class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+        <!-- Konten Doa Dimuat Otomatis via JS -->
       </div>
     </section>
 
@@ -256,7 +245,7 @@
       <div id="wadah-jumat-bulan" class="space-y-4"></div>
     </section>
 
-    <!-- 5. LAYANAN KEAGAMAAN & PERADABAN SISWA (SEKARANG BISA DIEDIT ADMIN) -->
+    <!-- 5. LAYANAN KEAGAMAAN (EDITABLE ADMIN) -->
     <section id="seksi-layanan" class="bg-white rounded-2xl p-6 shadow-xl border border-slate-100 scroll-mt-20">
       <div class="flex items-center justify-between mb-4 border-b pb-3">
         <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
@@ -272,28 +261,33 @@
       </div>
     </section>
 
-    <!-- 6. INFAQ & DONASI MASJID -->
+    <!-- 6. INFAQ & DONASI MASJID (EDITABLE ADMIN) -->
     <section id="seksi-infaq" class="bg-gradient-to-r from-emerald-900 to-teal-800 text-white rounded-2xl p-6 shadow-xl border border-emerald-700 scroll-mt-20">
       <div class="flex flex-col md:flex-row items-center justify-between gap-6">
         <div class="space-y-2 text-center md:text-left">
-          <span class="bg-amber-400 text-slate-900 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
-            Infaq & Sedekah Subuh
-          </span>
+          <div class="flex items-center gap-2 justify-center md:justify-start">
+            <span class="bg-amber-400 text-slate-900 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+              Infaq & Sedekah Subuh
+            </span>
+            <button onclick="editInfaq()" class="admin-only hidden bg-amber-300 hover:bg-amber-400 text-slate-900 text-xs font-bold px-2 py-1 rounded transition flex items-center gap-1">
+              <i class="fa-solid fa-pen"></i> Edit Infaq
+            </button>
+          </div>
           <h2 class="text-xl md:text-2xl font-bold">Mari Sisihkan Infaq Terbaik Anda</h2>
-          <p class="text-emerald-100 text-xs md:text-sm max-w-xl">
+          <p id="infaq-deskripsi" class="text-emerald-100 text-xs md:text-sm max-w-xl">
             Infaq Anda dipergunakan untuk operasional kebersihan masjid, pemeliharaan sarana ibadah, serta kegiatan keagamaan siswa MAN 2 Nganjuk.
           </p>
         </div>
 
         <div class="bg-white text-slate-800 p-4 rounded-xl shadow-lg w-full md:w-auto text-center border border-emerald-100">
-          <span class="text-xs font-bold text-emerald-800 block mb-1">Bank Syariah Indonesia (BSI)</span>
+          <span id="infaq-bank" class="text-xs font-bold text-emerald-800 block mb-1">Bank Syariah Indonesia (BSI)</span>
           <div class="bg-slate-100 p-2.5 rounded-lg border font-mono font-bold text-base text-emerald-900 flex items-center justify-center gap-2">
             <span id="no-rekening">7123-4567-8901</span>
             <button onclick="salinRekening()" class="text-xs bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded font-sans transition">
               <i class="fa-solid fa-copy"></i> Salin
             </button>
           </div>
-          <span class="text-[11px] text-slate-500 block mt-1">a.n Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk</span>
+          <span id="infaq-an" class="text-[11px] text-slate-500 block mt-1">a.n Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk</span>
         </div>
       </div>
     </section>
@@ -314,52 +308,25 @@
 
   </main>
 
-  <!-- MODAL POP-UP SUSUNAN PENGURUS TAKMIR -->
+  <!-- MODAL POP-UP SUSUNAN PENGURUS TAKMIR (EDITABLE ADMIN) -->
   <div id="modal-pengurus" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 shadow-2xl relative border border-slate-200">
       <div class="flex items-center justify-between border-b pb-3 mb-4">
         <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
           <i class="fa-solid fa-sitemap text-emerald-600"></i> Susunan Pengurus Takmir Masjid
         </h3>
-        <button onclick="tutupModalPengurus()" class="text-slate-400 hover:text-slate-600 text-xl font-bold">
-          &times;
-        </button>
+        <div class="flex items-center gap-2">
+          <button onclick="editPengurus()" class="admin-only hidden bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold px-2.5 py-1 rounded-lg transition flex items-center gap-1">
+            <i class="fa-solid fa-pen"></i> Edit Pengurus
+          </button>
+          <button onclick="tutupModalPengurus()" class="text-slate-400 hover:text-slate-600 text-xl font-bold">
+            &times;
+          </button>
+        </div>
       </div>
 
-      <div class="space-y-4 text-xs">
-        <div class="bg-emerald-50 p-3 rounded-xl border border-emerald-100 text-center">
-          <span class="text-[10px] font-bold text-emerald-700 uppercase block">Pelindung / Penasihat</span>
-          <h4 class="font-bold text-slate-800 text-sm">Kepala MAN 2 Nganjuk</h4>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
-            <span class="text-[10px] font-bold text-emerald-700 uppercase block">Ketua Takmir</span>
-            <h4 class="font-bold text-slate-800 text-sm">Ustadz Bryan Azzam Maulana</h4>
-          </div>
-          <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
-            <span class="text-[10px] font-bold text-emerald-700 uppercase block">Wakil Ketua Takmir</span>
-            <h4 class="font-bold text-slate-800 text-sm">Ustadz Ahmad Fauzi, S.Pd.I</h4>
-          </div>
-          <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
-            <span class="text-[10px] font-bold text-emerald-700 uppercase block">Sekretaris Takmir</span>
-            <h4 class="font-bold text-slate-800 text-sm">Muhammad Rayhan (Siswa)</h4>
-          </div>
-          <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
-            <span class="text-[10px] font-bold text-emerald-700 uppercase block">Bendahara Takmir</span>
-            <h4 class="font-bold text-slate-800 text-sm">Hafiz Wahyu Akmal</h4>
-          </div>
-        </div>
-
-        <div class="border-t pt-3">
-          <h4 class="font-bold text-slate-800 text-xs mb-2">Divisi-Divisi Operasional:</h4>
-          <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-slate-600">
-            <li class="bg-slate-100 p-2 rounded-lg"><strong>Divisi Imarah (Ibadah & Kajian):</strong> OSIS Sekbid Keagamaan</li>
-            <li class="bg-slate-100 p-2 rounded-lg"><strong>Divisi Ri'ayah (Kebersihan & Sarana):</strong> Pengurus Remaja Masjid</li>
-            <li class="bg-slate-100 p-2 rounded-lg"><strong>Divisi Humas & Publikasi:</strong> Tim Media Takmir</li>
-            <li class="bg-slate-100 p-2 rounded-lg"><strong>Divisi Logistik & Konsumsi:</strong> Tim Perlengkapan</li>
-          </ul>
-        </div>
+      <div id="wadah-pengurus" class="space-y-4 text-xs">
+        <!-- Dimuat otomatis via JS -->
       </div>
 
       <div class="mt-6 text-right">
@@ -382,40 +349,43 @@
 
     // Default Data Layanan Keagamaan
     const layananDefault = [
-      {
-        ikon: "fa-comments",
-        judul: "Konsultasi Agama",
-        deskripsi: "Bimbingan konseling keagamaan, fikih ibadah, dan fikih remaja bersama Guru Agama MAN 2 Nganjuk."
-      },
-      {
-        ikon: "fa-book-bookmark",
-        judul: "Perpustakaan Islam",
-        deskripsi: "Koleksi kitab-kitab kuning, tafsir Al-Qur'an, dan buku pengetahuan Islam untuk siswa-siswi."
-      },
-      {
-        ikon: "fa-hands-holding-circle",
-        judul: "Pengelolaan ZIS",
-        deskripsi: "Penerimaan dan penyaluran Zakat, Infaq, dan Sedekah bagi warga madrasah & masyarakat sekitar."
-      },
-      {
-        ikon: "fa-school-flag",
-        judul: "Kajian Rutin Siswa",
-        deskripsi: "Pengajian rutin Kitab Hadits Arbain, Tajwid, dan Pembiasaan Sholat Dhuha Berjamaah."
-      }
+      { ikon: "fa-comments", judul: "Konsultasi Agama", deskripsi: "Bimbingan konseling keagamaan, fikih ibadah, dan fikih remaja bersama Guru Agama MAN 2 Nganjuk." },
+      { ikon: "fa-book-bookmark", judul: "Perpustakaan Islam", deskripsi: "Koleksi kitab-kitab kuning, tafsir Al-Qur'an, dan buku pengetahuan Islam untuk siswa-siswi." },
+      { ikon: "fa-hands-holding-circle", judul: "Pengelolaan ZIS", deskripsi: "Penerimaan dan penyaluran Zakat, Infaq, dan Sedekah bagi warga madrasah & masyarakat sekitar." },
+      { ikon: "fa-school-flag", judul: "Kajian Rutin Siswa", deskripsi: "Pengajian rutin Kitab Hadits Arbain, Tajwid, dan Pembiasaan Sholat Dhuha Berjamaah." }
     ];
+
+    // Default Data Doa Harian
+    const doaDefault = [
+      { judul: "Doa Masuk Masjid", arab: "BISMILLAHI WASSALATU WASSALAMU 'ALA RASULILLAH, ALLAHUMMAF TAHLII ABWAABA RAHMATIK.", arti: "Ya Allah, bukakanlah untukku pintu-pintu rahmat-Mu." },
+      { judul: "Doa Keluar Masjid", arab: "ALLAHUMMA INNII AS'ALUKA MIN FADHLIK.", arti: "Ya Allah, sesungguhnya aku memohon keutamaan dari-Mu." }
+    ];
+
+    // Default Data Infaq
+    const infaqDefault = {
+      bank: "Bank Syariah Indonesia (BSI)",
+      noRek: "7123-4567-8901",
+      an: "a.n Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk",
+      deskripsi: "Infaq Anda dipergunakan untuk operasional kebersihan masjid, pemeliharaan sarana ibadah, serta kegiatan keagamaan siswa MAN 2 Nganjuk."
+    };
+
+    // Default Data Pengurus
+    const pengurusDefault = {
+      pelindung: "Kepala MAN 2 Nganjuk",
+      ketua: "Ustadz Bryan Azzam Maulana",
+      wakil: "Ustadz Ahmad Fauzi, S.Pd.I",
+      sekretaris: "Muhammad Rayhan (Siswa)",
+      bendahara: "Hafiz Wahyu Akmal",
+      divisi1: "Divisi Imarah (Ibadah & Kajian): OSIS Sekbid Keagamaan",
+      divisi2: "Divisi Ri'ayah (Kebersihan & Sarana): Pengurus Remaja Masjid",
+      divisi3: "Divisi Humas & Publikasi: Tim Media Takmir",
+      divisi4: "Divisi Logistik & Konsumsi: Tim Perlengkapan"
+    };
 
     // Default Data Berita
     const beritaDefault = [
-      {
-        kategori: "Kegiatan",
-        judul: "Kajian Rutin Hadits Arbain Siswa",
-        deskripsi: "Dilaksanakan setiap hari Rabu bakda Dzuhur di ruang utama Masjid MAN 2 Nganjuk."
-      },
-      {
-        kategori: "Pengumuman",
-        judul: "Kerja Bakti Kebersihan Masjid",
-        deskripsi: "Persiapan menyambut kegiatan PHBI bersama pengurus takmir."
-      }
+      { kategori: "Kegiatan", judul: "Kajian Rutin Hadits Arbain Siswa", deskripsi: "Dilaksanakan setiap hari Rabu bakda Dzuhur di ruang utama Masjid MAN 2 Nganjuk." },
+      { kategori: "Pengumuman", judul: "Kerja Bakti Kebersihan Masjid", deskripsi: "Persiapan menyambut kegiatan PHBI bersama pengurus takmir." }
     ];
 
     // Default Data Petugas Jumat
@@ -498,7 +468,7 @@
 
     setInterval(updateLiveJamAndCountdown, 1000);
 
-    // 3. SENSOR SENSOR KOMPAS KIBLAT BERPUTAR DINAMIS
+    // 3. SENSOR KOMPAS KIBLAT DINAMIS
     function aktifkanKompas() {
       if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
         DeviceOrientationEvent.requestPermission()
@@ -506,35 +476,177 @@
             if (permissionState === 'granted') {
               window.addEventListener('deviceorientation', tanganiRotasiKompas, true);
               document.getElementById('status-kompas').innerText = "Sensor Kompas Aktif!";
-            } else {
-              alert("Izin akses sensor kompas ditolak.");
-            }
-          })
-          .catch(console.error);
+            } else { alert("Izin akses sensor kompas ditolak."); }
+          }).catch(console.error);
       } else if (window.DeviceOrientationEvent) {
         window.addEventListener('deviceorientation', tanganiRotasiKompas, true);
         document.getElementById('status-kompas').innerText = "Sensor Kompas Aktif!";
-      } else {
-        alert("Perangkat ini tidak mendukung sensor kompas otomatis.");
-      }
+      } else { alert("Perangkat ini tidak mendukung sensor kompas otomatis."); }
     }
 
     function tanganiRotasiKompas(e) {
       let heading = 0;
-      if (e.webkitCompassHeading) {
-        heading = e.webkitCompassHeading; // Untuk iOS
-      } else if (e.alpha !== null) {
-        heading = 360 - e.alpha; // Untuk Android
-      }
-
-      // Putar piringan kompas berlawanan dengan rotasi HP
+      if (e.webkitCompassHeading) { heading = e.webkitCompassHeading; } 
+      else if (e.alpha !== null) { heading = 360 - e.alpha; }
       const piringan = document.getElementById('piringan-kompas');
-      if (piringan) {
-        piringan.style.transform = `rotate(-${heading}deg)`;
+      if (piringan) { piringan.style.transform = `rotate(-${heading}deg)`; }
+    }
+
+    // 4. LOGIC INFAQ & DONASI (EDITABLE)
+    function renderInfaq() {
+      const simpanan = localStorage.getItem('infaq_masjid');
+      const data = simpanan ? JSON.parse(simpanan) : infaqDefault;
+      document.getElementById('infaq-bank').innerText = data.bank;
+      document.getElementById('no-rekening').innerText = data.noRek;
+      document.getElementById('infaq-an').innerText = data.an;
+      document.getElementById('infaq-deskripsi').innerText = data.deskripsi;
+    }
+
+    function editInfaq() {
+      const simpanan = localStorage.getItem('infaq_masjid');
+      const data = simpanan ? JSON.parse(simpanan) : infaqDefault;
+
+      const bank = prompt("Masukkan Nama Bank / E-Wallet:", data.bank); if (!bank) return;
+      const noRek = prompt("Masukkan Nomor Rekening / Nomor HP:", data.noRek); if (!noRek) return;
+      const an = prompt("Masukkan Atas Nama (a.n):", data.an); if (!an) return;
+      const deskripsi = prompt("Masukkan Deskripsi Infaq:", data.deskripsi); if (!deskripsi) return;
+
+      localStorage.setItem('infaq_masjid', JSON.stringify({ bank, noRek, an, deskripsi }));
+      renderInfaq();
+      alert("Informasi Infaq berhasil diperbarui!");
+    }
+
+    // 5. LOGIC DOA HARIAN (EDITABLE)
+    function ambilDataDoa() {
+      const simpanan = localStorage.getItem('doa_masjid');
+      return simpanan ? JSON.parse(simpanan) : doaDefault;
+    }
+
+    function renderDoa() {
+      const daftar = ambilDataDoa();
+      const wadah = document.getElementById('wadah-doa');
+      if (!wadah) return;
+      wadah.innerHTML = '';
+
+      daftar.forEach((item, index) => {
+        wadah.innerHTML += `
+          <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 flex flex-col justify-between hover:border-emerald-300 transition">
+            <div>
+              <span class="font-bold text-emerald-800 block mb-1 text-sm">${item.judul}</span>
+              <p class="font-serif text-sm text-right mb-2 leading-relaxed text-slate-800">${item.arab}</p>
+              <p class="text-slate-600 italic">"${item.arti}"</p>
+            </div>
+            ${isAdmin ? `
+              <div class="mt-3 pt-2 border-t border-slate-200 flex justify-end gap-3 text-[11px]">
+                <button onclick="editDoa(${index})" class="text-amber-600 font-bold hover:underline"><i class="fa-solid fa-pen"></i> Edit</button>
+                <button onclick="hapusDoa(${index})" class="text-red-600 font-bold hover:underline"><i class="fa-solid fa-trash"></i> Hapus</button>
+              </div>
+            ` : ''}
+          </div>
+        `;
+      });
+    }
+
+    function tambahDoa() {
+      const judul = prompt("Masukkan Judul Doa:"); if (!judul) return;
+      const arab = prompt("Masukkan Teks Bacaan / Arab:"); if (!arab) return;
+      const arti = prompt("Masukkan Arti / Terjemahan:"); if (!arti) return;
+
+      const daftar = ambilDataDoa();
+      daftar.push({ judul, arab, arti });
+      localStorage.setItem('doa_masjid', JSON.stringify(daftar));
+      renderDoa();
+      alert("Doa baru berhasil ditambahkan!");
+    }
+
+    function editDoa(index) {
+      const daftar = ambilDataDoa();
+      const item = daftar[index];
+
+      const judul = prompt("Edit Judul Doa:", item.judul); if (!judul) return;
+      const arab = prompt("Edit Bacaan Doa:", item.arab); if (!arab) return;
+      const arti = prompt("Edit Arti Doa:", item.arti); if (!arti) return;
+
+      daftar[index] = { judul, arab, arti };
+      localStorage.setItem('doa_masjid', JSON.stringify(daftar));
+      renderDoa();
+      alert("Doa berhasil diperbarui!");
+    }
+
+    function hapusDoa(index) {
+      if (confirm("Apakah Anda yakin ingin menghapus doa ini?")) {
+        const daftar = ambilDataDoa();
+        daftar.splice(index, 1);
+        localStorage.setItem('doa_masjid', JSON.stringify(daftar));
+        renderDoa();
       }
     }
 
-    // 4. LOGIC LAYANAN KEAGAMAAN (EDITABLE ADMIN)
+    // 6. LOGIC PENGURUS TAKMIR (EDITABLE)
+    function renderPengurus() {
+      const simpanan = localStorage.getItem('pengurus_masjid');
+      const p = simpanan ? JSON.parse(simpanan) : pengurusDefault;
+      const wadah = document.getElementById('wadah-pengurus');
+      if (!wadah) return;
+
+      wadah.innerHTML = `
+        <div class="bg-emerald-50 p-3 rounded-xl border border-emerald-100 text-center">
+          <span class="text-[10px] font-bold text-emerald-700 uppercase block">Pelindung / Penasihat</span>
+          <h4 class="font-bold text-slate-800 text-sm">${p.pelindung}</h4>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+            <span class="text-[10px] font-bold text-emerald-700 uppercase block">Ketua Takmir</span>
+            <h4 class="font-bold text-slate-800 text-sm">${p.ketua}</h4>
+          </div>
+          <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+            <span class="text-[10px] font-bold text-emerald-700 uppercase block">Wakil Ketua Takmir</span>
+            <h4 class="font-bold text-slate-800 text-sm">${p.wakil}</h4>
+          </div>
+          <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+            <span class="text-[10px] font-bold text-emerald-700 uppercase block">Sekretaris Takmir</span>
+            <h4 class="font-bold text-slate-800 text-sm">${p.sekretaris}</h4>
+          </div>
+          <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+            <span class="text-[10px] font-bold text-emerald-700 uppercase block">Bendahara Takmir</span>
+            <h4 class="font-bold text-slate-800 text-sm">${p.bendahara}</h4>
+          </div>
+        </div>
+
+        <div class="border-t pt-3">
+          <h4 class="font-bold text-slate-800 text-xs mb-2">Divisi-Divisi Operasional:</h4>
+          <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-slate-600">
+            <li class="bg-slate-100 p-2 rounded-lg">${p.divisi1}</li>
+            <li class="bg-slate-100 p-2 rounded-lg">${p.divisi2}</li>
+            <li class="bg-slate-100 p-2 rounded-lg">${p.divisi3}</li>
+            <li class="bg-slate-100 p-2 rounded-lg">${p.divisi4}</li>
+          </ul>
+        </div>
+      `;
+    }
+
+    function editPengurus() {
+      const simpanan = localStorage.getItem('pengurus_masjid');
+      const p = simpanan ? JSON.parse(simpanan) : pengurusDefault;
+
+      const pelindung = prompt("Pelindung / Penasihat:", p.pelindung); if (!pelindung) return;
+      const ketua = prompt("Ketua Takmir:", p.ketua); if (!ketua) return;
+      const wakil = prompt("Wakil Ketua Takmir:", p.wakil); if (!wakil) return;
+      const sekretaris = prompt("Sekretaris Takmir:", p.sekretaris); if (!sekretaris) return;
+      const bendahara = prompt("Bendahara Takmir:", p.bendahara); if (!bendahara) return;
+      const divisi1 = prompt("Divisi 1:", p.divisi1); if (!divisi1) return;
+      const divisi2 = prompt("Divisi 2:", p.divisi2); if (!divisi2) return;
+      const divisi3 = prompt("Divisi 3:", p.divisi3); if (!divisi3) return;
+      const divisi4 = prompt("Divisi 4:", p.divisi4); if (!divisi4) return;
+
+      const dataBaru = { pelindung, ketua, wakil, sekretaris, bendahara, divisi1, divisi2, divisi3, divisi4 };
+      localStorage.setItem('pengurus_masjid', JSON.stringify(dataBaru));
+      renderPengurus();
+      alert("Susunan Pengurus Takmir berhasil diperbarui!");
+    }
+
+    // 7. LOGIC LAYANAN KEAGAMAAN
     function ambilDataLayanan() {
       const simpanan = localStorage.getItem('layanan_masjid');
       return simpanan ? JSON.parse(simpanan) : layananDefault;
@@ -543,6 +655,7 @@
     function renderLayanan() {
       const daftar = ambilDataLayanan();
       const wadah = document.getElementById('wadah-layanan');
+      if (!wadah) return;
       wadah.innerHTML = '';
 
       daftar.forEach((item, index) => {
@@ -557,12 +670,8 @@
             </div>
             ${isAdmin ? `
               <div class="mt-3 pt-2 border-t border-emerald-200/60 flex justify-between items-center text-[11px]">
-                <button onclick="editLayanan(${index})" class="text-amber-600 font-bold hover:underline">
-                  <i class="fa-solid fa-pen"></i> Edit
-                </button>
-                <button onclick="hapusLayanan(${index})" class="text-red-600 font-bold hover:underline">
-                  <i class="fa-solid fa-trash"></i> Hapus
-                </button>
+                <button onclick="editLayanan(${index})" class="text-amber-600 font-bold hover:underline"><i class="fa-solid fa-pen"></i> Edit</button>
+                <button onclick="hapusLayanan(${index})" class="text-red-600 font-bold hover:underline"><i class="fa-solid fa-trash"></i> Hapus</button>
               </div>
             ` : ''}
           </div>
@@ -571,13 +680,9 @@
     }
 
     function tambahLayanan() {
-      const judul = prompt("Masukkan Judul Layanan Keagamaan Baru:");
-      if (!judul) return;
-
-      const deskripsi = prompt("Masukkan Deskripsi Layanan:");
-      if (!deskripsi) return;
-
-      const ikon = prompt("Masukkan Kelas Ikon FontAwesome (Contoh: fa-book, fa-comments, fa-heart):", "fa-hand-holding-heart");
+      const judul = prompt("Masukkan Judul Layanan:"); if (!judul) return;
+      const deskripsi = prompt("Masukkan Deskripsi Layanan:"); if (!deskripsi) return;
+      const ikon = prompt("Masukkan Ikon FontAwesome (contoh: fa-book, fa-comments, fa-heart):", "fa-hand-holding-heart");
 
       const daftar = ambilDataLayanan();
       daftar.push({ judul, deskripsi, ikon: ikon || "fa-hand-holding-heart" });
@@ -590,12 +695,8 @@
       const daftar = ambilDataLayanan();
       const item = daftar[index];
 
-      const judul = prompt("Edit Judul Layanan:", item.judul);
-      if (!judul) return;
-
-      const deskripsi = prompt("Edit Deskripsi Layanan:", item.deskripsi);
-      if (!deskripsi) return;
-
+      const judul = prompt("Edit Judul Layanan:", item.judul); if (!judul) return;
+      const deskripsi = prompt("Edit Deskripsi Layanan:", item.deskripsi); if (!deskripsi) return;
       const ikon = prompt("Edit Ikon FontAwesome:", item.ikon || "fa-hand-holding-heart");
 
       daftar[index] = { judul, deskripsi, ikon };
@@ -613,7 +714,7 @@
       }
     }
 
-    // 5. MUTIARA HIKMAH (EDITABLE BY ADMIN)
+    // 8. MUTIARA HIKMAH
     function renderMutiaraHikmah() {
       const simpanan = localStorage.getItem('mutiara_hikmah_masjid');
       const data = simpanan ? JSON.parse(simpanan) : {
@@ -631,18 +732,15 @@
         perawi: '— HR. Muslim'
       };
 
-      const teksBaru = prompt("Masukkan Teks Mutiara Hikmah / Hadits Baru:", dataLama.teks);
-      if(!teksBaru) return;
-
-      const perawiBaru = prompt("Masukkan Perawi / Sumber (contoh: — HR. Bukhari):", dataLama.perawi);
-      if(!perawiBaru) return;
+      const teksBaru = prompt("Masukkan Teks Mutiara Hikmah / Hadits Baru:", dataLama.teks); if(!teksBaru) return;
+      const perawiBaru = prompt("Masukkan Perawi / Sumber:", dataLama.perawi); if(!perawiBaru) return;
 
       localStorage.setItem('mutiara_hikmah_masjid', JSON.stringify({ teks: teksBaru, perawi: perawiBaru }));
       renderMutiaraHikmah();
       alert("Mutiara Hikmah berhasil diperbarui!");
     }
 
-    // 6. TASBIH DIGITAL INTERAKTIF
+    // 9. TASBIH DIGITAL
     let tasbihCount = 0;
     const dzikirList = ["Subhanallah", "Alhamdulillah", "Allahu Akbar", "Astaghfirullah"];
     let dzikirIndex = 0;
@@ -651,7 +749,6 @@
       tasbihCount++;
       document.getElementById('angka-tasbih').innerText = tasbihCount;
       if (navigator.vibrate) navigator.vibrate(40);
-
       if (tasbihCount % 33 === 0) {
         dzikirIndex = (dzikirIndex + 1) % dzikirList.length;
         document.getElementById('label-tasbih').innerText = dzikirList[dzikirIndex];
@@ -659,45 +756,23 @@
     }
 
     function resetTasbih() {
-      tasbihCount = 0;
-      dzikirIndex = 0;
+      tasbihCount = 0; dzikirIndex = 0;
       document.getElementById('angka-tasbih').innerText = "0";
       document.getElementById('label-tasbih').innerText = dzikirList[0];
     }
 
-    // 7. WA REMINDER RESMI KHOTIB
+    // 10. WA REMINDER RESMI KHOTIB
     function kirimPengingatWA(peran, nama, nomorWA, tanggalStr) {
       let pesan = "";
-
       if (peran.toLowerCase().includes("khotib") || peran.toLowerCase().includes("khatib") || peran.toLowerCase().includes("imam")) {
-        pesan = `Assalamu'alaikum warahmatullahi wabarakatuh.
-
-Yth. ${nama}
-Petugas Khatib Shalat Jumat
-
-Dengan hormat, kami mengingatkan bahwa pada hari Jumat (${tanggalStr}), Bapak mendapatkan amanah sebagai Petugas Khatib Shalat Jumat di Masjid Baitul Muttaqin MAN 2 Nganjuk.
-
-Mohon berkenan mempersiapkan materi khutbah dengan sebaik-baiknya serta hadir lebih awal (11.45 WIB) sebelum pelaksanaan Shalat Jumat agar seluruh rangkaian ibadah dapat berlangsung dengan tertib dan khusyuk.
-
-Semoga Allah SWT senantiasa memberikan kemudahan, kesehatan, dan keberkahan atas amanah yang diemban.
-
-Atas perhatian dan kesediaannya, kami ucapkan Jazakumullahu khairan katsiran.
-
-Wassalamu'alaikum warahmatullahi wabarakatuh.
-
-Takmir Masjid Baitul Muttaqin
-MAN 2 Nganjuk`;
+        pesan = `Assalamu'alaikum warahmatullahi wabarakatuh.\n\nYth. ${nama}\nPetugas Khatib Shalat Jumat\n\nDengan hormat, kami mengingatkan bahwa pada hari Jumat (${tanggalStr}), Bapak mendapatkan amanah sebagai Petugas Khatib Shalat Jumat di Masjid Baitul Muttaqin MAN 2 Nganjuk.\n\nMohon berkenan mempersiapkan materi khutbah dengan sebaik-baiknya serta hadir lebih awal (11.45 WIB) sebelum pelaksanaan Shalat Jumat agar seluruh rangkaian ibadah dapat berlangsung dengan tertib dan khusyuk.\n\nSemoga Allah SWT senantiasa memberikan kemudahan, kesehatan, dan keberkahan atas amanah yang diemban.\n\nAtas perhatian dan kesediaannya, kami ucapkan Jazakumullahu khairan katsiran.\n\nWassalamu'alaikum warahmatullahi wabarakatuh.\n\nTakmir Masjid Baitul Muttaqin\nMAN 2 Nganjuk`;
       } else {
-        pesan = `Assalamu'alaikum Sdr. ${nama}, mengingatkan jadwal tugas sebagai *${peran}* Sholat Jumat di Masjid Baitul Muttaqin MAN 2 Nganjuk pada tanggal *${tanggalStr}*. Mohon persiapannya. Syukron.
-
-Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
+        pesan = `Assalamu'alaikum Sdr. ${nama}, mengingatkan jadwal tugas sebagai *${peran}* Sholat Jumat di Masjid Baitul Muttaqin MAN 2 Nganjuk pada tanggal *${tanggalStr}*. Mohon persiapannya. Syukron.\n\nTakmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
       }
-
-      const urlWA = `https://wa.me/${nomorWA}?text=${encodeURIComponent(pesan)}`;
-      window.open(urlWA, '_blank');
+      window.open(`https://wa.me/${nomorWA}?text=${encodeURIComponent(pesan)}`, '_blank');
     }
 
-    // 8. MODE ADMIN TOGGLE
+    // 11. MODE ADMIN TOGGLE
     function toggleAdmin() {
       if (isAdmin) {
         isAdmin = false;
@@ -708,7 +783,7 @@ Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
         if (inputPIN === PIN_ADMIN_BENAR) {
           isAdmin = true;
           updateUIAdmin();
-          alert("Mode Admin Aktif! Anda bisa mengedit Petugas, Layanan, Mutiara Hikmah, & Berita.");
+          alert("Mode Admin Aktif! Semua menu sekarang bisa Anda edit.");
         } else if (inputPIN !== null) {
           alert("PIN Salah! Akses ditolak.");
         }
@@ -732,35 +807,32 @@ Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
       renderBerita();
       renderLayanan();
       renderMutiaraHikmah();
+      renderInfaq();
+      renderDoa();
+      renderPengurus();
     }
 
-    // 9. PASARAN JAWA & JADWAL JUMAT BULANAN
+    // 12. PASARAN JAWA & JADWAL JUMAT BULANAN
     function hitungPasaranJawa(dateObj) {
       const pasarans = ['Legi', 'Pahing', 'Pon', 'Wage', 'Kliwon'];
-      const tglAcuan = new Date(2024, 0, 5); // 5 Jan 2024 = Jumat Legi
+      const tglAcuan = new Date(2024, 0, 5);
       const diffTime = dateObj - tglAcuan;
       const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-      const pasaranIndex = ((diffDays % 5) + 5) % 5;
-      return pasarans[pasaranIndex];
+      return pasarans[((diffDays % 5) + 5) % 5];
     }
 
     function isiOpsiBulan() {
       const selectBulan = document.getElementById('pilih-bulan');
       selectBulan.innerHTML = '';
-      
       const now = new Date();
       const namaBulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
 
       for (let i = 0; i < 6; i++) {
         const d = new Date(now.getFullYear(), now.getMonth() + i, 1);
-        const yyyy = d.getFullYear();
-        const mm = d.getMonth();
-        const value = `${yyyy}-${mm}`;
-        const label = `${namaBulan[mm]} ${yyyy}`;
-
+        const yyyy = d.getFullYear(); const mm = d.getMonth();
         const option = document.createElement('option');
-        option.value = value;
-        option.innerText = label;
+        option.value = `${yyyy}-${mm}`;
+        option.innerText = `${namaBulan[mm]} ${yyyy}`;
         if (i === 0) option.selected = true;
         selectBulan.appendChild(option);
       }
@@ -774,16 +846,13 @@ Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
     function renderJadwalJumat() {
       const valBulan = document.getElementById('pilih-bulan').value;
       if (!valBulan) return;
-
       const [tahun, bulanIdx] = valBulan.split('-').map(Number);
       const namaBulanArr = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
 
       const daftarJumat = [];
       const date = new Date(tahun, bulanIdx, 1);
       while (date.getMonth() === bulanIdx) {
-        if (date.getDay() === 5) { 
-          daftarJumat.push(new Date(date));
-        }
+        if (date.getDay() === 5) { daftarJumat.push(new Date(date)); }
         date.setDate(date.getDate() + 1);
       }
 
@@ -796,10 +865,8 @@ Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
         const mm = String(tgl.getMonth() + 1).padStart(2, '0');
         const dd = String(tgl.getDate()).padStart(2, '0');
         const keyTanggal = `${yyyy}-${mm}-${dd}`;
-
         const pasaran = hitungPasaranJawa(tgl);
         const strTanggalLengkap = `${tgl.getDate()} ${namaBulanArr[tgl.getMonth()]} ${yyyy}`;
-
         const dataHarian = dataSimpanan[keyTanggal] || petugasDefault;
 
         wadah.innerHTML += `
@@ -813,10 +880,8 @@ Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
                   Pasaran ${pasaran}
                 </span>
               </div>
-
               ${isAdmin ? `
-                <button onclick="editPetugasJumat('${keyTanggal}', '${strTanggalLengkap}')" 
-                        class="text-xs bg-amber-500 hover:bg-amber-600 text-white font-semibold px-3 py-1 rounded-lg transition self-start sm:self-auto flex items-center gap-1 shadow">
+                <button onclick="editPetugasJumat('${keyTanggal}', '${strTanggalLengkap}')" class="text-xs bg-amber-500 hover:bg-amber-600 text-white font-semibold px-3 py-1 rounded-lg transition shadow">
                   <i class="fa-solid fa-pen-to-square"></i> Edit Petugas Jumat Ini
                 </button>
               ` : ''}
@@ -824,28 +889,22 @@ Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div class="bg-white p-4 rounded-xl border border-slate-200">
-                <span class="text-[11px] font-bold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100 inline-block mb-1">
-                  IMAM & KHOTIB
-                </span>
+                <span class="text-[11px] font-bold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100 block mb-1">IMAM & KHOTIB</span>
                 <h4 class="font-bold text-slate-800 text-base">${dataHarian.imamKhotib}</h4>
                 ${isAdmin ? `
                   <p class="text-xs text-slate-500 mt-1 mb-2"><i class="fa-brands fa-whatsapp text-emerald-600"></i> ${dataHarian.waImam}</p>
-                  <button onclick="kirimPengingatWA('Imam & Khotib', '${dataHarian.imamKhotib}', '${dataHarian.waImam}', '${strTanggalLengkap}')" 
-                          class="w-full bg-green-600 hover:bg-green-700 text-white text-xs py-1.5 rounded-lg font-semibold flex items-center justify-center gap-1 transition">
+                  <button onclick="kirimPengingatWA('Imam & Khotib', '${dataHarian.imamKhotib}', '${dataHarian.waImam}', '${strTanggalLengkap}')" class="w-full bg-green-600 hover:bg-green-700 text-white text-xs py-1.5 rounded-lg font-semibold flex items-center justify-center gap-1 transition">
                     <i class="fa-brands fa-whatsapp"></i> Ingatkan WA
                   </button>
                 ` : ''}
               </div>
 
               <div class="bg-white p-4 rounded-xl border border-slate-200">
-                <span class="text-[11px] font-bold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100 inline-block mb-1">
-                  BILAL / MUADZIN
-                </span>
+                <span class="text-[11px] font-bold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100 block mb-1">BILAL / MUADZIN</span>
                 <h4 class="font-bold text-slate-800 text-base">${dataHarian.bilal}</h4>
                 ${isAdmin ? `
                   <p class="text-xs text-slate-500 mt-1 mb-2"><i class="fa-brands fa-whatsapp text-emerald-600"></i> ${dataHarian.waBilal}</p>
-                  <button onclick="kirimPengingatWA('Bilal', '${dataHarian.bilal}', '${dataHarian.waBilal}', '${strTanggalLengkap}')" 
-                          class="w-full bg-green-600 hover:bg-green-700 text-white text-xs py-1.5 rounded-lg font-semibold flex items-center justify-center gap-1 transition">
+                  <button onclick="kirimPengingatWA('Bilal', '${dataHarian.bilal}', '${dataHarian.waBilal}', '${strTanggalLengkap}')" class="w-full bg-green-600 hover:bg-green-700 text-white text-xs py-1.5 rounded-lg font-semibold flex items-center justify-center gap-1 transition">
                     <i class="fa-brands fa-whatsapp"></i> Ingatkan WA
                   </button>
                 ` : ''}
@@ -860,17 +919,10 @@ Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
       const dataSimpanan = ambilDataPetugasJumat();
       const dataLama = dataSimpanan[keyTanggal] || petugasDefault;
 
-      const imamKhotib = prompt(`[${labelTanggal}]\nMasukkan Nama Imam & Khotib:`, dataLama.imamKhotib);
-      if (!imamKhotib) return;
-
-      const waImam = prompt(`[${labelTanggal}]\nMasukkan No WhatsApp Imam & Khotib (Format 628...):`, dataLama.waImam);
-      if (!waImam) return;
-
-      const bilal = prompt(`[${labelTanggal}]\nMasukkan Nama Bilal / Muadzin:`, dataLama.bilal);
-      if (!bilal) return;
-
-      const waBilal = prompt(`[${labelTanggal}]\nMasukkan No WhatsApp Bilal (Format 628...):`, dataLama.waBilal);
-      if (!waBilal) return;
+      const imamKhotib = prompt(`[${labelTanggal}]\nMasukkan Nama Imam & Khotib:`, dataLama.imamKhotib); if (!imamKhotib) return;
+      const waImam = prompt(`[${labelTanggal}]\nMasukkan No WhatsApp Imam & Khotib (Format 628...):`, dataLama.waImam); if (!waImam) return;
+      const bilal = prompt(`[${labelTanggal}]\nMasukkan Nama Bilal / Muadzin:`, dataLama.bilal); if (!bilal) return;
+      const waBilal = prompt(`[${labelTanggal}]\nMasukkan No WhatsApp Bilal (Format 628...):`, dataLama.waBilal); if (!waBilal) return;
 
       dataSimpanan[keyTanggal] = { imamKhotib, waImam, bilal, waBilal };
       localStorage.setItem('jadwal_jumat_masjid', JSON.stringify(dataSimpanan));
@@ -878,10 +930,10 @@ Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
       alert(`Jadwal Jumat tanggal ${labelTanggal} berhasil disimpan!`);
     }
 
-    // 10. BERITA MASJID
+    // 13. BERITA MASJID
     function ambilDataBerita() {
-      const dataSimpanan = localStorage.getItem('berita_masjid');
-      return dataSimpanan ? JSON.parse(dataSimpanan) : beritaDefault;
+      const simpanan = localStorage.getItem('berita_masjid');
+      return simpanan ? JSON.parse(simpanan) : beritaDefault;
     }
 
     function renderBerita() {
@@ -890,10 +942,7 @@ Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
       wadah.innerHTML = '';
 
       daftarBerita.forEach((item, index) => {
-        const warnaKategori = item.kategori.toLowerCase() === 'pengumuman' 
-          ? 'bg-teal-100 text-teal-800' 
-          : 'bg-emerald-100 text-emerald-800';
-
+        const warnaKategori = item.kategori.toLowerCase() === 'pengumuman' ? 'bg-teal-100 text-teal-800' : 'bg-emerald-100 text-emerald-800';
         wadah.innerHTML += `
           <div class="border rounded-xl p-4 bg-slate-50 hover:border-emerald-300 transition flex flex-col justify-between">
             <div>
@@ -914,18 +963,12 @@ Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
     }
 
     function tambahBerita() {
-      const kategori = prompt("Masukkan Kategori (contoh: Kegiatan / Pengumuman):", "Kegiatan");
-      if (!kategori) return;
-
-      const judul = prompt("Masukkan Judul Berita:");
-      if (!judul) return;
-
-      const deskripsi = prompt("Masukkan Deskripsi Berita:");
-      if (!deskripsi) return;
+      const kategori = prompt("Masukkan Kategori (contoh: Kegiatan / Pengumuman):", "Kegiatan"); if (!kategori) return;
+      const judul = prompt("Masukkan Judul Berita:"); if (!judul) return;
+      const deskripsi = prompt("Masukkan Deskripsi Berita:"); if (!deskripsi) return;
 
       const daftarBerita = ambilDataBerita();
       daftarBerita.unshift({ kategori, judul, deskripsi });
-
       localStorage.setItem('berita_masjid', JSON.stringify(daftarBerita));
       renderBerita();
       alert("Berita baru berhasil ditambahkan!");
@@ -940,7 +983,7 @@ Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
       }
     }
 
-    // 11. API JADWAL SHOLAT OTOMATIS (NGANJUK)
+    // 14. API JADWAL SHOLAT OTOMATIS (NGANJUK)
     async function ambilJadwalSholat() {
       try {
         const hariIni = new Date();
@@ -963,17 +1006,18 @@ Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
 
           updateLiveJamAndCountdown();
         }
-      } catch (err) {
-        console.log('Gagal memuat jadwal sholat:', err);
-      }
+      } catch (err) { console.log('Gagal memuat jadwal sholat:', err); }
     }
 
-    // Inisialisasi Saat Dimuat
+    // Inisialisasi Saat Halaman Dimuat
     isiOpsiBulan();
     renderJadwalJumat();
     renderBerita();
     renderLayanan();
     renderMutiaraHikmah();
+    renderInfaq();
+    renderDoa();
+    renderPengurus();
     ambilJadwalSholat();
   </script>
 </body>
