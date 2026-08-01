@@ -66,7 +66,7 @@
       </div>
     </section>
 
-    <!-- 2. JADWAL PETUGAS JUMAT & PASARAN JAWA (DALAM 2 KOLOM) -->
+    <!-- 2. JADWAL PETUGAS JUMAT & PASARAN JAWA -->
     <section class="bg-white rounded-2xl p-6 shadow-xl border border-slate-100">
       
       <!-- Header Jadwal Jumat & Tombol Admin -->
@@ -102,7 +102,6 @@
               <i class="fa-brands fa-whatsapp text-emerald-600"></i> 6289603286661
             </p>
           </div>
-          <!-- Tombol WA khusus Admin -->
           <button onclick="kirimPengingatWA('Imam & Khotib', 'Ustadz Bryan Azzam Maulana', '6289603286661')" 
                   class="admin-only hidden mt-4 w-full bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition shadow">
             <i class="fa-brands fa-whatsapp text-sm"></i> Ingatkan WA (Imam & Khotib)
@@ -120,7 +119,6 @@
               <i class="fa-brands fa-whatsapp text-emerald-600"></i> 6285850711594
             </p>
           </div>
-          <!-- Tombol WA khusus Admin -->
           <button onclick="kirimPengingatWA('Bilal', 'Hafiz Wahyu Akmal', '6285850711594')" 
                   class="admin-only hidden mt-4 w-full bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition shadow">
             <i class="fa-brands fa-whatsapp text-sm"></i> Ingatkan WA (Bilal)
@@ -130,23 +128,21 @@
       </div>
     </section>
 
-    <!-- 3. BERITA & INFORMASI MASJID -->
+    <!-- 3. BERITA & INFORMASI MASJID (BISA EDIT DARI ADMIN) -->
     <section class="bg-white rounded-2xl p-6 shadow-xl border border-slate-100">
-      <h2 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2 border-b pb-3">
-        <i class="fa-solid fa-newspaper text-emerald-600"></i> Informasi & Berita Masjid
-      </h2>
+      <div class="flex items-center justify-between mb-4 border-b pb-3">
+        <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+          <i class="fa-solid fa-newspaper text-emerald-600"></i> Informasi & Berita Masjid
+        </h2>
+        <!-- Tombol Tambah Berita Khusus Admin -->
+        <button onclick="tambahBerita()" class="admin-only hidden bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-3 py-1.5 rounded-lg font-semibold flex items-center gap-1.5 transition">
+          <i class="fa-solid fa-plus"></i> Tambah Berita
+        </button>
+      </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div class="border rounded-xl p-4 bg-slate-50 hover:border-emerald-300 transition">
-          <span class="text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-medium">Kegiatan</span>
-          <h3 class="font-bold text-slate-800 mt-2">Kajian Rutin Hadits Arbain Siswa</h3>
-          <p class="text-xs text-slate-600 mt-1">Dilaksanakan setiap hari Rabu bakda Dzuhur di ruang utama Masjid MAN 2 Nganjuk.</p>
-        </div>
-        <div class="border rounded-xl p-4 bg-slate-50 hover:border-emerald-300 transition">
-          <span class="text-xs bg-teal-100 text-teal-800 px-2 py-0.5 rounded font-medium">Pengumuman</span>
-          <h3 class="font-bold text-slate-800 mt-2">Kerja Bakti Kebersihan Masjid</h3>
-          <p class="text-xs text-slate-600 mt-1">Persiapan menyambut kegiatan Peringatan Hari Besar Islam (PHBI) bersama pengurus takmir.</p>
-        </div>
+      <!-- Wadah Kartu Berita -->
+      <div id="wadah-berita" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Konten Berita Dimuat Otomatis via JS -->
       </div>
     </section>
 
@@ -162,25 +158,39 @@
     const PIN_ADMIN_BENAR = "1234";
     let isAdmin = false;
 
-    // 1. Kirim Pengingat WA (Khusus Admin)
+    // Data Berita Awal (Default)
+    const beritaDefault = [
+      {
+        kategori: "Kegiatan",
+        judul: "Kajian Rutin Hadits Arbain Siswa",
+        deskripsi: "Dilaksanakan setiap hari Rabu bakda Dzuhur di ruang utama Masjid MAN 2 Nganjuk."
+      },
+      {
+        kategori: "Pengumuman",
+        judul: "Kerja Bakti Kebersihan Masjid",
+        deskripsi: "Persiapan menyambut kegiatan Peringatan Hari Besar Islam (PHBI) bersama pengurus takmir."
+      }
+    ];
+
+    // 1. Kirim Pengingat WA
     function kirimPengingatWA(peran, nama, nomorWA) {
       const pesan = `Assalamu'alaikum Bp/Sdr. ${nama}, mengingatkan jadwal tugas sebagai *${peran}* Sholat Jumat di Masjid MAN 2 Nganjuk. Mohon persiapannya. Syukron.`;
       const urlWA = `https://wa.me/${nomorWA}?text=${encodeURIComponent(pesan)}`;
       window.open(urlWA, '_blank');
     }
 
-    // 2. Toggle Mode Admin (Minta PIN)
+    // 2. Mode Admin Toggle
     function toggleAdmin() {
       if (isAdmin) {
         isAdmin = false;
         updateUIAdmin();
         alert("Anda telah keluar dari Mode Admin.");
       } else {
-        const inputPIN = prompt("Masukkan PIN Admin untuk membuka fitur Pengingat WA:");
+        const inputPIN = prompt("Masukkan PIN Admin:");
         if (inputPIN === PIN_ADMIN_BENAR) {
           isAdmin = true;
           updateUIAdmin();
-          alert("Mode Admin Aktif! Tombol WA sekarang terlihat.");
+          alert("Mode Admin Aktif! Anda bisa mengirim pengingat WA & mengedit Berita.");
         } else if (inputPIN !== null) {
           alert("PIN Salah! Akses ditolak.");
         }
@@ -200,23 +210,84 @@
         btnAdmin.innerHTML = '<i class="fa-solid fa-lock"></i> Mode Admin';
         btnAdmin.className = "bg-slate-100 text-slate-600 text-xs px-3 py-2 rounded-lg font-semibold flex items-center justify-center gap-1.5 hover:bg-slate-200 transition self-start sm:self-auto";
       }
+      renderBerita(); // Refresh daftar berita untuk menampilkan/menyembunyikan tombol hapus
     }
 
-    // 3. Hitung Otomatis Tanggal Jumat Terdekat & Pasaran Jawa
+    // 3. Kelola Berita (Ambil, Render, Tambah, Hapus)
+    function ambilDataBerita() {
+      const dataSimpanan = localStorage.getItem('berita_masjid');
+      return dataSimpanan ? JSON.parse(dataSimpanan) : beritaDefault;
+    }
+
+    function renderBerita() {
+      const daftarBerita = ambilDataBerita();
+      const wadah = document.getElementById('wadah-berita');
+      wadah.innerHTML = '';
+
+      daftarBerita.forEach((item, index) => {
+        const warnaKategori = item.kategori.toLowerCase() === 'pengumuman' 
+          ? 'bg-teal-100 text-teal-800' 
+          : 'bg-emerald-100 text-emerald-800';
+
+        wadah.innerHTML += `
+          <div class="border rounded-xl p-4 bg-slate-50 hover:border-emerald-300 transition flex flex-col justify-between">
+            <div>
+              <span class="text-xs ${warnaKategori} px-2 py-0.5 rounded font-medium">${item.kategori}</span>
+              <h3 class="font-bold text-slate-800 mt-2">${item.judul}</h3>
+              <p class="text-xs text-slate-600 mt-1">${item.deskripsi}</p>
+            </div>
+            ${isAdmin ? `
+              <div class="mt-4 pt-2 border-t border-slate-200 flex justify-end">
+                <button onclick="hapusBerita(${index})" class="text-xs text-red-600 hover:text-red-800 font-semibold flex items-center gap-1">
+                  <i class="fa-solid fa-trash"></i> Hapus Berita
+                </button>
+              </div>
+            ` : ''}
+          </div>
+        `;
+      });
+    }
+
+    function tambahBerita() {
+      const kategori = prompt("Masukkan Kategori (contoh: Kegiatan / Pengumuman / Info):", "Kegiatan");
+      if (!kategori) return;
+
+      const judul = prompt("Masukkan Judul Berita/Kegiatan:");
+      if (!judul) return;
+
+      const deskripsi = prompt("Masukkan Deskripsi Berita/Kegiatan:");
+      if (!deskripsi) return;
+
+      const daftarBerita = ambilDataBerita();
+      daftarBerita.unshift({ kategori, judul, deskripsi });
+
+      localStorage.setItem('berita_masjid', JSON.stringify(daftarBerita));
+      renderBerita();
+      alert("Berita baru berhasil ditambahkan!");
+    }
+
+    function hapusBerita(index) {
+      if (confirm("Apakah Anda yakin ingin menghapus berita ini?")) {
+        const daftarBerita = ambilDataBerita();
+        daftarBerita.splice(index, 1);
+        localStorage.setItem('berita_masjid', JSON.stringify(daftarBerita));
+        renderBerita();
+      }
+    }
+
+    // 4. Hitung Otomatis Tanggal Jumat Terdekat & Pasaran Jawa
     function hitungJumatDanPasaran() {
       const hariIni = new Date();
-      const dayOfWeek = hariIni.getDay(); // 0 = Minggu, 5 = Jumat, 6 = Sabtu
+      const dayOfWeek = hariIni.getDay();
 
-      // Hitung sisa hari menuju Jumat terdekat
       let selisihHari = (5 - dayOfWeek + 7) % 7;
       if (selisihHari === 0 && dayOfWeek !== 5) selisihHari = 7;
 
       const tglJumat = new Date(hariIni);
       tglJumat.setDate(hariIni.getDate() + selisihHari);
 
-      // Rumus Pasaran Jawa (Acuan: 5 Januari 2024 = Jumat Legi)
       const pasarans = ['Legi', 'Pahing', 'Pon', 'Wage', 'Kliwon'];
-      const tglAcuan = new Date(2024, 0, 5); // 5 Jan 2024
+      const tglAcuan = new Date(2024, 0, 5); // 5 Jan 2024 = Jumat Legi
       
       const diffTime = tglJumat - tglAcuan;
       const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
@@ -224,14 +295,13 @@
       const pasaranIndex = ((diffDays % 5) + 5) % 5;
       const namaPasaran = pasarans[pasaranIndex];
 
-      // Format Tanggal Indonesia
       const namaBulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
       const strTanggal = `${tglJumat.getDate()} ${namaBulan[tglJumat.getMonth()]} ${tglJumat.getFullYear()}`;
 
       document.getElementById('info-jumat-pasaran').innerText = `Jumat Mendatang: ${strTanggal} (${namaPasaran})`;
     }
 
-    // 4. Mengambil Jadwal Sholat Nganjuk dari API
+    // 5. Mengambil Jadwal Sholat Nganjuk dari API
     async function ambilJadwalSholat() {
       try {
         const hariIni = new Date();
@@ -260,6 +330,7 @@
     // Jalankan fungsi saat halaman dimuat
     ambilJadwalSholat();
     hitungJumatDanPasaran();
+    renderBerita();
   </script>
 </body>
 </html>
