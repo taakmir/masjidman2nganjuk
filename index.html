@@ -66,7 +66,7 @@
       </div>
     </section>
 
-    <!-- 2. JADWAL PETUGAS JUMAT & PASARAN JAWA (DALAM 1 KOTAK SEBELAHAN) -->
+    <!-- 2. JADWAL PETUGAS JUMAT & PASARAN JAWA (DALAM 2 KOLOM) -->
     <section class="bg-white rounded-2xl p-6 shadow-xl border border-slate-100">
       
       <!-- Header Jadwal Jumat & Tombol Admin -->
@@ -88,52 +88,34 @@
         </button>
       </div>
 
-      <!-- KOTAK SEBELAHAN (GRID 3 KOLOM) -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <!-- KOTAK SEBELAHAN (GRID 2 KOLOM) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         
-        <!-- KOTAK 1: IMAM -->
-        <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 flex flex-col justify-between hover:border-emerald-300 transition">
+        <!-- KOTAK 1: IMAM & KHOTIB (DIGABUNG) -->
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-5 flex flex-col justify-between hover:border-emerald-300 transition">
           <div>
-            <span class="text-xs font-bold text-emerald-800 bg-emerald-100 px-2.5 py-1 rounded-md inline-block mb-2">
-              <i class="fa-solid fa-user-tie mr-1"></i> Imam
+            <span class="text-xs font-bold text-emerald-800 bg-emerald-100 px-3 py-1 rounded-md inline-block mb-3">
+              <i class="fa-solid fa-user-tie mr-1"></i> Imam & Khotib
             </span>
-            <h3 class="font-bold text-slate-800 text-base">KH. Abdul Jabbar</h3>
-            <p class="text-xs text-slate-500 mt-1 admin-only hidden">
-              <i class="fa-brands fa-whatsapp text-emerald-600"></i> 6281234567890
-            </p>
-          </div>
-          <!-- Tombol WA khusus Admin -->
-          <button onclick="kirimPengingatWA('Imam', 'KH. Abdul Jabbar', '6281234567890')" 
-                  class="admin-only hidden mt-4 w-full bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition shadow">
-            <i class="fa-brands fa-whatsapp text-sm"></i> Ingatkan WA
-          </button>
-        </div>
-
-        <!-- KOTAK 2: KHOTIB -->
-        <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 flex flex-col justify-between hover:border-emerald-300 transition">
-          <div>
-            <span class="text-xs font-bold text-emerald-800 bg-emerald-100 px-2.5 py-1 rounded-md inline-block mb-2">
-              <i class="fa-solid fa-book-quran mr-1"></i> Khotib
-            </span>
-            <h3 class="font-bold text-slate-800 text-base">Ustadz Bryan Azzam Maulana</h3>
+            <h3 class="font-bold text-slate-800 text-lg">Ustadz Bryan Azzam Maulana</h3>
             <p class="text-xs text-slate-500 mt-1 admin-only hidden">
               <i class="fa-brands fa-whatsapp text-emerald-600"></i> 6289603286661
             </p>
           </div>
           <!-- Tombol WA khusus Admin -->
-          <button onclick="kirimPengingatWA('Khotib', 'Ustadz Bryan Azzam Maulana', '6289603286661')" 
+          <button onclick="kirimPengingatWA('Imam & Khotib', 'Ustadz Bryan Azzam Maulana', '6289603286661')" 
                   class="admin-only hidden mt-4 w-full bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition shadow">
-            <i class="fa-brands fa-whatsapp text-sm"></i> Ingatkan WA
+            <i class="fa-brands fa-whatsapp text-sm"></i> Ingatkan WA (Imam & Khotib)
           </button>
         </div>
 
-        <!-- KOTAK 3: BILAL / MUADZIN -->
-        <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 flex flex-col justify-between hover:border-emerald-300 transition">
+        <!-- KOTAK 2: BILAL / MUADZIN -->
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-5 flex flex-col justify-between hover:border-emerald-300 transition">
           <div>
-            <span class="text-xs font-bold text-emerald-800 bg-emerald-100 px-2.5 py-1 rounded-md inline-block mb-2">
+            <span class="text-xs font-bold text-emerald-800 bg-emerald-100 px-3 py-1 rounded-md inline-block mb-3">
               <i class="fa-solid fa-bullhorn mr-1"></i> Bilal / Muadzin
             </span>
-            <h3 class="font-bold text-slate-800 text-base">Hafiz Wahyu Akmal</h3>
+            <h3 class="font-bold text-slate-800 text-lg">Hafiz Wahyu Akmal</h3>
             <p class="text-xs text-slate-500 mt-1 admin-only hidden">
               <i class="fa-brands fa-whatsapp text-emerald-600"></i> 6285850711594
             </p>
@@ -141,7 +123,7 @@
           <!-- Tombol WA khusus Admin -->
           <button onclick="kirimPengingatWA('Bilal', 'Hafiz Wahyu Akmal', '6285850711594')" 
                   class="admin-only hidden mt-4 w-full bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition shadow">
-            <i class="fa-brands fa-whatsapp text-sm"></i> Ingatkan WA
+            <i class="fa-brands fa-whatsapp text-sm"></i> Ingatkan WA (Bilal)
           </button>
         </div>
 
