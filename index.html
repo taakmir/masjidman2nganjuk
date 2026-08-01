@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Takmir Masjid MAN 2 Nganjuk</title>
-  <!-- Tailwind CSS untuk Desain Modern & Menarik -->
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Fonts & Font Awesome Icons -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -43,7 +43,6 @@
       </div>
 
       <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 text-center" id="wadah-jadwal">
-        <!-- Diproses via JavaScript -->
         <div class="bg-emerald-50 p-3 rounded-xl border border-emerald-100">
           <span class="text-xs text-emerald-600 font-semibold uppercase block">Subuh</span>
           <span class="text-lg font-bold text-emerald-900" id="subuh">--:--</span>
@@ -67,49 +66,85 @@
       </div>
     </section>
 
-    <!-- 2. JADWAL PETUGAS JUMAT & TOMBOL INGATKAN WA -->
+    <!-- 2. JADWAL PETUGAS JUMAT & PASARAN JAWA (DALAM 1 KOTAK SEBELAHAN) -->
     <section class="bg-white rounded-2xl p-6 shadow-xl border border-slate-100">
-      <h2 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2 border-b pb-3">
-        <i class="fa-solid fa-users text-emerald-600"></i> Jadwal Petugas Sholat Jumat
-      </h2>
+      
+      <!-- Header Jadwal Jumat & Tombol Admin -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 border-b pb-4">
+        <div>
+          <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+            <i class="fa-solid fa-users text-emerald-600"></i> Jadwal Petugas Sholat Jumat
+          </h2>
+          <!-- Info Tanggal Jumat & Pasaran Jawa -->
+          <p id="info-jumat-pasaran" class="text-xs font-medium text-emerald-700 mt-1">
+            Memuat tanggal Jumat & Pasaran...
+          </p>
+        </div>
 
-      <div class="overflow-x-auto">
-        <table class="w-full text-left text-sm">
-          <thead>
-            <tr class="bg-slate-100 text-slate-600 uppercase text-xs">
-              <th class="p-3 rounded-l-lg">Tugas</th>
-              <th class="p-3">Nama Petugas</th>
-              <th class="p-3">No. WhatsApp</th>
-              <th class="p-3 text-center rounded-r-lg">Aksi Pengingat</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-slate-100">
-            <!-- Khotib -->
-            <tr>
-              <td class="p-3 font-semibold text-emerald-700">Khotib</td>
-              <td class="p-3 font-medium">Ustadz Bryan Azzam Maulana</td>
-              <td class="p-3 text-slate-500">6289603286661</td>
-              <td class="p-3 text-center">
-                <button onclick="kirimPengingatWA('Khotib', 'Ustadz Bryan Azzam Maulana', '6289603286661')" 
-                        class="bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded-lg text-xs font-semibold inline-flex items-center gap-1.5 transition">
-                  <i class="fa-brands fa-whatsapp text-sm"></i> Ingatkan WA
-                </button>
-              </td>
-            </tr>
-            <!-- Bilal -->
-            <tr>
-              <td class="p-3 font-semibold text-emerald-700">Bilal</td>
-              <td class="p-3 font-medium">Hafiz Wahyu Akmal</td>
-              <td class="p-3 text-slate-500">6285850711594</td>
-              <td class="p-3 text-center">
-                <button onclick="kirimPengingatWA('Bilal', 'Hafiz Wahyu Akmal', '6285850711594')" 
-                        class="bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded-lg text-xs font-semibold inline-flex items-center gap-1.5 transition">
-                  <i class="fa-brands fa-whatsapp text-sm"></i> Ingatkan WA
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <!-- Tombol Login Admin -->
+        <button id="btn-login-admin" onclick="toggleAdmin()" 
+                class="bg-slate-100 text-slate-600 text-xs px-3 py-2 rounded-lg font-semibold flex items-center justify-center gap-1.5 hover:bg-slate-200 transition self-start sm:self-auto">
+          <i class="fa-solid fa-lock"></i> Mode Admin
+        </button>
+      </div>
+
+      <!-- KOTAK SEBELAHAN (GRID 3 KOLOM) -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        
+        <!-- KOTAK 1: IMAM -->
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 flex flex-col justify-between hover:border-emerald-300 transition">
+          <div>
+            <span class="text-xs font-bold text-emerald-800 bg-emerald-100 px-2.5 py-1 rounded-md inline-block mb-2">
+              <i class="fa-solid fa-user-tie mr-1"></i> Imam
+            </span>
+            <h3 class="font-bold text-slate-800 text-base">KH. Abdul Jabbar</h3>
+            <p class="text-xs text-slate-500 mt-1 admin-only hidden">
+              <i class="fa-brands fa-whatsapp text-emerald-600"></i> 6281234567890
+            </p>
+          </div>
+          <!-- Tombol WA khusus Admin -->
+          <button onclick="kirimPengingatWA('Imam', 'KH. Abdul Jabbar', '6281234567890')" 
+                  class="admin-only hidden mt-4 w-full bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition shadow">
+            <i class="fa-brands fa-whatsapp text-sm"></i> Ingatkan WA
+          </button>
+        </div>
+
+        <!-- KOTAK 2: KHOTIB -->
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 flex flex-col justify-between hover:border-emerald-300 transition">
+          <div>
+            <span class="text-xs font-bold text-emerald-800 bg-emerald-100 px-2.5 py-1 rounded-md inline-block mb-2">
+              <i class="fa-solid fa-book-quran mr-1"></i> Khotib
+            </span>
+            <h3 class="font-bold text-slate-800 text-base">Ustadz Bryan Azzam Maulana</h3>
+            <p class="text-xs text-slate-500 mt-1 admin-only hidden">
+              <i class="fa-brands fa-whatsapp text-emerald-600"></i> 6289603286661
+            </p>
+          </div>
+          <!-- Tombol WA khusus Admin -->
+          <button onclick="kirimPengingatWA('Khotib', 'Ustadz Bryan Azzam Maulana', '6289603286661')" 
+                  class="admin-only hidden mt-4 w-full bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition shadow">
+            <i class="fa-brands fa-whatsapp text-sm"></i> Ingatkan WA
+          </button>
+        </div>
+
+        <!-- KOTAK 3: BILAL / MUADZIN -->
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 flex flex-col justify-between hover:border-emerald-300 transition">
+          <div>
+            <span class="text-xs font-bold text-emerald-800 bg-emerald-100 px-2.5 py-1 rounded-md inline-block mb-2">
+              <i class="fa-solid fa-bullhorn mr-1"></i> Bilal / Muadzin
+            </span>
+            <h3 class="font-bold text-slate-800 text-base">Hafiz Wahyu Akmal</h3>
+            <p class="text-xs text-slate-500 mt-1 admin-only hidden">
+              <i class="fa-brands fa-whatsapp text-emerald-600"></i> 6285850711594
+            </p>
+          </div>
+          <!-- Tombol WA khusus Admin -->
+          <button onclick="kirimPengingatWA('Bilal', 'Hafiz Wahyu Akmal', '6285850711594')" 
+                  class="admin-only hidden mt-4 w-full bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition shadow">
+            <i class="fa-brands fa-whatsapp text-sm"></i> Ingatkan WA
+          </button>
+        </div>
+
       </div>
     </section>
 
@@ -120,13 +155,11 @@
       </h2>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <!-- Kartu Berita 1 -->
         <div class="border rounded-xl p-4 bg-slate-50 hover:border-emerald-300 transition">
           <span class="text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-medium">Kegiatan</span>
           <h3 class="font-bold text-slate-800 mt-2">Kajian Rutin Hadits Arbain Siswa</h3>
           <p class="text-xs text-slate-600 mt-1">Dilaksanakan setiap hari Rabu bakda Dzuhur di ruang utama Masjid MAN 2 Nganjuk.</p>
         </div>
-        <!-- Kartu Berita 2 -->
         <div class="border rounded-xl p-4 bg-slate-50 hover:border-emerald-300 transition">
           <span class="text-xs bg-teal-100 text-teal-800 px-2 py-0.5 rounded font-medium">Pengumuman</span>
           <h3 class="font-bold text-slate-800 mt-2">Kerja Bakti Kebersihan Masjid</h3>
@@ -141,19 +174,84 @@
     <p>&copy; 2026 Takmir Masjid MAN 2 Nganjuk. Dibuat dengan HTML & Tailwind CSS.</p>
   </footer>
 
-  <!-- JAVASCRIPT UNTUK FITUR INTERAKTIF -->
+  <!-- JAVASCRIPT LOGIC -->
   <script>
-    // 1. Fungsi Kirim Pengingat via WhatsApp
+    // PIN Admin default
+    const PIN_ADMIN_BENAR = "1234";
+    let isAdmin = false;
+
+    // 1. Kirim Pengingat WA (Khusus Admin)
     function kirimPengingatWA(peran, nama, nomorWA) {
-      const pesan = `Assalamu'alaikum Bp/Sdr. ${nama}, mengingatkan jadwal tugas sebagai *${peran}* Sholat Jumat di Masjid MAN 2 Nganjuk besok. Mohon persiapannya. Syukron.`;
+      const pesan = `Assalamu'alaikum Bp/Sdr. ${nama}, mengingatkan jadwal tugas sebagai *${peran}* Sholat Jumat di Masjid MAN 2 Nganjuk. Mohon persiapannya. Syukron.`;
       const urlWA = `https://wa.me/${nomorWA}?text=${encodeURIComponent(pesan)}`;
       window.open(urlWA, '_blank');
     }
 
-    // 2. Mengambil Jadwal Sholat Nganjuk Otomatis dari API
+    // 2. Toggle Mode Admin (Minta PIN)
+    function toggleAdmin() {
+      if (isAdmin) {
+        isAdmin = false;
+        updateUIAdmin();
+        alert("Anda telah keluar dari Mode Admin.");
+      } else {
+        const inputPIN = prompt("Masukkan PIN Admin untuk membuka fitur Pengingat WA:");
+        if (inputPIN === PIN_ADMIN_BENAR) {
+          isAdmin = true;
+          updateUIAdmin();
+          alert("Mode Admin Aktif! Tombol WA sekarang terlihat.");
+        } else if (inputPIN !== null) {
+          alert("PIN Salah! Akses ditolak.");
+        }
+      }
+    }
+
+    function updateUIAdmin() {
+      const elemenAdmin = document.querySelectorAll('.admin-only');
+      const btnAdmin = document.getElementById('btn-login-admin');
+
+      if (isAdmin) {
+        elemenAdmin.forEach(el => el.classList.remove('hidden'));
+        btnAdmin.innerHTML = '<i class="fa-solid fa-lock-open text-emerald-600"></i> Mode Admin (Aktif)';
+        btnAdmin.className = "bg-emerald-100 text-emerald-800 text-xs px-3 py-2 rounded-lg font-semibold flex items-center justify-center gap-1.5 hover:bg-emerald-200 transition self-start sm:self-auto";
+      } else {
+        elemenAdmin.forEach(el => el.classList.add('hidden'));
+        btnAdmin.innerHTML = '<i class="fa-solid fa-lock"></i> Mode Admin';
+        btnAdmin.className = "bg-slate-100 text-slate-600 text-xs px-3 py-2 rounded-lg font-semibold flex items-center justify-center gap-1.5 hover:bg-slate-200 transition self-start sm:self-auto";
+      }
+    }
+
+    // 3. Hitung Otomatis Tanggal Jumat Terdekat & Pasaran Jawa
+    function hitungJumatDanPasaran() {
+      const hariIni = new Date();
+      const dayOfWeek = hariIni.getDay(); // 0 = Minggu, 5 = Jumat, 6 = Sabtu
+
+      // Hitung sisa hari menuju Jumat terdekat
+      let selisihHari = (5 - dayOfWeek + 7) % 7;
+      if (selisihHari === 0 && dayOfWeek !== 5) selisihHari = 7;
+
+      const tglJumat = new Date(hariIni);
+      tglJumat.setDate(hariIni.getDate() + selisihHari);
+
+      // Rumus Pasaran Jawa (Acuan: 5 Januari 2024 = Jumat Legi)
+      const pasarans = ['Legi', 'Pahing', 'Pon', 'Wage', 'Kliwon'];
+      const tglAcuan = new Date(2024, 0, 5); // 5 Jan 2024
+      
+      const diffTime = tglJumat - tglAcuan;
+      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+      
+      const pasaranIndex = ((diffDays % 5) + 5) % 5;
+      const namaPasaran = pasarans[pasaranIndex];
+
+      // Format Tanggal Indonesia
+      const namaBulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+      const strTanggal = `${tglJumat.getDate()} ${namaBulan[tglJumat.getMonth()]} ${tglJumat.getFullYear()}`;
+
+      document.getElementById('info-jumat-pasaran').innerText = `Jumat Mendatang: ${strTanggal} (${namaPasaran})`;
+    }
+
+    // 4. Mengambil Jadwal Sholat Nganjuk dari API
     async function ambilJadwalSholat() {
       try {
-        // ID Kota Nganjuk di API MyQuran = 1608
         const hariIni = new Date();
         const yyyy = hariIni.getFullYear();
         const mm = String(hariIni.getMonth() + 1).padStart(2, '0');
@@ -177,7 +275,9 @@
       }
     }
 
+    // Jalankan fungsi saat halaman dimuat
     ambilJadwalSholat();
+    hitungJumatDanPasaran();
   </script>
 </body>
 </html>
