@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Takmir Masjid MAN 2 Nganjuk</title>
+  <!-- Tailwind CSS untuk Desain Modern & Menarik -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts & Font Awesome Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body { font-family: 'Poppins', sans-serif; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+  <!-- HERO / HEADER -->
+  <header class="bg-gradient-to-r from-emerald-800 to-teal-700 text-white shadow-lg">
+    <div class="max-w-5xl mx-auto px-4 py-10 text-center">
+      <div class="inline-block bg-emerald-600/50 backdrop-blur px-4 py-1 rounded-full text-xs tracking-wide uppercase mb-3">
+        Official Website
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold mb-2">MASJID MAN 2 NGANJUK</h1>
+      <p class="text-emerald-100 text-sm md:text-base max-w-2xl mx-auto">
+        Pusat Kegiatan Keagamaan, Peradaban Siswa, dan Informasi Takmir Masjid
+      </p>
+    </div>
+  </header>
+
+  <!-- KONTEN UTAMA -->
+  <main class="max-w-5xl mx-auto px-4 -mt-6 mb-12 space-y-8">
+
+    <!-- 1. JADWAL SHOLAT WAKTU NGANJUK -->
+    <section class="bg-white rounded-2xl p-6 shadow-xl border border-emerald-100">
+      <div class="flex items-center justify-between mb-4 border-b pb-3">
+        <h2 class="text-lg font-bold text-emerald-800 flex items-center gap-2">
+          <i class="fa-solid fa-clock"></i> Jadwal Sholat Hari Ini (Nganjuk)
+        </h2>
+        <span id="tanggal-hari-ini" class="text-xs font-semibold bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full">
+          Memuat tanggal...
+        </span>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 text-center" id="wadah-jadwal">
+        <!-- Diproses via JavaScript -->
+        <div class="bg-emerald-50 p-3 rounded-xl border border-emerald-100">
+          <span class="text-xs text-emerald-600 font-semibold uppercase block">Subuh</span>
+          <span class="text-lg font-bold text-emerald-900" id="subuh">--:--</span>
+        </div>
+        <div class="bg-emerald-50 p-3 rounded-xl border border-emerald-100">
+          <span class="text-xs text-emerald-600 font-semibold uppercase block">Dzuhur</span>
+          <span class="text-lg font-bold text-emerald-900" id="dzuhur">--:--</span>
+        </div>
+        <div class="bg-emerald-50 p-3 rounded-xl border border-emerald-100">
+          <span class="text-xs text-emerald-600 font-semibold uppercase block">Ashar</span>
+          <span class="text-lg font-bold text-emerald-900" id="ashar">--:--</span>
+        </div>
+        <div class="bg-emerald-50 p-3 rounded-xl border border-emerald-100">
+          <span class="text-xs text-emerald-600 font-semibold uppercase block">Maghrib</span>
+          <span class="text-lg font-bold text-emerald-900" id="maghrib">--:--</span>
+        </div>
+        <div class="bg-emerald-50 p-3 rounded-xl border border-emerald-100 col-span-2 sm:col-span-1">
+          <span class="text-xs text-emerald-600 font-semibold uppercase block">Isya</span>
+          <span class="text-lg font-bold text-emerald-900" id="isya">--:--</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. JADWAL PETUGAS JUMAT & TOMBOL INGATKAN WA -->
+    <section class="bg-white rounded-2xl p-6 shadow-xl border border-slate-100">
+      <h2 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2 border-b pb-3">
+        <i class="fa-solid fa-users text-emerald-600"></i> Jadwal Petugas Sholat Jumat
+      </h2>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-sm">
+          <thead>
+            <tr class="bg-slate-100 text-slate-600 uppercase text-xs">
+              <th class="p-3 rounded-l-lg">Tugas</th>
+              <th class="p-3">Nama Petugas</th>
+              <th class="p-3">No. WhatsApp</th>
+              <th class="p-3 text-center rounded-r-lg">Aksi Pengingat</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100">
+            <!-- Khotib -->
+            <tr>
+              <td class="p-3 font-semibold text-emerald-700">Khotib</td>
+              <td class="p-3 font-medium">Ustadz Bpk. Bryan Azzam</td>
+              <td class="p-3 text-slate-500">081234567890</td>
+              <td class="p-3 text-center">
+                <button onclick="kirimPengingatWA('Khotib', 'Ustadz Bpk. Bryan Azzam', '6281234567890')" 
+                        class="bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded-lg text-xs font-semibold inline-flex items-center gap-1.5 transition">
+                  <i class="fa-brands fa-whatsapp text-sm"></i> Ingatkan WA
+                </button>
+              </td>
+            </tr>
+            <!-- Bilal -->
+            <tr>
+              <td class="p-3 font-semibold text-emerald-700">Bilal</td>
+              <td class="p-3 font-medium">Ananda Rayhan (Siswa)</td>
+              <td class="p-3 text-slate-500">089876543210</td>
+              <td class="p-3 text-center">
+                <button onclick="kirimPengingatWA('Bilal', 'Ananda Rayhan', '6289876543210')" 
+                        class="bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded-lg text-xs font-semibold inline-flex items-center gap-1.5 transition">
+                  <i class="fa-brands fa-whatsapp text-sm"></i> Ingatkan WA
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 3. BERITA & INFORMASI MASJID -->
+    <section class="bg-white rounded-2xl p-6 shadow-xl border border-slate-100">
+      <h2 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2 border-b pb-3">
+        <i class="fa-solid fa-newspaper text-emerald-600"></i> Informasi & Berita Masjid
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Kartu Berita 1 -->
+        <div class="border rounded-xl p-4 bg-slate-50 hover:border-emerald-300 transition">
+          <span class="text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-medium">Kegiatan</span>
+          <h3 class="font-bold text-slate-800 mt-2">Kajian Rutin Hadits Arbain Siswa</h3>
+          <p class="text-xs text-slate-600 mt-1">Dilaksanakan setiap hari Rabu bakda Dzuhur di ruang utama Masjid MAN 2 Nganjuk.</p>
+        </div>
+        <!-- Kartu Berita 2 -->
+        <div class="border rounded-xl p-4 bg-slate-50 hover:border-emerald-300 transition">
+          <span class="text-xs bg-teal-100 text-teal-800 px-2 py-0.5 rounded font-medium">Pengumuman</span>
+          <h3 class="font-bold text-slate-800 mt-2">Kerja Bakti Kebersihan Masjid</h3>
+          <p class="text-xs text-slate-600 mt-1">Persiapan menyambut kegiatan Peringatan Hari Besar Islam (PHBI) bersama pengurus takmir.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="bg-slate-900 text-slate-400 text-center py-6 text-xs border-t border-slate-800">
+    <p>&copy; 2026 Takmir Masjid MAN 2 Nganjuk. Dibuat dengan HTML & Tailwind CSS.</p>
+  </footer>
+
+  <!-- JAVASCRIPT UNTUK FITUR INTERAKTIF -->
+  <script>
+    // 1. Fungsi Kirim Pengingat via WhatsApp
+    function kirimPengingatWA(peran, nama, nomorWA) {
+      const pesan = `Assalamu'alaikum Bp/Sdr. ${nama}, mengingatkan jadwal tugas sebagai *${peran}* Sholat Jumat di Masjid MAN 2 Nganjuk besok. Mohon persiapannya. Syukron.`;
+      const urlWA = `https://wa.me/${nomorWA}?text=${encodeURIComponent(pesan)}`;
+      window.open(urlWA, '_blank');
+    }
+
+    // 2. Mengambil Jadwal Sholat Nganjuk Otomatis dari API
+    async function ambilJadwalSholat() {
+      try {
+        // ID Kota Nganjuk di API MyQuran = 1608
+        const hariIni = new Date();
+        const yyyy = hariIni.getFullYear();
+        const mm = String(hariIni.getMonth() + 1).padStart(2, '0');
+        const dd = String(hariIni.getDate()).padStart(2, '0');
+        
+        document.getElementById('tanggal-hari-ini').innerText = `${dd}/${mm}/${yyyy}`;
+
+        const respon = await fetch(`https://api.myquran.com/v2/sholat/jadwal/1608/${yyyy}/${mm}/${dd}`);
+        const data = await respon.json();
+
+        if (data.status) {
+          const jadwal = data.data.jadwal;
+          document.getElementById('subuh').innerText = jadwal.subuh;
+          document.getElementById('dzuhur').innerText = jadwal.dzuhur;
+          document.getElementById('ashar').innerText = jadwal.ashar;
+          document.getElementById('maghrib').innerText = jadwal.maghrib;
+          document.getElementById('isya').innerText = jadwal.isya;
+        }
+      } catch (err) {
+        console.log('Gagal memuat jadwal sholat:', err);
+      }
+    }
+
+    ambilJadwalSholat();
+  </script>
+</body>
+</html>
