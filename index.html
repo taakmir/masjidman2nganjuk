@@ -385,12 +385,54 @@
     }
 
     // 4. WA REMINDER & ADMIN TOGGLE
+    // 3. TASBIH DIGITAL INTERAKTIF
+    // ... (kode tasbih ada di sini) ...
+
+
+    // =========================================================================
+    // >>> GANTI KODE DI SUB-NOMOR 4 INI <<<
+    // =========================================================================
+    // 4. WA REMINDER DENGAN TEMPLATE RESMI UNTUK KHOTIB
     function kirimPengingatWA(peran, nama, nomorWA, tanggalStr) {
-      const pesan = `Assalamu'alaikum Bp/Sdr. ${nama}, mengingatkan jadwal tugas sebagai *${peran}* Sholat Jumat di Masjid Baitul Muttaqin MAN 2 Nganjuk pada tanggal *${tanggalStr}*. Mohon persiapannya. Syukron.`;
+      let pesan = "";
+
+      // Jika petugas adalah Khotib atau Imam & Khotib
+      if (peran.toLowerCase().includes("khotib") || peran.toLowerCase().includes("khatib") || peran.toLowerCase().includes("imam")) {
+        pesan = `Assalamu'alaikum warahmatullahi wabarakatuh.
+
+Yth. ${nama}
+Petugas Khatib Shalat Jumat
+
+Dengan hormat, kami mengingatkan bahwa pada hari Jumat (${tanggalStr}), Bapak/Ibu mendapatkan amanah sebagai Petugas Khatib Shalat Jumat di Masjid Baitul Muttaqin MAN 2 Nganjuk.
+
+Mohon berkenan mempersiapkan materi khutbah dengan sebaik-baiknya serta hadir lebih awal (11.45 WIB) sebelum pelaksanaan Shalat Jumat agar seluruh rangkaian ibadah dapat berlangsung dengan tertib dan khusyuk.
+
+Semoga Allah SWT senantiasa memberikan kemudahan, kesehatan, dan keberkahan atas amanah yang diemban.
+
+Atas perhatian dan kesediaannya, kami ucapkan Jazakumullahu khairan katsiran.
+
+Wassalamu'alaikum warahmatullahi wabarakatuh.
+
+Takmir Masjid Baitul Muttaqin
+MAN 2 Nganjuk`;
+      } else {
+        // Template pesan singkat untuk Bilal / Muadzin
+        pesan = `Assalamu'alaikum Bp/Sdr. ${nama}, mengingatkan jadwal tugas sebagai *${peran}* Sholat Jumat di Masjid Baitul Muttaqin MAN 2 Nganjuk pada tanggal *${tanggalStr}*. Mohon persiapannya. Syukron.
+
+Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
+      }
+
       const urlWA = `https://wa.me/${nomorWA}?text=${encodeURIComponent(pesan)}`;
       window.open(urlWA, '_blank');
     }
 
+    function toggleAdmin() {
+      // ... (kode toggle admin selanjutnya) ...
+    }
+
+
+    // 5. PASARAN JAWA & JADWAL JUMAT BULANAN
+    // ... (kode pasaran jawa ada di bawahnya) ...
     function toggleAdmin() {
       if (isAdmin) {
         isAdmin = false;
