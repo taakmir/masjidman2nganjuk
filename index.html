@@ -857,6 +857,13 @@
 
         const dataHarian = dataLokal[keyTanggal] || dataJadwalCSV[keyTanggal] || petugasDefault;
 
+        // DRAF PESAN OTOMATIS WHATSAPP
+        const pesanWAImam = encodeURIComponent(`Assalamu'alaikum ${dataHarian.imamKhotib}, kami dari Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk mengingatkan jadwal Anda sebagai Imam & Khotib Sholat Jumat pada tanggal ${strTanggalLengkap}. Terima kasih.`);
+        const pesanWABilal = encodeURIComponent(`Assalamu'alaikum ${dataHarian.bilal}, kami dari Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk mengingatkan jadwal Anda sebagai Bilal / Muadzin Sholat Jumat pada tanggal ${strTanggalLengkap}. Terima kasih.`);
+
+        const linkWAImam = dataHarian.waImam ? `https://api.whatsapp.com/send?phone=${dataHarian.waImam}&text=${pesanWAImam}` : '';
+        const linkWABilal = dataHarian.waBilal ? `https://api.whatsapp.com/send?phone=${dataHarian.waBilal}&text=${pesanWABilal}` : '';
+
         wadah.innerHTML += `
           <div class="border rounded-2xl p-5 bg-slate-50 hover:border-emerald-300 transition">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b pb-3 mb-4 gap-2">
@@ -876,14 +883,34 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div class="bg-white p-4 rounded-xl border border-slate-200">
-                <span class="text-[11px] font-bold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100 block mb-1">IMAM & KHOTIB</span>
-                <h4 class="font-bold text-slate-800 text-base">${dataHarian.imamKhotib}</h4>
+              <!-- KOTAK IMAM & KHOTIB -->
+              <div class="bg-white p-4 rounded-xl border border-slate-200 flex flex-col justify-between">
+                <div>
+                  <span class="text-[11px] font-bold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100 inline-block mb-1">IMAM & KHOTIB</span>
+                  <h4 class="font-bold text-slate-800 text-base">${dataHarian.imamKhotib}</h4>
+                </div>
+                ${linkWAImam ? `
+                  <div class="mt-3 pt-2 border-t border-slate-100">
+                    <a href="${linkWAImam}" target="_blank" class="inline-flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] font-bold px-3 py-1.5 rounded-lg transition shadow-xs">
+                      <i class="fa-brands fa-whatsapp text-sm"></i> Kirim Pengingat WA
+                    </a>
+                  </div>
+                ` : ''}
               </div>
 
-              <div class="bg-white p-4 rounded-xl border border-slate-200">
-                <span class="text-[11px] font-bold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100 block mb-1">BILAL / MUADZIN</span>
-                <h4 class="font-bold text-slate-800 text-base">${dataHarian.bilal}</h4>
+              <!-- KOTAK BILAL / MUADZIN -->
+              <div class="bg-white p-4 rounded-xl border border-slate-200 flex flex-col justify-between">
+                <div>
+                  <span class="text-[11px] font-bold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100 inline-block mb-1">BILAL / MUADZIN</span>
+                  <h4 class="font-bold text-slate-800 text-base">${dataHarian.bilal}</h4>
+                </div>
+                ${linkWABilal ? `
+                  <div class="mt-3 pt-2 border-t border-slate-100">
+                    <a href="${linkWABilal}" target="_blank" class="inline-flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] font-bold px-3 py-1.5 rounded-lg transition shadow-xs">
+                      <i class="fa-brands fa-whatsapp text-sm"></i> Kirim Pengingat WA
+                    </a>
+                  </div>
+                ` : ''}
               </div>
             </div>
           </div>
