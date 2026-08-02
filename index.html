@@ -481,7 +481,7 @@
     <p>&copy; 2026 Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk. Dibuat dengan HTML & Tailwind CSS.</p>
   </footer>
 
-  <!-- JAVASCRIPT AUTO-SYNC LOGIC -->
+  <!-- JAVASCRIPT AUTO-SYNC CSV ADVANCED -->
   <script>
     const PIN_ADMIN_BENAR = "1234";
     let isAdmin = false;
@@ -546,29 +546,48 @@
     ];
 
     const petugasDefault = {
-      imamKhotib: "Ustadz Bryan Azzam Maulana",
-      waImam: "6289603286661",
-      bilal: "Hafiz Wahyu Akmal",
-      waBilal: "6285850711594"
+      imamKhotib: "M. MAULANA ROKHIM S.Pd.",
+      waImam: "6285735955238",
+      bilal: "ACHMAD KISYA AL HABSY (XII-C)",
+      waBilal: "6281515602138"
     };
 
-    /* --- MENGAMBIL DATA JADWAL DARI CSV SECARA OTOMATIS BERSIH DENGAN CACHE-BUSTER --- */
+    /* --- FUNGSI PEMBACA CSV ULTRA-KEBAL --- */
     async function muatJadwalDariCSV() {
       try {
-        // Cache-buster (?v=timestamp) memastikan browser selalu mengambil file CSV terbaru di GitHub
-        const response = await fetch('jadwal_jumat.csv?v=' + new Date().getTime());
+        const response = await fetch('jadwal_jumat.csv?v=' + Date.now());
         if (!response.ok) return;
-        const text = await response.text();
+        let text = await response.text();
+        
+        // Hapus BOM UTF-8 jika disisipkan oleh Excel
+        text = text.replace(/^\ufeff/, '');
         const baris = text.trim().split(/\r?\n/);
 
         dataJadwalCSV = {};
 
         for (let i = 1; i < baris.length; i++) {
-          if (!baris[i].trim()) continue;
-          const kolom = baris[i].split(',').map(item => item.trim().replace(/^"|"$/g, ''));
+          const line = baris[i].trim();
+          if (!line) continue;
+          
+          // Deteksi pemisah koma (,) atau titik-koma (;)
+          const pemisah = line.includes(';') ? ';' : ',';
+          const kolom = line.split(pemisah).map(item => item.trim().replace(/^"|"$/g, ''));
           
           if (kolom.length >= 4) {
-            const keyTanggal = kolom[0];
+            let keyTanggal = kolom[0].trim();
+            
+            // Konversi jika format tanggal di Excel adalah DD/MM/YYYY
+            if (keyTanggal.includes('/')) {
+              const p = keyTanggal.split('/');
+              if (p.length === 3) {
+                if (p[0].length === 4) {
+                  keyTanggal = `${p[0]}-${p[1].padStart(2,'0')}-${p[2].padStart(2,'0')}`;
+                } else {
+                  keyTanggal = `${p[2]}-${p[1].padStart(2,'0')}-${p[0].padStart(2,'0')}`;
+                }
+              }
+            }
+
             dataJadwalCSV[keyTanggal] = {
               imamKhotib: kolom[1] || "",
               waImam: kolom[2] || "",
@@ -582,7 +601,90 @@
       }
     }
 
-    /* --- AL-QUR'AN DIGITAL LOGIC --- */
+    /* RENDER JADWAL JUMAT */
+    function renderJadwalJumat() {
+      const valBulan = document.getElementById('pilih-bulan').value;
+      if (!valBulan) return;
+      const [tahun, bulanIdx] = valBulan.split('-').map(Number);
+      const namaBulanArr = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+
+      const daftarJumat = [];
+      const date = new Date(tahun, bulanIdx, 1);
+      while (date.getMonth() === bulanIdx) {
+        if (date.getDay() === 5) { daftarJumat.push(new Date(date)); }
+        date.setDate(date.getDate() + 1);
+      }
+
+      const dataLokal = ambilDataPetugasJumatLokal();
+      const wadah = document.getElementById('wadah-jumat-bulan');
+      wadah.innerHTML = '';
+
+      daftarJumat.forEach(tgl => {
+        const yyyy = tgl.getFullYear();
+        const mm = String(tgl.getMonth() + 1).padStart(2, '0');
+        const dd = String(tgl.getDate()).padStart(2, '0');
+        const keyTanggal = `${yyyy}-${mm}-${dd}`;
+        const pasaran = hitungPasaranJawa(tgl);
+        const strTanggalLengkap = `${tgl.getDate()} ${namaBulanArr[tgl.getMonth()]} ${yyyy}`;
+
+        // PRIORITASKAN CSV DARI GITHUB
+        const dataHarian = dataJadwalCSV[keyTanggal] || dataLokal[keyTanggal] || petugasDefault;
+
+        const pesanWAImam = encodeURIComponent(`Assalamu'alaikum ${dataHarian.imamKhotib}, kami dari Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk mengingatkan jadwal Anda sebagai Imam & Khotib Sholat Jumat pada tanggal ${strTanggalLengkap}. Terima kasih.`);
+        const pesanWABilal = encodeURIComponent(`Assalamu'alaikum ${dataHarian.bilal}, kami dari Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk mengingatkan jadwal Anda sebagai Bilal / Muadzin Sholat Jumat pada tanggal ${strTanggalLengkap}. Terima kasih.`);
+
+        const linkWAImam = dataHarian.waImam ? `https://api.whatsapp.com/send?phone=${dataHarian.waImam}&text=${pesanWAImam}` : '';
+        const linkWABilal = dataHarian.waBilal ? `https://api.whatsapp.com/send?phone=${dataHarian.waBilal}&text=${pesanWABilal}` : '';
+
+        wadah.innerHTML += `
+          <div class="border dark:border-slate-800 rounded-xl p-3 bg-slate-50 dark:bg-slate-800/80 hover:border-emerald-300 transition shadow-xs">
+            <div class="flex items-center justify-between border-b dark:border-slate-700 pb-2 mb-2.5 gap-2">
+              <div class="flex items-center gap-2">
+                <span class="bg-emerald-800 text-white font-bold text-[11px] px-2.5 py-0.5 rounded-md shadow-xs">
+                  <i class="fa-solid fa-calendar-day mr-1"></i> Jumat, ${strTanggalLengkap}
+                </span>
+                <span class="bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 font-semibold text-[10px] px-2 py-0.5 rounded-md">
+                  Pasaran ${pasaran}
+                </span>
+              </div>
+              ${isAdmin ? `
+                <button onclick="editPetugasJumat('${keyTanggal}', '${strTanggalLengkap}')" class="text-[11px] bg-amber-500 hover:bg-amber-600 text-white font-semibold px-2 py-0.5 rounded-md transition shadow-xs">
+                  <i class="fa-solid fa-pen-to-square"></i> Edit
+                </button>
+              ` : ''}
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              <div class="bg-white dark:bg-slate-900 px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 flex items-center justify-between">
+                <div>
+                  <span class="text-[9px] font-bold text-emerald-700 dark:text-emerald-400 uppercase block">IMAM & KHOTIB</span>
+                  <h4 class="font-bold text-slate-800 dark:text-slate-100 text-xs sm:text-sm">${dataHarian.imamKhotib}</h4>
+                </div>
+                ${isAdmin && linkWAImam ? `
+                  <a href="${linkWAImam}" target="_blank" title="Kirim WA Pengingat" class="bg-emerald-600 hover:bg-emerald-700 text-white text-[10px] font-bold px-2 py-1 rounded-md transition flex items-center gap-1 shrink-0 ml-2 shadow-xs">
+                    <i class="fa-brands fa-whatsapp text-xs"></i> <span class="hidden sm:inline">Pengingat WA</span>
+                  </a>
+                ` : ''}
+              </div>
+
+              <div class="bg-white dark:bg-slate-900 px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 flex items-center justify-between">
+                <div>
+                  <span class="text-[9px] font-bold text-emerald-700 dark:text-emerald-400 uppercase block">BILAL / MUADZIN</span>
+                  <h4 class="font-bold text-slate-800 dark:text-slate-100 text-xs sm:text-sm">${dataHarian.bilal}</h4>
+                </div>
+                ${isAdmin && linkWABilal ? `
+                  <a href="${linkWABilal}" target="_blank" title="Kirim WA Pengingat" class="bg-emerald-600 hover:bg-emerald-700 text-white text-[10px] font-bold px-2 py-1 rounded-md transition flex items-center gap-1 shrink-0 ml-2 shadow-xs">
+                    <i class="fa-brands fa-whatsapp text-xs"></i> <span class="hidden sm:inline">Pengingat WA</span>
+                  </a>
+                ` : ''}
+              </div>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    /* AL-QUR'AN DIGITAL LOGIC */
     async function bukaModalQuran() {
       document.getElementById('modal-quran').classList.remove('hidden');
       if (dataSemuaSurah.length === 0) {
@@ -713,7 +815,7 @@
       wadah.innerHTML = html;
     }
 
-    /* --- LOGIKA DARK MODE --- */
+    /* DARK MODE LOGIC */
     function inisialisasiTema() {
       const temaTersimpan = localStorage.getItem('tema_masjid');
       if (temaTersimpan === 'dark' || (!temaTersimpan && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -738,7 +840,7 @@
       }
     }
 
-    /* --- LOGIKA LAINNYA --- */
+    /* LAINNYA */
     function bukaModalPengurus() { document.getElementById('modal-pengurus').classList.remove('hidden'); }
     function tutupModalPengurus() { document.getElementById('modal-pengurus').classList.add('hidden'); }
     function salinRekening() {
@@ -1068,90 +1170,9 @@
       return simpanan ? JSON.parse(simpanan) : {};
     }
 
-    function renderJadwalJumat() {
-      const valBulan = document.getElementById('pilih-bulan').value;
-      if (!valBulan) return;
-      const [tahun, bulanIdx] = valBulan.split('-').map(Number);
-      const namaBulanArr = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-
-      const daftarJumat = [];
-      const date = new Date(tahun, bulanIdx, 1);
-      while (date.getMonth() === bulanIdx) {
-        if (date.getDay() === 5) { daftarJumat.push(new Date(date)); }
-        date.setDate(date.getDate() + 1);
-      }
-
-      const dataLokal = ambilDataPetugasJumatLokal();
-      const wadah = document.getElementById('wadah-jumat-bulan');
-      wadah.innerHTML = '';
-
-      daftarJumat.forEach(tgl => {
-        const yyyy = tgl.getFullYear();
-        const mm = String(tgl.getMonth() + 1).padStart(2, '0');
-        const dd = String(tgl.getDate()).padStart(2, '0');
-        const keyTanggal = `${yyyy}-${mm}-${dd}`;
-        const pasaran = hitungPasaranJawa(tgl);
-        const strTanggalLengkap = `${tgl.getDate()} ${namaBulanArr[tgl.getMonth()]} ${yyyy}`;
-
-        const dataHarian = dataLokal[keyTanggal] || dataJadwalCSV[keyTanggal] || petugasDefault;
-
-        const pesanWAImam = encodeURIComponent(`Assalamu'alaikum ${dataHarian.imamKhotib}, kami dari Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk mengingatkan jadwal Anda sebagai Imam & Khotib Sholat Jumat pada tanggal ${strTanggalLengkap}. Terima kasih.`);
-        const pesanWABilal = encodeURIComponent(`Assalamu'alaikum ${dataHarian.bilal}, kami dari Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk mengingatkan jadwal Anda sebagai Bilal / Muadzin Sholat Jumat pada tanggal ${strTanggalLengkap}. Terima kasih.`);
-
-        const linkWAImam = dataHarian.waImam ? `https://api.whatsapp.com/send?phone=${dataHarian.waImam}&text=${pesanWAImam}` : '';
-        const linkWABilal = dataHarian.waBilal ? `https://api.whatsapp.com/send?phone=${dataHarian.waBilal}&text=${pesanWABilal}` : '';
-
-        wadah.innerHTML += `
-          <div class="border dark:border-slate-800 rounded-xl p-3 bg-slate-50 dark:bg-slate-800/80 hover:border-emerald-300 transition shadow-xs">
-            <div class="flex items-center justify-between border-b dark:border-slate-700 pb-2 mb-2.5 gap-2">
-              <div class="flex items-center gap-2">
-                <span class="bg-emerald-800 text-white font-bold text-[11px] px-2.5 py-0.5 rounded-md shadow-xs">
-                  <i class="fa-solid fa-calendar-day mr-1"></i> Jumat, ${strTanggalLengkap}
-                </span>
-                <span class="bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 font-semibold text-[10px] px-2 py-0.5 rounded-md">
-                  Pasaran ${pasaran}
-                </span>
-              </div>
-              ${isAdmin ? `
-                <button onclick="editPetugasJumat('${keyTanggal}', '${strTanggalLengkap}')" class="text-[11px] bg-amber-500 hover:bg-amber-600 text-white font-semibold px-2 py-0.5 rounded-md transition shadow-xs">
-                  <i class="fa-solid fa-pen-to-square"></i> Edit
-                </button>
-              ` : ''}
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-              <div class="bg-white dark:bg-slate-900 px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 flex items-center justify-between">
-                <div>
-                  <span class="text-[9px] font-bold text-emerald-700 dark:text-emerald-400 uppercase block">IMAM & KHOTIB</span>
-                  <h4 class="font-bold text-slate-800 dark:text-slate-100 text-xs sm:text-sm">${dataHarian.imamKhotib}</h4>
-                </div>
-                ${isAdmin && linkWAImam ? `
-                  <a href="${linkWAImam}" target="_blank" title="Kirim WA Pengingat" class="bg-emerald-600 hover:bg-emerald-700 text-white text-[10px] font-bold px-2 py-1 rounded-md transition flex items-center gap-1 shrink-0 ml-2 shadow-xs">
-                    <i class="fa-brands fa-whatsapp text-xs"></i> <span class="hidden sm:inline">Pengingat WA</span>
-                  </a>
-                ` : ''}
-              </div>
-
-              <div class="bg-white dark:bg-slate-900 px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 flex items-center justify-between">
-                <div>
-                  <span class="text-[9px] font-bold text-emerald-700 dark:text-emerald-400 uppercase block">BILAL / MUADZIN</span>
-                  <h4 class="font-bold text-slate-800 dark:text-slate-100 text-xs sm:text-sm">${dataHarian.bilal}</h4>
-                </div>
-                ${isAdmin && linkWABilal ? `
-                  <a href="${linkWABilal}" target="_blank" title="Kirim WA Pengingat" class="bg-emerald-600 hover:bg-emerald-700 text-white text-[10px] font-bold px-2 py-1 rounded-md transition flex items-center gap-1 shrink-0 ml-2 shadow-xs">
-                    <i class="fa-brands fa-whatsapp text-xs"></i> <span class="hidden sm:inline">Pengingat WA</span>
-                  </a>
-                ` : ''}
-              </div>
-            </div>
-          </div>
-        `;
-      });
-    }
-
     function editPetugasJumat(keyTanggal, labelTanggal) {
       const dataLokal = ambilDataPetugasJumatLokal();
-      const dataLama = dataLokal[keyTanggal] || dataJadwalCSV[keyTanggal] || petugasDefault;
+      const dataLama = dataJadwalCSV[keyTanggal] || dataLokal[keyTanggal] || petugasDefault;
 
       const imamKhotib = prompt(`[${labelTanggal}]\nMasukkan Nama Imam & Khotib:`, dataLama.imamKhotib); if (!imamKhotib) return;
       const waImam = prompt(`[${labelTanggal}]\nMasukkan No WhatsApp Imam & Khotib (Format 628...):`, dataLama.waImam); if (!waImam) return;
@@ -1475,7 +1496,7 @@
       } catch (err) { console.log('Gagal memuat jadwal sholat:', err); }
     }
 
-    /* INISIALISASI APLIKASI WEB */
+    /* INISIALISASI UTAMA */
     async function inisialisasi() {
       inisialisasiTema();
       await muatJadwalDariCSV();
