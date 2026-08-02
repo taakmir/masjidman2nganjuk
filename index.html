@@ -6,6 +6,12 @@
   <title>Masjid Baitul Muttaqin MAN 2 Nganjuk</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Konfigurasi Tailwind untuk Dark Mode -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class'
+    }
+  </script>
   <!-- Google Fonts & Font Awesome Icons -->
   <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -18,17 +24,30 @@
       transform: scale(1.03);
       box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.2);
     }
+    .dark .active-sholat {
+      background-color: #064e3b !important;
+      border-color: #10b981 !important;
+    }
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   </style>
 </head>
-<body class="bg-slate-50 text-slate-800 relative">
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-300 relative">
 
-  <!-- FLOATING IKON LOGIN ADMIN (POJOK KANAN BAWAH LAYAR) -->
-  <button id="btn-login-admin" onclick="toggleAdmin()" title="Mode Admin Takmir" 
-          class="fixed bottom-5 right-5 z-50 bg-slate-800 text-slate-200 hover:bg-emerald-800 hover:text-amber-300 w-12 h-12 rounded-full shadow-2xl border-2 border-slate-600 hover:border-amber-400 flex items-center justify-center text-lg hover:scale-110 active:scale-95 transition-all duration-200 cursor-pointer">
-    <i class="fa-solid fa-lock"></i>
-  </button>
+  <!-- FLOATING BUTTONS (POJOK KANAN BAWAH LAYAR) -->
+  <div class="fixed bottom-5 right-5 z-50 flex items-center gap-2.5">
+    <!-- TOMBOL MODE GELAP / TERANG -->
+    <button id="btn-theme-toggle" onclick="toggleDarkMode()" title="Ganti Mode Gelap/Terang" 
+            class="bg-slate-800 text-amber-300 dark:bg-slate-100 dark:text-slate-900 w-12 h-12 rounded-full shadow-2xl border-2 border-slate-600 dark:border-amber-400 flex items-center justify-center text-lg hover:scale-110 active:scale-95 transition-all duration-200 cursor-pointer">
+      <i id="ikon-tema" class="fa-solid fa-moon"></i>
+    </button>
+
+    <!-- TOMBOL LOGIN ADMIN -->
+    <button id="btn-login-admin" onclick="toggleAdmin()" title="Mode Admin Takmir" 
+            class="bg-slate-800 text-slate-200 hover:bg-emerald-800 hover:text-amber-300 w-12 h-12 rounded-full shadow-2xl border-2 border-slate-600 hover:border-amber-400 flex items-center justify-center text-lg hover:scale-110 active:scale-95 transition-all duration-200 cursor-pointer">
+      <i class="fa-solid fa-lock"></i>
+    </button>
+  </div>
 
   <!-- HERO / HEADER CERAH & ELEGAN DENGAN ORNAMEN ISLAMI MODERN -->
   <header class="relative bg-gradient-to-br from-emerald-700 via-teal-800 to-emerald-900 text-white shadow-2xl overflow-hidden border-b-4 border-amber-400">
@@ -101,25 +120,25 @@
   </header>
 
   <!-- NAVIGASI MENU -->
-  <nav class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-slate-200 shadow-sm">
+  <nav class="sticky top-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur border-b border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
     <div class="max-w-5xl mx-auto px-4 py-2.5 flex items-center justify-between overflow-x-auto gap-2 no-scrollbar">
-      <a href="#seksi-sholat" class="px-3 py-1.5 text-xs font-bold text-slate-700 hover:text-emerald-700 hover:bg-emerald-50 rounded-lg whitespace-nowrap transition flex items-center gap-1.5">
-        <i class="fa-solid fa-mosque text-emerald-600"></i> Jadwal Sholat
+      <a href="#seksi-sholat" class="px-3 py-1.5 text-xs font-bold text-slate-700 dark:text-slate-300 hover:text-emerald-700 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-slate-800 rounded-lg whitespace-nowrap transition flex items-center gap-1.5">
+        <i class="fa-solid fa-mosque text-emerald-600 dark:text-emerald-400"></i> Jadwal Sholat
       </a>
-      <a href="#seksi-jumat" class="px-3 py-1.5 text-xs font-bold text-slate-700 hover:text-emerald-700 hover:bg-emerald-50 rounded-lg whitespace-nowrap transition flex items-center gap-1.5">
-        <i class="fa-solid fa-calendar-check text-emerald-600"></i> Jadwal Jumat
+      <a href="#seksi-jumat" class="px-3 py-1.5 text-xs font-bold text-slate-700 dark:text-slate-300 hover:text-emerald-700 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-slate-800 rounded-lg whitespace-nowrap transition flex items-center gap-1.5">
+        <i class="fa-solid fa-calendar-check text-emerald-600 dark:text-emerald-400"></i> Jadwal Jumat
       </a>
-      <button onclick="bukaModalPengurus()" class="px-3 py-1.5 text-xs font-bold text-slate-700 hover:text-emerald-700 hover:bg-emerald-50 rounded-lg whitespace-nowrap transition flex items-center gap-1.5">
-        <i class="fa-solid fa-users-gear text-emerald-600"></i> Pengurus Takmir
+      <button onclick="bukaModalPengurus()" class="px-3 py-1.5 text-xs font-bold text-slate-700 dark:text-slate-300 hover:text-emerald-700 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-slate-800 rounded-lg whitespace-nowrap transition flex items-center gap-1.5">
+        <i class="fa-solid fa-users-gear text-emerald-600 dark:text-emerald-400"></i> Pengurus Takmir
       </button>
-      <a href="#seksi-layanan" class="px-3 py-1.5 text-xs font-bold text-slate-700 hover:text-emerald-700 hover:bg-emerald-50 rounded-lg whitespace-nowrap transition flex items-center gap-1.5">
-        <i class="fa-solid fa-hand-holding-hand text-emerald-600"></i> Layanan Keagamaan
+      <a href="#seksi-layanan" class="px-3 py-1.5 text-xs font-bold text-slate-700 dark:text-slate-300 hover:text-emerald-700 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-slate-800 rounded-lg whitespace-nowrap transition flex items-center gap-1.5">
+        <i class="fa-solid fa-hand-holding-hand text-emerald-600 dark:text-emerald-400"></i> Layanan Keagamaan
       </a>
-      <a href="#seksi-infaq" class="px-3 py-1.5 text-xs font-bold text-slate-700 hover:text-emerald-700 hover:bg-emerald-50 rounded-lg whitespace-nowrap transition flex items-center gap-1.5">
-        <i class="fa-solid fa-hand-holding-dollar text-emerald-600"></i> Infaq & Donasi
+      <a href="#seksi-infaq" class="px-3 py-1.5 text-xs font-bold text-slate-700 dark:text-slate-300 hover:text-emerald-700 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-slate-800 rounded-lg whitespace-nowrap transition flex items-center gap-1.5">
+        <i class="fa-solid fa-hand-holding-dollar text-emerald-600 dark:text-emerald-400"></i> Infaq & Donasi
       </a>
-      <a href="#seksi-berita" class="px-3 py-1.5 text-xs font-bold text-slate-700 hover:text-emerald-700 hover:bg-emerald-50 rounded-lg whitespace-nowrap transition flex items-center gap-1.5">
-        <i class="fa-solid fa-newspaper text-emerald-600"></i> Informasi & Berita
+      <a href="#seksi-berita" class="px-3 py-1.5 text-xs font-bold text-slate-700 dark:text-slate-300 hover:text-emerald-700 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-slate-800 rounded-lg whitespace-nowrap transition flex items-center gap-1.5">
+        <i class="fa-solid fa-newspaper text-emerald-600 dark:text-emerald-400"></i> Informasi & Berita
       </a>
     </div>
   </nav>
@@ -128,47 +147,47 @@
   <main class="max-w-5xl mx-auto px-4 mt-6 mb-12 space-y-8">
 
     <!-- 1. JADWAL WAKTU SHOLAT NGANJUK & JADWAL PETUGAS KBM -->
-    <section id="seksi-sholat" class="bg-white rounded-2xl p-6 shadow-xl border border-emerald-100 scroll-mt-20 space-y-6">
+    <section id="seksi-sholat" class="bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-xl border border-emerald-100 dark:border-slate-800 scroll-mt-20 space-y-6 transition-colors">
       <div>
-        <div class="flex items-center justify-between mb-4 border-b pb-3">
-          <h2 class="text-lg font-bold text-emerald-800 flex items-center gap-2">
+        <div class="flex items-center justify-between mb-4 border-b border-slate-100 dark:border-slate-800 pb-3">
+          <h2 class="text-lg font-bold text-emerald-800 dark:text-emerald-400 flex items-center gap-2">
             <i class="fa-solid fa-mosque"></i> Jadwal Waktu Sholat Hari Ini (Nganjuk)
           </h2>
-          <span id="tanggal-hari-ini" class="text-xs font-semibold bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full">Memuat...</span>
+          <span id="tanggal-hari-ini" class="text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300 px-3 py-1 rounded-full border border-emerald-200 dark:border-emerald-800">Memuat...</span>
         </div>
 
         <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 text-center" id="wadah-jadwal">
-          <div id="card-subuh" class="bg-emerald-50 p-3 rounded-xl border border-emerald-100 transition duration-300">
-            <span class="text-xs text-emerald-600 font-semibold uppercase block">Subuh</span>
-            <span class="text-lg font-bold text-emerald-900" id="subuh">--:--</span>
+          <div id="card-subuh" class="bg-emerald-50 dark:bg-slate-800 p-3 rounded-xl border border-emerald-100 dark:border-slate-700 transition duration-300">
+            <span class="text-xs text-emerald-600 dark:text-emerald-400 font-semibold uppercase block">Subuh</span>
+            <span class="text-lg font-bold text-emerald-900 dark:text-emerald-100" id="subuh">--:--</span>
           </div>
-          <div id="card-dzuhur" class="bg-emerald-50 p-3 rounded-xl border border-emerald-100 transition duration-300">
-            <span class="text-xs text-emerald-600 font-semibold uppercase block">Dzuhur</span>
-            <span class="text-lg font-bold text-emerald-900" id="dzuhur">--:--</span>
+          <div id="card-dzuhur" class="bg-emerald-50 dark:bg-slate-800 p-3 rounded-xl border border-emerald-100 dark:border-slate-700 transition duration-300">
+            <span class="text-xs text-emerald-600 dark:text-emerald-400 font-semibold uppercase block">Dzuhur</span>
+            <span class="text-lg font-bold text-emerald-900 dark:text-emerald-100" id="dzuhur">--:--</span>
           </div>
-          <div id="card-ashar" class="bg-emerald-50 p-3 rounded-xl border border-emerald-100 transition duration-300">
-            <span class="text-xs text-emerald-600 font-semibold uppercase block">Ashar</span>
-            <span class="text-lg font-bold text-emerald-900" id="ashar">--:--</span>
+          <div id="card-ashar" class="bg-emerald-50 dark:bg-slate-800 p-3 rounded-xl border border-emerald-100 dark:border-slate-700 transition duration-300">
+            <span class="text-xs text-emerald-600 dark:text-emerald-400 font-semibold uppercase block">Ashar</span>
+            <span class="text-lg font-bold text-emerald-900 dark:text-emerald-100" id="ashar">--:--</span>
           </div>
-          <div id="card-maghrib" class="bg-emerald-50 p-3 rounded-xl border border-emerald-100 transition duration-300">
-            <span class="text-xs text-emerald-600 font-semibold uppercase block">Maghrib</span>
-            <span class="text-lg font-bold text-emerald-900" id="maghrib">--:--</span>
+          <div id="card-maghrib" class="bg-emerald-50 dark:bg-slate-800 p-3 rounded-xl border border-emerald-100 dark:border-slate-700 transition duration-300">
+            <span class="text-xs text-emerald-600 dark:text-emerald-400 font-semibold uppercase block">Maghrib</span>
+            <span class="text-lg font-bold text-emerald-900 dark:text-emerald-100" id="maghrib">--:--</span>
           </div>
-          <div id="card-isya" class="bg-emerald-50 p-3 rounded-xl border border-emerald-100 col-span-2 sm:col-span-1 transition duration-300">
-            <span class="text-xs text-emerald-600 font-semibold uppercase block">Isya</span>
-            <span class="text-lg font-bold text-emerald-900" id="isya">--:--</span>
+          <div id="card-isya" class="bg-emerald-50 dark:bg-slate-800 p-3 rounded-xl border border-emerald-100 dark:border-slate-700 col-span-2 sm:col-span-1 transition duration-300">
+            <span class="text-xs text-emerald-600 dark:text-emerald-400 font-semibold uppercase block">Isya</span>
+            <span class="text-lg font-bold text-emerald-900 dark:text-emerald-100" id="isya">--:--</span>
           </div>
         </div>
       </div>
 
       <!-- PETUGAS SHOLAT KBM (TOMBOL POPUP SENIN - JUMAT) -->
-      <div class="pt-5 border-t border-slate-200">
+      <div class="pt-5 border-t border-slate-200 dark:border-slate-800">
         <div class="flex items-center justify-between mb-4">
           <div>
-            <h3 class="text-base font-bold text-slate-800 flex items-center gap-2">
-              <i class="fa-solid fa-graduation-cap text-emerald-600"></i> Jadwal Petugas Sholat KBM (Senin - Jumat)
+            <h3 class="text-base font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
+              <i class="fa-solid fa-graduation-cap text-emerald-600 dark:text-emerald-400"></i> Jadwal Petugas Sholat KBM (Senin - Jumat)
             </h3>
-            <p class="text-xs text-slate-500">Klik hari di bawah untuk melihat rincian Imam & Muadzin (Dzuhur & Ashar)</p>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Klik hari di bawah untuk melihat rincian Imam & Muadzin (Dzuhur & Ashar)</p>
           </div>
         </div>
 
@@ -191,26 +210,26 @@
         <p id="perawi-hikmah" class="text-xs text-amber-300 font-semibold mt-4 text-right">— HR. Muslim</p>
       </div>
 
-      <div class="bg-white rounded-2xl p-5 shadow-lg border border-slate-100 flex flex-col justify-between items-center text-center">
-        <div class="w-full flex items-center justify-between border-b pb-2 mb-2">
-          <span class="text-xs font-bold text-slate-700 uppercase flex items-center gap-1.5"><i class="fa-solid fa-hand-holding-heart text-emerald-600"></i> Tasbih Digital</span>
+      <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 shadow-lg border border-slate-100 dark:border-slate-800 flex flex-col justify-between items-center text-center transition-colors">
+        <div class="w-full flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2 mb-2">
+          <span class="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase flex items-center gap-1.5"><i class="fa-solid fa-hand-holding-heart text-emerald-600 dark:text-emerald-400"></i> Tasbih Digital</span>
           <button onclick="resetTasbih()" class="text-[10px] text-slate-400 hover:text-red-600 font-semibold"><i class="fa-solid fa-rotate-left"></i> Reset</button>
         </div>
         <div class="my-2">
-          <span id="angka-tasbih" class="text-4xl font-extrabold text-emerald-800 font-mono">0</span>
-          <span class="block text-[11px] text-slate-500 mt-1" id="label-tasbih">Subhanallah</span>
+          <span id="angka-tasbih" class="text-4xl font-extrabold text-emerald-800 dark:text-emerald-400 font-mono">0</span>
+          <span class="block text-[11px] text-slate-500 dark:text-slate-400 mt-1" id="label-tasbih">Subhanallah</span>
         </div>
         <button onclick="tambahTasbih()" class="w-full bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-bold py-2 px-4 rounded-xl text-xs transition shadow flex items-center justify-center gap-2">
           <i class="fa-solid fa-fingerprint text-base"></i> Klik Zikir (+1)
         </button>
       </div>
 
-      <div class="bg-white rounded-2xl p-5 shadow-lg border border-slate-100 flex flex-col justify-between items-center text-center">
-        <div class="w-full flex items-center justify-between border-b pb-2 mb-2">
-          <span class="text-xs font-bold text-slate-700 uppercase flex items-center gap-1.5"><i class="fa-solid fa-compass text-emerald-600"></i> Kompas Kiblat</span>
-          <span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded">294.25° NW</span>
+      <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 shadow-lg border border-slate-100 dark:border-slate-800 flex flex-col justify-between items-center text-center transition-colors">
+        <div class="w-full flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2 mb-2">
+          <span class="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase flex items-center gap-1.5"><i class="fa-solid fa-compass text-emerald-600 dark:text-emerald-400"></i> Kompas Kiblat</span>
+          <span class="text-[10px] bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 font-bold px-2 py-0.5 rounded border border-emerald-200 dark:border-emerald-800">294.25° NW</span>
         </div>
-        <div class="relative w-24 h-24 bg-slate-100 rounded-full border-4 border-emerald-600 flex items-center justify-center my-1 shadow-inner overflow-hidden">
+        <div class="relative w-24 h-24 bg-slate-100 dark:bg-slate-800 rounded-full border-4 border-emerald-600 dark:border-emerald-500 flex items-center justify-center my-1 shadow-inner overflow-hidden">
           <div id="piringan-kompas" class="absolute w-full h-full transition-transform duration-300">
             <span class="absolute text-[10px] font-extrabold text-red-600 top-1 left-1/2 -translate-x-1/2">N</span>
             <span class="absolute text-[10px] font-bold text-slate-400 bottom-1 left-1/2 -translate-x-1/2">S</span>
@@ -218,16 +237,16 @@
             <span class="absolute text-[10px] font-bold text-slate-400 right-1.5 top-1/2 -translate-y-1/2">E</span>
             <div class="absolute inset-0 flex items-center justify-center" style="transform: rotate(294.25deg);">
               <div class="flex flex-col items-center -translate-y-4">
-                <i class="fa-solid fa-kaaba text-emerald-700 text-[11px] mb-0.5"></i>
-                <i class="fa-solid fa-caret-up text-emerald-600 text-base font-bold"></i>
+                <i class="fa-solid fa-kaaba text-emerald-700 dark:text-emerald-400 text-[11px] mb-0.5"></i>
+                <i class="fa-solid fa-caret-up text-emerald-600 dark:text-emerald-400 text-base font-bold"></i>
               </div>
             </div>
           </div>
-          <div class="w-2.5 h-2.5 bg-emerald-700 rounded-full z-10 border-2 border-white shadow"></div>
+          <div class="w-2.5 h-2.5 bg-emerald-700 dark:bg-emerald-400 rounded-full z-10 border-2 border-white dark:border-slate-900 shadow"></div>
         </div>
         <div class="w-full">
-          <p id="status-kompas" class="text-[10px] text-slate-500 mb-1">Arah Ka'bah Nganjuk: 294° (Barat Laut)</p>
-          <button onclick="aktifkanKompas()" class="text-[10px] bg-emerald-50 text-emerald-700 font-bold px-2.5 py-1 rounded-lg border border-emerald-200 hover:bg-emerald-100 transition w-full">
+          <p id="status-kompas" class="text-[10px] text-slate-500 dark:text-slate-400 mb-1">Arah Ka'bah Nganjuk: 294° (Barat Laut)</p>
+          <button onclick="aktifkanKompas()" class="text-[10px] bg-emerald-50 dark:bg-slate-800 text-emerald-700 dark:text-emerald-300 font-bold px-2.5 py-1 rounded-lg border border-emerald-200 dark:border-slate-700 hover:bg-emerald-100 dark:hover:bg-slate-700 transition w-full">
             <i class="fa-solid fa-mobile-screen mr-1"></i> Aktifkan Sensor Kompas HP
           </button>
         </div>
@@ -235,10 +254,10 @@
     </section>
 
     <!-- 3. DOA HARIAN -->
-    <section class="bg-white rounded-2xl p-6 shadow-xl border border-slate-100">
-      <div class="flex items-center justify-between mb-4 border-b pb-3">
-        <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
-          <i class="fa-solid fa-book-open-reader text-emerald-600"></i> Doa-Doa Harian Singkat
+    <section class="bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-xl border border-slate-100 dark:border-slate-800 transition-colors">
+      <div class="flex items-center justify-between mb-4 border-b border-slate-100 dark:border-slate-800 pb-3">
+        <h2 class="text-lg font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
+          <i class="fa-solid fa-book-open-reader text-emerald-600 dark:text-emerald-400"></i> Doa-Doa Harian Singkat
         </h2>
         <button onclick="tambahDoa()" class="admin-only hidden bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-3 py-1.5 rounded-lg font-semibold flex items-center gap-1.5 transition">
           <i class="fa-solid fa-plus"></i> Tambah Doa
@@ -248,25 +267,25 @@
     </section>
 
     <!-- 4. JADWAL PETUGAS JUMAT -->
-    <section id="seksi-jumat" class="bg-white rounded-2xl p-6 shadow-xl border border-slate-100 scroll-mt-20">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 border-b pb-4">
+    <section id="seksi-jumat" class="bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-xl border border-slate-100 dark:border-slate-800 scroll-mt-20 transition-colors">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 border-b border-slate-100 dark:border-slate-800 pb-4">
         <div>
-          <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
-            <i class="fa-solid fa-users text-emerald-600"></i> Jadwal Petugas Sholat Jumat
+          <h2 class="text-lg font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
+            <i class="fa-solid fa-users text-emerald-600 dark:text-emerald-400"></i> Jadwal Petugas Sholat Jumat
           </h2>
         </div>
         <div>
-          <select id="pilih-bulan" onchange="renderJadwalJumat()" class="bg-emerald-50 text-emerald-900 border border-emerald-200 text-xs font-semibold px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"></select>
+          <select id="pilih-bulan" onchange="renderJadwalJumat()" class="bg-emerald-50 dark:bg-slate-800 text-emerald-900 dark:text-emerald-300 border border-emerald-200 dark:border-slate-700 text-xs font-semibold px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"></select>
         </div>
       </div>
       <div id="wadah-jumat-bulan" class="space-y-4"></div>
     </section>
 
     <!-- 5. LAYANAN KEAGAMAAN -->
-    <section id="seksi-layanan" class="bg-white rounded-2xl p-6 shadow-xl border border-slate-100 scroll-mt-20">
-      <div class="flex items-center justify-between mb-4 border-b pb-3">
-        <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
-          <i class="fa-solid fa-hand-holding-hand text-emerald-600"></i> Layanan Keagamaan & Peradaban Siswa
+    <section id="seksi-layanan" class="bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-xl border border-slate-100 dark:border-slate-800 scroll-mt-20 transition-colors">
+      <div class="flex items-center justify-between mb-4 border-b border-slate-100 dark:border-slate-800 pb-3">
+        <h2 class="text-lg font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
+          <i class="fa-solid fa-hand-holding-hand text-emerald-600 dark:text-emerald-400"></i> Layanan Keagamaan & Peradaban Siswa
         </h2>
         <button onclick="tambahLayanan()" class="admin-only hidden bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-3 py-1.5 rounded-lg font-semibold flex items-center gap-1.5 transition">
           <i class="fa-solid fa-plus"></i> Tambah Layanan
@@ -287,22 +306,22 @@
           <p id="infaq-deskripsi" class="text-emerald-100 text-xs md:text-sm max-w-xl">Infaq Anda dipergunakan untuk operasional kebersihan masjid, pemeliharaan sarana ibadah, serta kegiatan keagamaan siswa MAN 2 Nganjuk.</p>
         </div>
 
-        <div class="bg-white text-slate-800 p-4 rounded-xl shadow-lg w-full md:w-auto text-center border border-emerald-100">
-          <span id="infaq-bank" class="text-xs font-bold text-emerald-800 block mb-1">Bank Syariah Indonesia (BSI)</span>
-          <div class="bg-slate-100 p-2.5 rounded-lg border font-mono font-bold text-base text-emerald-900 flex items-center justify-center gap-2">
+        <div class="bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 p-4 rounded-xl shadow-lg w-full md:w-auto text-center border border-emerald-100 dark:border-slate-800">
+          <span id="infaq-bank" class="text-xs font-bold text-emerald-800 dark:text-emerald-400 block mb-1">Bank Syariah Indonesia (BSI)</span>
+          <div class="bg-slate-100 dark:bg-slate-800 p-2.5 rounded-lg border dark:border-slate-700 font-mono font-bold text-base text-emerald-900 dark:text-emerald-300 flex items-center justify-center gap-2">
             <span id="no-rekening">7123-4567-8901</span>
             <button onclick="salinRekening()" class="text-xs bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded font-sans transition"><i class="fa-solid fa-copy"></i> Salin</button>
           </div>
-          <span id="infaq-an" class="text-[11px] text-slate-500 block mt-1">a.n Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk</span>
+          <span id="infaq-an" class="text-[11px] text-slate-500 dark:text-slate-400 block mt-1">a.n Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk</span>
         </div>
       </div>
     </section>
 
     <!-- 7. BERITA & INFORMASI MASJID -->
-    <section id="seksi-berita" class="bg-white rounded-2xl p-6 shadow-xl border border-slate-100 scroll-mt-20">
-      <div class="flex items-center justify-between mb-4 border-b pb-3">
-        <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
-          <i class="fa-solid fa-newspaper text-emerald-600"></i> Informasi & Berita Masjid
+    <section id="seksi-berita" class="bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-xl border border-slate-100 dark:border-slate-800 scroll-mt-20 transition-colors">
+      <div class="flex items-center justify-between mb-4 border-b border-slate-100 dark:border-slate-800 pb-3">
+        <h2 class="text-lg font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
+          <i class="fa-solid fa-newspaper text-emerald-600 dark:text-emerald-400"></i> Informasi & Berita Masjid
         </h2>
         <button onclick="bukaModalTambahBerita()" class="admin-only hidden bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-3 py-1.5 rounded-lg font-semibold flex items-center gap-1.5 transition">
           <i class="fa-solid fa-plus"></i> Tambah Berita Foto
@@ -316,18 +335,18 @@
 
   <!-- MODAL POP-UP TAMBAH BERITA + UPLOAD FOTO -->
   <div id="modal-tambah-berita" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative border border-slate-200">
-      <div class="flex items-center justify-between border-b pb-3 mb-4">
-        <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
-          <i class="fa-solid fa-newspaper text-emerald-600"></i> Tambah Berita Baru
+    <div class="bg-white dark:bg-slate-900 rounded-2xl max-w-lg w-full p-6 shadow-2xl relative border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-100">
+      <div class="flex items-center justify-between border-b dark:border-slate-800 pb-3 mb-4">
+        <h3 class="text-lg font-bold flex items-center gap-2">
+          <i class="fa-solid fa-newspaper text-emerald-600 dark:text-emerald-400"></i> Tambah Berita Baru
         </h3>
-        <button onclick="tutupModalTambahBerita()" class="text-slate-400 hover:text-slate-600 text-xl font-bold">&times;</button>
+        <button onclick="tutupModalTambahBerita()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-xl font-bold">&times;</button>
       </div>
 
       <form onsubmit="simpanBeritaBaru(event)" class="space-y-3.5 text-xs">
         <div>
-          <label class="font-bold text-slate-700 block mb-1">Kategori Berita</label>
-          <select id="input-berita-kategori" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 font-semibold focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+          <label class="font-bold block mb-1">Kategori Berita</label>
+          <select id="input-berita-kategori" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 font-semibold focus:ring-2 focus:ring-emerald-500 focus:outline-none">
             <option value="Kegiatan">Kegiatan</option>
             <option value="Pengumuman">Pengumuman</option>
             <option value="Kajian">Kajian</option>
@@ -335,35 +354,35 @@
         </div>
 
         <div>
-          <label class="font-bold text-slate-700 block mb-1">Judul Berita</label>
-          <input type="text" id="input-berita-judul" required placeholder="Contoh: Kerja Bakti Persiapan PHBI..." class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+          <label class="font-bold block mb-1">Judul Berita</label>
+          <input type="text" id="input-berita-judul" required placeholder="Contoh: Kerja Bakti Persiapan PHBI..." class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
         </div>
 
         <div>
-          <label class="font-bold text-slate-700 block mb-1">Deskripsi / Isi Berita</label>
-          <textarea id="input-berita-deskripsi" rows="3" required placeholder="Tuliskan keterangan lengkap di sini..." class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 focus:ring-2 focus:ring-emerald-500 focus:outline-none"></textarea>
+          <label class="font-bold block mb-1">Deskripsi / Isi Berita</label>
+          <textarea id="input-berita-deskripsi" rows="3" required placeholder="Tuliskan keterangan lengkap di sini..." class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 focus:ring-2 focus:ring-emerald-500 focus:outline-none"></textarea>
         </div>
 
-        <div class="bg-emerald-50/70 p-3 rounded-xl border border-emerald-200 space-y-2">
-          <label class="font-bold text-emerald-900 block flex items-center gap-1.5">
-            <i class="fa-solid fa-image text-emerald-600"></i> Foto Berita (Pilih Salah Satu)
+        <div class="bg-emerald-50/70 dark:bg-slate-800/70 p-3 rounded-xl border border-emerald-200 dark:border-slate-700 space-y-2">
+          <label class="font-bold text-emerald-900 dark:text-emerald-300 block flex items-center gap-1.5">
+            <i class="fa-solid fa-image text-emerald-600 dark:text-emerald-400"></i> Foto Berita (Pilih Salah Satu)
           </label>
           
           <div>
-            <span class="text-[10px] text-slate-500 block mb-1">Cara A: Masukkan Link Gambar (ImgBB/Postimages/Google Drive)</span>
-            <input type="url" id="input-berita-url" placeholder="https://i.ibb.co/foto-kegiatan.jpg" class="w-full bg-white border border-slate-300 rounded-lg p-2 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+            <span class="text-[10px] text-slate-500 dark:text-slate-400 block mb-1">Cara A: Masukkan Link Gambar (ImgBB/Postimages/Google Drive)</span>
+            <input type="url" id="input-berita-url" placeholder="https://i.ibb.co/foto-kegiatan.jpg" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none">
           </div>
 
           <div class="text-center font-bold text-[10px] text-slate-400 uppercase tracking-widest">— ATAU —</div>
 
           <div>
-            <span class="text-[10px] text-slate-500 block mb-1">Cara B: Upload Langsung dari HP / Galeri Foto</span>
-            <input type="file" id="input-berita-file" accept="image/*" onchange="konversiFileGambar(event)" class="w-full text-xs text-slate-600 file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-emerald-600 file:text-white hover:file:bg-emerald-700 cursor-pointer">
+            <span class="text-[10px] text-slate-500 dark:text-slate-400 block mb-1">Cara B: Upload Langsung dari HP / Galeri Foto</span>
+            <input type="file" id="input-berita-file" accept="image/*" onchange="konversiFileGambar(event)" class="w-full text-xs text-slate-600 dark:text-slate-300 file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-emerald-600 file:text-white hover:file:bg-emerald-700 cursor-pointer">
           </div>
         </div>
 
-        <div class="pt-3 flex justify-end gap-2 border-t">
-          <button type="button" onclick="tutupModalTambahBerita()" class="px-4 py-2 bg-slate-200 text-slate-700 font-bold rounded-xl hover:bg-slate-300 transition">Batal</button>
+        <div class="pt-3 flex justify-end gap-2 border-t dark:border-slate-800">
+          <button type="button" onclick="tutupModalTambahBerita()" class="px-4 py-2 bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold rounded-xl hover:bg-slate-300 dark:hover:bg-slate-700 transition">Batal</button>
           <button type="submit" class="px-5 py-2 bg-emerald-600 text-white font-bold rounded-xl hover:bg-emerald-700 shadow-md transition flex items-center gap-1">
             <i class="fa-solid fa-paper-plane"></i> Terbitkan Berita
           </button>
@@ -374,34 +393,34 @@
 
   <!-- MODAL POP-UP RINCIAN PETUGAS SHOLAT KBM (SENIN - JUMAT) -->
   <div id="modal-petugas-kbm" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative border border-slate-200">
-      <div class="flex items-center justify-between border-b pb-3 mb-4">
-        <h3 id="modal-kbm-judul" class="text-lg font-bold text-emerald-900 flex items-center gap-2"><i class="fa-solid fa-calendar-day text-emerald-600"></i> Petugas Sholat</h3>
-        <button onclick="tutupModalPetugasKBM()" class="text-slate-400 hover:text-slate-600 text-xl font-bold">&times;</button>
+    <div class="bg-white dark:bg-slate-900 rounded-2xl max-w-md w-full p-6 shadow-2xl relative border border-slate-200 dark:border-slate-800">
+      <div class="flex items-center justify-between border-b dark:border-slate-800 pb-3 mb-4">
+        <h3 id="modal-kbm-judul" class="text-lg font-bold text-emerald-900 dark:text-emerald-400 flex items-center gap-2"><i class="fa-solid fa-calendar-day text-emerald-600"></i> Petugas Sholat</h3>
+        <button onclick="tutupModalPetugasKBM()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-xl font-bold">&times;</button>
       </div>
       <div id="modal-kbm-konten" class="space-y-4"></div>
-      <div class="mt-6 flex items-center justify-between pt-2 border-t border-slate-100">
+      <div class="mt-6 flex items-center justify-between pt-2 border-t border-slate-100 dark:border-slate-800">
         <button id="modal-kbm-btn-edit" onclick="" class="admin-only hidden bg-amber-400 hover:bg-amber-500 text-slate-900 text-xs font-bold px-3 py-2 rounded-xl transition flex items-center gap-1.5 shadow-sm">
           <i class="fa-solid fa-pen"></i> Edit Hari Ini
         </button>
-        <button onclick="tutupModalPetugasKBM()" class="bg-slate-800 hover:bg-slate-900 text-white text-xs px-4 py-2 rounded-xl font-semibold transition ml-auto">Tutup</button>
+        <button onclick="tutupModalPetugasKBM()" class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-900 text-white text-xs px-4 py-2 rounded-xl font-semibold transition ml-auto">Tutup</button>
       </div>
     </div>
   </div>
 
   <!-- MODAL POP-UP SUSUNAN PENGURUS TAKMIR -->
   <div id="modal-pengurus" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 shadow-2xl relative border border-slate-200">
-      <div class="flex items-center justify-between border-b pb-3 mb-4">
-        <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2"><i class="fa-solid fa-sitemap text-emerald-600"></i> Susunan Pengurus Takmir Masjid</h3>
+    <div class="bg-white dark:bg-slate-900 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 shadow-2xl relative border border-slate-200 dark:border-slate-800">
+      <div class="flex items-center justify-between border-b dark:border-slate-800 pb-3 mb-4">
+        <h3 class="text-lg font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2"><i class="fa-solid fa-sitemap text-emerald-600 dark:text-emerald-400"></i> Susunan Pengurus Takmir Masjid</h3>
         <div class="flex items-center gap-2">
           <button onclick="editPengurus()" class="admin-only hidden bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold px-2.5 py-1 rounded-lg transition flex items-center gap-1"><i class="fa-solid fa-pen"></i> Edit Pengurus</button>
-          <button onclick="tutupModalPengurus()" class="text-slate-400 hover:text-slate-600 text-xl font-bold">&times;</button>
+          <button onclick="tutupModalPengurus()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-xl font-bold">&times;</button>
         </div>
       </div>
       <div id="wadah-pengurus" class="space-y-4 text-xs"></div>
       <div class="mt-6 text-right">
-        <button onclick="tutupModalPengurus()" class="bg-slate-800 hover:bg-slate-900 text-white text-xs px-4 py-2 rounded-xl font-semibold transition">Tutup Menu</button>
+        <button onclick="tutupModalPengurus()" class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-900 text-white text-xs px-4 py-2 rounded-xl font-semibold transition">Tutup Menu</button>
       </div>
     </div>
   </div>
@@ -478,6 +497,31 @@
       bilal: "Hafiz Wahyu Akmal",
       waBilal: "6285850711594"
     };
+
+    // LOGICAL FITUR DARK MODE
+    function inisialisasiTema() {
+      const temaTersimpan = localStorage.getItem('tema_masjid');
+      if (temaTersimpan === 'dark' || (!temaTersimpan && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+        updateIkonTema(true);
+      } else {
+        document.documentElement.classList.remove('dark');
+        updateIkonTema(false);
+      }
+    }
+
+    function toggleDarkMode() {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('tema_masjid', isDark ? 'dark' : 'light');
+      updateIkonTema(isDark);
+    }
+
+    function updateIkonTema(isDark) {
+      const ikon = document.getElementById('ikon-tema');
+      if (ikon) {
+        ikon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+      }
+    }
 
     async function muatJadwalDariCSV() {
       try {
@@ -607,34 +651,34 @@
       
       const konten = document.getElementById('modal-kbm-konten');
       konten.innerHTML = `
-        <div class="bg-emerald-50/80 p-4 rounded-2xl border border-emerald-100/80 shadow-2xs">
-          <div class="flex items-center gap-2 text-xs font-extrabold text-emerald-800 uppercase mb-2.5 border-b border-emerald-200/80 pb-1.5">
+        <div class="bg-emerald-50/80 dark:bg-slate-800 p-4 rounded-2xl border border-emerald-100/80 dark:border-slate-700 shadow-2xs">
+          <div class="flex items-center gap-2 text-xs font-extrabold text-emerald-800 dark:text-emerald-300 uppercase mb-2.5 border-b border-emerald-200/80 dark:border-slate-700 pb-1.5">
             <span>☀️</span> Sholat Dzuhur
           </div>
           <div class="grid grid-cols-2 gap-2.5 text-xs">
-            <div class="bg-white p-2.5 rounded-xl border border-slate-200">
+            <div class="bg-white dark:bg-slate-900 p-2.5 rounded-xl border border-slate-200 dark:border-slate-700">
               <span class="text-[9px] font-bold text-slate-400 uppercase block mb-0.5">Imam</span>
-              <span class="font-bold text-slate-800 text-xs">${h.dzuhurImam}</span>
+              <span class="font-bold text-slate-800 dark:text-slate-100 text-xs">${h.dzuhurImam}</span>
             </div>
-            <div class="bg-white p-2.5 rounded-xl border border-slate-200">
+            <div class="bg-white dark:bg-slate-900 p-2.5 rounded-xl border border-slate-200 dark:border-slate-700">
               <span class="text-[9px] font-bold text-slate-400 uppercase block mb-0.5">Muadzin</span>
-              <span class="font-bold text-slate-800 text-xs">${h.dzuhurMuadzin}</span>
+              <span class="font-bold text-slate-800 dark:text-slate-100 text-xs">${h.dzuhurMuadzin}</span>
             </div>
           </div>
         </div>
 
-        <div class="bg-teal-50/80 p-4 rounded-2xl border border-teal-100/80 shadow-2xs">
-          <div class="flex items-center gap-2 text-xs font-extrabold text-teal-800 uppercase mb-2.5 border-b border-teal-200/80 pb-1.5">
+        <div class="bg-teal-50/80 dark:bg-slate-800 p-4 rounded-2xl border border-teal-100/80 dark:border-slate-700 shadow-2xs">
+          <div class="flex items-center gap-2 text-xs font-extrabold text-teal-800 dark:text-teal-300 uppercase mb-2.5 border-b border-teal-200/80 dark:border-slate-700 pb-1.5">
             <span>🌤️</span> Sholat Ashar
           </div>
           <div class="grid grid-cols-2 gap-2.5 text-xs">
-            <div class="bg-white p-2.5 rounded-xl border border-slate-200">
+            <div class="bg-white dark:bg-slate-900 p-2.5 rounded-xl border border-slate-200 dark:border-slate-700">
               <span class="text-[9px] font-bold text-slate-400 uppercase block mb-0.5">Imam</span>
-              <span class="font-bold text-slate-800 text-xs">${h.asharImam}</span>
+              <span class="font-bold text-slate-800 dark:text-slate-100 text-xs">${h.asharImam}</span>
             </div>
-            <div class="bg-white p-2.5 rounded-xl border border-slate-200">
+            <div class="bg-white dark:bg-slate-900 p-2.5 rounded-xl border border-slate-200 dark:border-slate-700">
               <span class="text-[9px] font-bold text-slate-400 uppercase block mb-0.5">Muadzin</span>
-              <span class="font-bold text-slate-800 text-xs">${h.asharMuadzin}</span>
+              <span class="font-bold text-slate-800 dark:text-slate-100 text-xs">${h.asharMuadzin}</span>
             </div>
           </div>
         </div>
@@ -719,12 +763,12 @@
       wadah.innerHTML = '';
 
       daftarBerita.forEach((item, index) => {
-        const warnaKategori = item.kategori.toLowerCase() === 'pengumuman' ? 'bg-teal-100 text-teal-800' : 'bg-emerald-100 text-emerald-800';
+        const warnaKategori = item.kategori.toLowerCase() === 'pengumuman' ? 'bg-teal-100 dark:bg-teal-950 text-teal-800 dark:text-teal-300' : 'bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300';
         
         wadah.innerHTML += `
-          <div class="border rounded-2xl bg-slate-50 hover:border-emerald-300 transition flex flex-col justify-between overflow-hidden shadow-sm">
+          <div class="border dark:border-slate-800 rounded-2xl bg-slate-50 dark:bg-slate-800/80 hover:border-emerald-300 transition flex flex-col justify-between overflow-hidden shadow-sm">
             ${item.gambar ? `
-              <div class="w-full h-48 bg-slate-200 overflow-hidden">
+              <div class="w-full h-48 bg-slate-200 dark:bg-slate-700 overflow-hidden">
                 <img src="${item.gambar}" alt="${item.judul}" class="w-full h-full object-cover transition-transform duration-300 hover:scale-105">
               </div>
             ` : ''}
@@ -732,13 +776,13 @@
             <div class="p-5 flex-1 flex flex-col justify-between">
               <div>
                 <span class="text-xs ${warnaKategori} px-2.5 py-1 rounded-md font-bold uppercase tracking-wider">${item.kategori}</span>
-                <h3 class="font-bold text-slate-800 text-base mt-2.5 leading-snug">${item.judul}</h3>
-                <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">${item.deskripsi}</p>
+                <h3 class="font-bold text-slate-800 dark:text-slate-100 text-base mt-2.5 leading-snug">${item.judul}</h3>
+                <p class="text-xs text-slate-600 dark:text-slate-300 mt-1.5 leading-relaxed">${item.deskripsi}</p>
               </div>
 
               ${isAdmin ? `
-                <div class="mt-4 pt-3 border-t border-slate-200 flex justify-end">
-                  <button onclick="hapusBerita(${index})" class="text-xs text-red-600 hover:text-red-800 font-bold flex items-center gap-1">
+                <div class="mt-4 pt-3 border-t border-slate-200 dark:border-slate-700 flex justify-end">
+                  <button onclick="hapusBerita(${index})" class="text-xs text-red-600 dark:text-red-400 hover:underline font-bold flex items-center gap-1">
                     <i class="fa-solid fa-trash"></i> Hapus Berita
                   </button>
                 </div>
@@ -783,12 +827,12 @@
         elemenAdmin.forEach(el => el.classList.remove('hidden'));
         btnAdmin.innerHTML = '<i class="fa-solid fa-lock-open text-amber-300"></i><span class="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 bg-emerald-400 rounded-full border-2 border-white animate-pulse"></span>';
         btnAdmin.title = "Mode Admin Aktif (Klik untuk Keluar)";
-        btnAdmin.className = "fixed bottom-5 right-5 z-50 bg-emerald-900 text-amber-300 w-12 h-12 rounded-full shadow-2xl border-2 border-emerald-400 flex items-center justify-center text-lg hover:scale-110 active:scale-95 transition-all duration-200 cursor-pointer";
+        btnAdmin.className = "bg-emerald-900 text-amber-300 w-12 h-12 rounded-full shadow-2xl border-2 border-emerald-400 flex items-center justify-center text-lg hover:scale-110 active:scale-95 transition-all duration-200 cursor-pointer";
       } else {
         elemenAdmin.forEach(el => el.classList.add('hidden'));
         btnAdmin.innerHTML = '<i class="fa-solid fa-lock"></i>';
         btnAdmin.title = "Mode Admin Takmir";
-        btnAdmin.className = "fixed bottom-5 right-5 z-50 bg-slate-800 text-slate-200 hover:bg-emerald-800 hover:text-amber-300 w-12 h-12 rounded-full shadow-2xl border-2 border-slate-600 hover:border-amber-400 flex items-center justify-center text-lg hover:scale-110 active:scale-95 transition-all duration-200 cursor-pointer";
+        btnAdmin.className = "bg-slate-800 text-slate-200 hover:bg-emerald-800 hover:text-amber-300 w-12 h-12 rounded-full shadow-2xl border-2 border-slate-600 hover:border-amber-400 flex items-center justify-center text-lg hover:scale-110 active:scale-95 transition-all duration-200 cursor-pointer";
       }
       renderJadwalKBM();
       renderJadwalJumat();
@@ -865,13 +909,13 @@
         const linkWABilal = dataHarian.waBilal ? `https://api.whatsapp.com/send?phone=${dataHarian.waBilal}&text=${pesanWABilal}` : '';
 
         wadah.innerHTML += `
-          <div class="border rounded-2xl p-5 bg-slate-50 hover:border-emerald-300 transition">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b pb-3 mb-4 gap-2">
+          <div class="border dark:border-slate-800 rounded-2xl p-5 bg-slate-50 dark:bg-slate-800/80 hover:border-emerald-300 transition">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b dark:border-slate-700 pb-3 mb-4 gap-2">
               <div class="flex items-center gap-2">
                 <span class="bg-emerald-800 text-white font-bold text-xs px-3 py-1 rounded-lg shadow-sm">
                   <i class="fa-solid fa-calendar-day mr-1"></i> Jumat, ${strTanggalLengkap}
                 </span>
-                <span class="bg-emerald-100 text-emerald-800 font-semibold text-xs px-2.5 py-1 rounded-lg">
+                <span class="bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 font-semibold text-xs px-2.5 py-1 rounded-lg">
                   Pasaran ${pasaran}
                 </span>
               </div>
@@ -884,13 +928,13 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <!-- KOTAK IMAM & KHOTIB -->
-              <div class="bg-white p-4 rounded-xl border border-slate-200 flex flex-col justify-between">
+              <div class="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col justify-between">
                 <div>
-                  <span class="text-[11px] font-bold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100 inline-block mb-1">IMAM & KHOTIB</span>
-                  <h4 class="font-bold text-slate-800 text-base">${dataHarian.imamKhotib}</h4>
+                  <span class="text-[11px] font-bold text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-slate-800 px-2 py-0.5 rounded border border-emerald-100 dark:border-slate-700 inline-block mb-1">IMAM & KHOTIB</span>
+                  <h4 class="font-bold text-slate-800 dark:text-slate-100 text-base">${dataHarian.imamKhotib}</h4>
                 </div>
                 ${isAdmin && linkWAImam ? `
-                  <div class="mt-3 pt-2 border-t border-slate-100">
+                  <div class="mt-3 pt-2 border-t border-slate-100 dark:border-slate-800">
                     <a href="${linkWAImam}" target="_blank" class="inline-flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] font-bold px-3 py-1.5 rounded-lg transition shadow-xs">
                       <i class="fa-brands fa-whatsapp text-sm"></i> Kirim Pengingat WA
                     </a>
@@ -899,13 +943,13 @@
               </div>
 
               <!-- KOTAK BILAL / MUADZIN -->
-              <div class="bg-white p-4 rounded-xl border border-slate-200 flex flex-col justify-between">
+              <div class="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col justify-between">
                 <div>
-                  <span class="text-[11px] font-bold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100 inline-block mb-1">BILAL / MUADZIN</span>
-                  <h4 class="font-bold text-slate-800 text-base">${dataHarian.bilal}</h4>
+                  <span class="text-[11px] font-bold text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-slate-800 px-2 py-0.5 rounded border border-emerald-100 dark:border-slate-700 inline-block mb-1">BILAL / MUADZIN</span>
+                  <h4 class="font-bold text-slate-800 dark:text-slate-100 text-base">${dataHarian.bilal}</h4>
                 </div>
                 ${isAdmin && linkWABilal ? `
-                  <div class="mt-3 pt-2 border-t border-slate-100">
+                  <div class="mt-3 pt-2 border-t border-slate-100 dark:border-slate-800">
                     <a href="${linkWABilal}" target="_blank" class="inline-flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] font-bold px-3 py-1.5 rounded-lg transition shadow-xs">
                       <i class="fa-brands fa-whatsapp text-sm"></i> Kirim Pengingat WA
                     </a>
@@ -946,18 +990,18 @@
 
       daftar.forEach((item, index) => {
         wadah.innerHTML += `
-          <div class="p-4 bg-emerald-50/60 rounded-xl border border-emerald-100 flex flex-col justify-between hover:border-emerald-300 transition">
+          <div class="p-4 bg-emerald-50/60 dark:bg-slate-800/80 rounded-xl border border-emerald-100 dark:border-slate-700 flex flex-col justify-between hover:border-emerald-300 transition">
             <div>
               <div class="w-8 h-8 bg-emerald-600 text-white rounded-lg flex items-center justify-center mb-2 font-bold text-sm">
                 <i class="fa-solid ${item.ikon || 'fa-hand-holding-heart'}"></i>
               </div>
-              <h3 class="font-bold text-slate-800 text-sm mb-1">${item.judul}</h3>
-              <p class="text-slate-600">${item.deskripsi}</p>
+              <h3 class="font-bold text-slate-800 dark:text-slate-100 text-sm mb-1">${item.judul}</h3>
+              <p class="text-slate-600 dark:text-slate-300">${item.deskripsi}</p>
             </div>
             ${isAdmin ? `
-              <div class="mt-3 pt-2 border-t border-emerald-200/60 flex justify-between items-center text-[11px]">
-                <button onclick="editLayanan(${index})" class="text-amber-600 font-bold hover:underline"><i class="fa-solid fa-pen"></i> Edit</button>
-                <button onclick="hapusLayanan(${index})" class="text-red-600 font-bold hover:underline"><i class="fa-solid fa-trash"></i> Hapus</button>
+              <div class="mt-3 pt-2 border-t border-emerald-200/60 dark:border-slate-700 flex justify-between items-center text-[11px]">
+                <button onclick="editLayanan(${index})" class="text-amber-600 dark:text-amber-400 font-bold hover:underline"><i class="fa-solid fa-pen"></i> Edit</button>
+                <button onclick="hapusLayanan(${index})" class="text-red-600 dark:text-red-400 font-bold hover:underline"><i class="fa-solid fa-trash"></i> Hapus</button>
               </div>
             ` : ''}
           </div>
@@ -1081,16 +1125,16 @@
 
       daftar.forEach((item, index) => {
         wadah.innerHTML += `
-          <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 flex flex-col justify-between hover:border-emerald-300 transition">
+          <div class="p-4 bg-slate-50 dark:bg-slate-800/80 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col justify-between hover:border-emerald-300 transition">
             <div>
-              <span class="font-bold text-emerald-800 block mb-1 text-sm">${item.judul}</span>
-              <p class="font-serif text-sm text-right mb-2 leading-relaxed text-slate-800">${item.arab}</p>
-              <p class="text-slate-600 italic">"${item.arti}"</p>
+              <span class="font-bold text-emerald-800 dark:text-emerald-300 block mb-1 text-sm">${item.judul}</span>
+              <p class="font-serif text-sm text-right mb-2 leading-relaxed text-slate-800 dark:text-slate-100">${item.arab}</p>
+              <p class="text-slate-600 dark:text-slate-300 italic">"${item.arti}"</p>
             </div>
             ${isAdmin ? `
-              <div class="mt-3 pt-2 border-t border-slate-200 flex justify-end gap-3 text-[11px]">
-                <button onclick="editDoa(${index})" class="text-amber-600 font-bold hover:underline"><i class="fa-solid fa-pen"></i> Edit</button>
-                <button onclick="hapusDoa(${index})" class="text-red-600 font-bold hover:underline"><i class="fa-solid fa-trash"></i> Hapus</button>
+              <div class="mt-3 pt-2 border-t border-slate-200 dark:border-slate-700 flex justify-end gap-3 text-[11px]">
+                <button onclick="editDoa(${index})" class="text-amber-600 dark:text-amber-400 font-bold hover:underline"><i class="fa-solid fa-pen"></i> Edit</button>
+                <button onclick="hapusDoa(${index})" class="text-red-600 dark:text-red-400 font-bold hover:underline"><i class="fa-solid fa-trash"></i> Hapus</button>
               </div>
             ` : ''}
           </div>
@@ -1140,37 +1184,37 @@
       if (!wadah) return;
 
       wadah.innerHTML = `
-        <div class="bg-emerald-50 p-3 rounded-xl border border-emerald-100 text-center">
-          <span class="text-[10px] font-bold text-emerald-700 uppercase block">Pelindung / Penasihat</span>
-          <h4 class="font-bold text-slate-800 text-sm">${p.pelindung}</h4>
+        <div class="bg-emerald-50 dark:bg-slate-800 p-3 rounded-xl border border-emerald-100 dark:border-slate-700 text-center">
+          <span class="text-[10px] font-bold text-emerald-700 dark:text-emerald-400 uppercase block">Pelindung / Penasihat</span>
+          <h4 class="font-bold text-slate-800 dark:text-slate-100 text-sm">${p.pelindung}</h4>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
-            <span class="text-[10px] font-bold text-emerald-700 uppercase block">Ketua Takmir</span>
-            <h4 class="font-bold text-slate-800 text-sm">${p.ketua}</h4>
+          <div class="bg-slate-50 dark:bg-slate-800/80 p-3 rounded-xl border border-slate-200 dark:border-slate-700">
+            <span class="text-[10px] font-bold text-emerald-700 dark:text-emerald-400 uppercase block">Ketua Takmir</span>
+            <h4 class="font-bold text-slate-800 dark:text-slate-100 text-sm">${p.ketua}</h4>
           </div>
-          <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
-            <span class="text-[10px] font-bold text-emerald-700 uppercase block">Wakil Ketua Takmir</span>
-            <h4 class="font-bold text-slate-800 text-sm">${p.wakil}</h4>
+          <div class="bg-slate-50 dark:bg-slate-800/80 p-3 rounded-xl border border-slate-200 dark:border-slate-700">
+            <span class="text-[10px] font-bold text-emerald-700 dark:text-emerald-400 uppercase block">Wakil Ketua Takmir</span>
+            <h4 class="font-bold text-slate-800 dark:text-slate-100 text-sm">${p.wakil}</h4>
           </div>
-          <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
-            <span class="text-[10px] font-bold text-emerald-700 uppercase block">Sekretaris Takmir</span>
-            <h4 class="font-bold text-slate-800 text-sm">${p.sekretaris}</h4>
+          <div class="bg-slate-50 dark:bg-slate-800/80 p-3 rounded-xl border border-slate-200 dark:border-slate-700">
+            <span class="text-[10px] font-bold text-emerald-700 dark:text-emerald-400 uppercase block">Sekretaris Takmir</span>
+            <h4 class="font-bold text-slate-800 dark:text-slate-100 text-sm">${p.sekretaris}</h4>
           </div>
-          <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
-            <span class="text-[10px] font-bold text-emerald-700 uppercase block">Bendahara Takmir</span>
-            <h4 class="font-bold text-slate-800 text-sm">${p.bendahara}</h4>
+          <div class="bg-slate-50 dark:bg-slate-800/80 p-3 rounded-xl border border-slate-200 dark:border-slate-700">
+            <span class="text-[10px] font-bold text-emerald-700 dark:text-emerald-400 uppercase block">Bendahara Takmir</span>
+            <h4 class="font-bold text-slate-800 dark:text-slate-100 text-sm">${p.bendahara}</h4>
           </div>
         </div>
 
-        <div class="border-t pt-3">
-          <h4 class="font-bold text-slate-800 text-xs mb-2">Divisi-Divisi Operasional:</h4>
-          <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-slate-600">
-            <li class="bg-slate-100 p-2 rounded-lg">${p.divisi1}</li>
-            <li class="bg-slate-100 p-2 rounded-lg">${p.divisi2}</li>
-            <li class="bg-slate-100 p-2 rounded-lg">${p.divisi3}</li>
-            <li class="bg-slate-100 p-2 rounded-lg">${p.divisi4}</li>
+        <div class="border-t dark:border-slate-800 pt-3">
+          <h4 class="font-bold text-slate-800 dark:text-slate-100 text-xs mb-2">Divisi-Divisi Operasional:</h4>
+          <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-slate-600 dark:text-slate-300">
+            <li class="bg-slate-100 dark:bg-slate-800 p-2 rounded-lg">${p.divisi1}</li>
+            <li class="bg-slate-100 dark:bg-slate-800 p-2 rounded-lg">${p.divisi2}</li>
+            <li class="bg-slate-100 dark:bg-slate-800 p-2 rounded-lg">${p.divisi3}</li>
+            <li class="bg-slate-100 dark:bg-slate-800 p-2 rounded-lg">${p.divisi4}</li>
           </ul>
         </div>
       `;
@@ -1245,6 +1289,7 @@
     }
 
     async function inisialisasi() {
+      inisialisasiTema();
       await muatJadwalDariCSV();
       isiOpsiBulan();
       renderJadwalKBM();
