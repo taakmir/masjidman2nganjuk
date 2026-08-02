@@ -178,19 +178,19 @@
         </div>
       </div>
 
-      <!-- PETUGAS SHOLAT KBM (DESAIN HORIZONTAL LEGA SENIN - JUMAT) -->
+      <!-- PETUGAS SHOLAT KBM (DESAIN TOMBOL KARTU MINI POP-UP SENIN - JUMAT) -->
       <div class="pt-5 border-t border-slate-200">
         <div class="flex items-center justify-between mb-4">
           <div>
             <h3 class="text-base font-bold text-slate-800 flex items-center gap-2">
               <i class="fa-solid fa-graduation-cap text-emerald-600"></i> Jadwal Petugas Sholat KBM (Senin - Jumat)
             </h3>
-            <p class="text-xs text-slate-500">Keterangan Petugas Imam & Muadzin Khusus Sholat Dzuhur dan Ashar</p>
+            <p class="text-xs text-slate-500">Klik hari di bawah untuk melihat rincian Imam & Muadzin (Dzuhur & Ashar)</p>
           </div>
         </div>
 
-        <!-- WADAH BARIS HORIZONTAL HARI SENIN - JUMAT -->
-        <div id="wadah-petugas-kbm" class="space-y-3">
+        <!-- GRID 5 TOMBOL HARI ELEGAN -->
+        <div id="wadah-petugas-kbm" class="grid grid-cols-2 sm:grid-cols-5 gap-3">
           <!-- Dimuat otomatis via JS -->
         </div>
       </div>
@@ -376,6 +376,33 @@
 
   </main>
 
+  <!-- MODAL POP-UP RINCIAN PETUGAS SHOLAT KBM (SENIN - JUMAT) -->
+  <div id="modal-petugas-kbm" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative border border-slate-200">
+      <div class="flex items-center justify-between border-b pb-3 mb-4">
+        <h3 id="modal-kbm-judul" class="text-lg font-bold text-emerald-900 flex items-center gap-2">
+          <i class="fa-solid fa-calendar-day text-emerald-600"></i> Petugas Sholat
+        </h3>
+        <button onclick="tutupModalPetugasKBM()" class="text-slate-400 hover:text-slate-600 text-xl font-bold">
+          &times;
+        </button>
+      </div>
+
+      <!-- KONTEN POP-UP DZUHUR & ASHAR -->
+      <div id="modal-kbm-konten" class="space-y-4"></div>
+
+      <!-- FOOTER POP-UP -->
+      <div class="mt-6 flex items-center justify-between pt-2 border-t border-slate-100">
+        <button id="modal-kbm-btn-edit" onclick="" class="admin-only hidden bg-amber-400 hover:bg-amber-500 text-slate-900 text-xs font-bold px-3 py-2 rounded-xl transition flex items-center gap-1.5 shadow-sm">
+          <i class="fa-solid fa-pen"></i> Edit Hari Ini
+        </button>
+        <button onclick="tutupModalPetugasKBM()" class="bg-slate-800 hover:bg-slate-900 text-white text-xs px-4 py-2 rounded-xl font-semibold transition ml-auto">
+          Tutup
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- MODAL POP-UP SUSUNAN PENGURUS TAKMIR -->
   <div id="modal-pengurus" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 shadow-2xl relative border border-slate-200">
@@ -416,7 +443,7 @@
 
     // Default Data KBM (Senin - Jumat khusus Dzuhur & Ashar)
     const kbmDefault = {
-      Senin: { dzuhurImam: "Ustadz Bryan Azzam", dzuhurMuadzin: "Petugas Kelas X", asharImam: "Ustadz Bryan Azzam", asharMuadzin: "Petugas Kelas X" },
+      Senin: { dzuhurImam: "Ustadz M Arief Mahardika, S.Pd", dzuhurMuadzin: "Ahmad Sulthonu Auliya", asharImam: "Ustadz Maryono, S.Pd", asharMuadzin: "Za'im Syihabbudin (XI-A)" },
       Selasa: { dzuhurImam: "Ustadz Bryan Azzam", dzuhurMuadzin: "Petugas Kelas XI", asharImam: "Ustadz Bryan Azzam", asharMuadzin: "Petugas Kelas XI" },
       Rabu: { dzuhurImam: "Ustadz Ahmad Fauzi", dzuhurMuadzin: "Petugas Kelas XII", asharImam: "Ustadz Ahmad Fauzi", asharMuadzin: "Petugas Kelas XII" },
       Kamis: { dzuhurImam: "Ustadz Ahmad Fauzi", dzuhurMuadzin: "Petugas Kelas X", asharImam: "Ustadz Ahmad Fauzi", asharMuadzin: "Petugas Kelas X" },
@@ -564,7 +591,7 @@
 
     setInterval(updateLiveJamAndCountdown, 1000);
 
-    // 3. LOGIC PETUGAS KBM (DESAIN HORIZONTAL KESAMPING)
+    // 3. LOGIC PETUGAS KBM (MODAL POP-UP RINGKAS)
     function ambilDataKBM() {
       const simpanan = localStorage.getItem('jadwal_kbm_masjid');
       return simpanan ? JSON.parse(simpanan) : kbmDefault;
@@ -579,66 +606,71 @@
       const daftarHari = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'];
 
       daftarHari.forEach(hari => {
-        const h = data[hari] || kbmDefault[hari];
         wadah.innerHTML += `
-          <div class="bg-slate-50/80 p-3.5 rounded-2xl border border-emerald-100 shadow-sm hover:border-emerald-300 transition flex flex-col md:flex-row items-stretch gap-3">
-            
-            <!-- BADGE HARI (Kiri) -->
-            <div class="w-full md:w-36 bg-gradient-to-br from-emerald-800 to-teal-900 text-white p-3 rounded-xl flex md:flex-col items-center justify-between md:justify-center gap-2 shadow-sm shrink-0">
-              <span class="font-extrabold uppercase text-sm md:text-base tracking-wider">${hari}</span>
-              ${isAdmin ? `
-                <button onclick="editPetugasKBM('${hari}')" class="text-[10px] bg-amber-400 hover:bg-amber-500 text-slate-900 font-bold px-2.5 py-1 rounded-lg transition shadow">
-                  ✏️ Edit
-                </button>
-              ` : ''}
-            </div>
-
-            <!-- DETAIL DZUHUR & ASHAR (Kanan - Horizontal Grid / Kesamping) -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-3 flex-1 items-stretch">
-              
-              <!-- KOTAK DZUHUR -->
-              <div class="bg-white p-3 rounded-xl border border-slate-200/80 flex flex-col justify-center shadow-2xs">
-                <div class="flex items-center justify-between border-b border-emerald-100 pb-1.5 mb-2">
-                  <span class="text-xs font-extrabold text-emerald-800 uppercase flex items-center gap-1.5">
-                    <span>☀️</span> Sholat Dzuhur
-                  </span>
-                </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-                  <div class="bg-emerald-50/60 p-2 rounded-lg border border-emerald-100/80">
-                    <span class="text-[9px] font-bold text-slate-400 uppercase block">Imam:</span>
-                    <span class="font-bold text-slate-800">${h.dzuhurImam}</span>
-                  </div>
-                  <div class="bg-emerald-50/60 p-2 rounded-lg border border-emerald-100/80">
-                    <span class="text-[9px] font-bold text-slate-400 uppercase block">Muadzin:</span>
-                    <span class="font-bold text-slate-800">${h.dzuhurMuadzin}</span>
-                  </div>
-                </div>
-              </div>
-
-              <!-- KOTAK ASHAR -->
-              <div class="bg-white p-3 rounded-xl border border-slate-200/80 flex flex-col justify-center shadow-2xs">
-                <div class="flex items-center justify-between border-b border-teal-100 pb-1.5 mb-2">
-                  <span class="text-xs font-extrabold text-teal-800 uppercase flex items-center gap-1.5">
-                    <span>🌤️</span> Sholat Ashar
-                  </span>
-                </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-                  <div class="bg-teal-50/60 p-2 rounded-lg border border-teal-100/80">
-                    <span class="text-[9px] font-bold text-slate-400 uppercase block">Imam:</span>
-                    <span class="font-bold text-slate-800">${h.asharImam}</span>
-                  </div>
-                  <div class="bg-teal-50/60 p-2 rounded-lg border border-teal-100/80">
-                    <span class="text-[9px] font-bold text-slate-400 uppercase block">Muadzin:</span>
-                    <span class="font-bold text-slate-800">${h.asharMuadzin}</span>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-
-          </div>
+          <button onclick="bukaModalPetugasKBM('${hari}')" 
+                  class="group bg-gradient-to-br from-emerald-800 to-teal-900 text-white p-4 rounded-2xl border border-emerald-700/60 shadow-md hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-200 flex flex-col items-center justify-center text-center relative overflow-hidden">
+            <div class="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+            <span class="text-[10px] font-extrabold text-emerald-200 uppercase tracking-widest mb-1">Jadwal</span>
+            <span class="text-lg font-black tracking-wide uppercase">${hari}</span>
+            <span class="text-[10px] text-amber-300 font-semibold mt-2 bg-emerald-950/60 px-2.5 py-0.5 rounded-full border border-amber-400/30 group-hover:bg-amber-400 group-hover:text-emerald-950 transition-colors flex items-center gap-1">
+              <i class="fa-solid fa-eye text-[9px]"></i> Lihat Detail
+            </span>
+          </button>
         `;
       });
+    }
+
+    function bukaModalPetugasKBM(hari) {
+      const data = ambilDataKBM();
+      const h = data[hari] || kbmDefault[hari];
+
+      document.getElementById('modal-kbm-judul').innerHTML = `<i class="fa-solid fa-calendar-day text-emerald-600"></i> Petugas Sholat Hari ${hari}`;
+      
+      const konten = document.getElementById('modal-kbm-konten');
+      konten.innerHTML = `
+        <!-- DZUHUR -->
+        <div class="bg-emerald-50/80 p-4 rounded-2xl border border-emerald-100/80 shadow-2xs">
+          <div class="flex items-center gap-2 text-xs font-extrabold text-emerald-800 uppercase mb-2.5 border-b border-emerald-200/80 pb-1.5">
+            <span>☀️</span> Sholat Dzuhur
+          </div>
+          <div class="grid grid-cols-2 gap-2.5 text-xs">
+            <div class="bg-white p-2.5 rounded-xl border border-slate-200">
+              <span class="text-[9px] font-bold text-slate-400 uppercase block mb-0.5">Imam</span>
+              <span class="font-bold text-slate-800 text-xs">${h.dzuhurImam}</span>
+            </div>
+            <div class="bg-white p-2.5 rounded-xl border border-slate-200">
+              <span class="text-[9px] font-bold text-slate-400 uppercase block mb-0.5">Muadzin</span>
+              <span class="font-bold text-slate-800 text-xs">${h.dzuhurMuadzin}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ASHAR -->
+        <div class="bg-teal-50/80 p-4 rounded-2xl border border-teal-100/80 shadow-2xs">
+          <div class="flex items-center gap-2 text-xs font-extrabold text-teal-800 uppercase mb-2.5 border-b border-teal-200/80 pb-1.5">
+            <span>🌤️</span> Sholat Ashar
+          </div>
+          <div class="grid grid-cols-2 gap-2.5 text-xs">
+            <div class="bg-white p-2.5 rounded-xl border border-slate-200">
+              <span class="text-[9px] font-bold text-slate-400 uppercase block mb-0.5">Imam</span>
+              <span class="font-bold text-slate-800 text-xs">${h.asharImam}</span>
+            </div>
+            <div class="bg-white p-2.5 rounded-xl border border-slate-200">
+              <span class="text-[9px] font-bold text-slate-400 uppercase block mb-0.5">Muadzin</span>
+              <span class="font-bold text-slate-800 text-xs">${h.asharMuadzin}</span>
+            </div>
+          </div>
+        </div>
+      `;
+
+      const btnEdit = document.getElementById('modal-kbm-btn-edit');
+      btnEdit.setAttribute('onclick', `editPetugasKBM('${hari}')`);
+
+      document.getElementById('modal-petugas-kbm').classList.remove('hidden');
+    }
+
+    function tutupModalPetugasKBM() {
+      document.getElementById('modal-petugas-kbm').classList.add('hidden');
     }
 
     function editPetugasKBM(hari) {
@@ -652,7 +684,7 @@
 
       data[hari] = { dzuhurImam, dzuhurMuadzin, asharImam, asharMuadzin };
       localStorage.setItem('jadwal_kbm_masjid', JSON.stringify(data));
-      renderJadwalKBM();
+      bukaModalPetugasKBM(hari);
       alert(`Petugas Sholat KBM hari ${hari} berhasil disimpan!`);
     }
 
