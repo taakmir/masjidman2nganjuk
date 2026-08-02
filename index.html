@@ -62,7 +62,6 @@
 
         <!-- LOGO TRANSPARAN DENGAN EFEK CAHAYA PUTIH GRADASI SAMAR DI BELAKANG -->
         <div class="relative my-4 inline-block">
-          <!-- Glow Cahaya Putih Melingkar Bergradasi -->
           <div class="absolute inset-0 bg-[radial-gradient(circle,_rgba(255,255,255,0.4)_0%,_transparent_70%)] rounded-full blur-xl scale-150 pointer-events-none"></div>
           
           <img src="logo-masjid.png" 
@@ -179,7 +178,7 @@
         </div>
       </div>
 
-      <!-- PETUGAS SHOLAT KBM (KHUSUS SENIN - JUMAT / DZUHUR & ASHAR ONLY) -->
+      <!-- PETUGAS SHOLAT KBM (DESAIN HORIZONTAL LEGA SENIN - JUMAT) -->
       <div class="pt-5 border-t border-slate-200">
         <div class="flex items-center justify-between mb-4">
           <div>
@@ -190,8 +189,8 @@
           </div>
         </div>
 
-        <!-- WADAH CARD HARI SENIN - JUMAT -->
-        <div id="wadah-petugas-kbm" class="grid grid-cols-1 sm:grid-cols-5 gap-3">
+        <!-- WADAH BARIS HORIZONTAL HARI SENIN - JUMAT -->
+        <div id="wadah-petugas-kbm" class="space-y-3">
           <!-- Dimuat otomatis via JS -->
         </div>
       </div>
@@ -565,7 +564,7 @@
 
     setInterval(updateLiveJamAndCountdown, 1000);
 
-    // 3. LOGIC PETUGAS KBM (SENIN - JUMAT / DZUHUR & ASHAR ONLY)
+    // 3. LOGIC PETUGAS KBM (DESAIN HORIZONTAL KESAMPING)
     function ambilDataKBM() {
       const simpanan = localStorage.getItem('jadwal_kbm_masjid');
       return simpanan ? JSON.parse(simpanan) : kbmDefault;
@@ -582,49 +581,61 @@
       daftarHari.forEach(hari => {
         const h = data[hari] || kbmDefault[hari];
         wadah.innerHTML += `
-          <div class="bg-gradient-to-b from-emerald-50 to-slate-50 p-3.5 rounded-2xl border border-emerald-100 flex flex-col justify-between shadow-sm hover:border-emerald-400 hover:shadow-md transition">
-            <div>
-              <!-- HEADER NAMA HARI -->
-              <div class="flex items-center justify-between bg-emerald-800 text-white px-3 py-1.5 rounded-xl mb-3 shadow-sm">
-                <span class="font-extrabold uppercase text-xs tracking-wider">${hari}</span>
-                ${isAdmin ? `
-                  <button onclick="editPetugasKBM('${hari}')" class="text-[10px] bg-amber-400 hover:bg-amber-500 text-slate-900 font-bold px-2 py-0.5 rounded transition shadow-sm">
-                    ✏️ Edit
-                  </button>
-                ` : ''}
-              </div>
+          <div class="bg-slate-50/80 p-3.5 rounded-2xl border border-emerald-100 shadow-sm hover:border-emerald-300 transition flex flex-col md:flex-row items-stretch gap-3">
+            
+            <!-- BADGE HARI (Kiri) -->
+            <div class="w-full md:w-36 bg-gradient-to-br from-emerald-800 to-teal-900 text-white p-3 rounded-xl flex md:flex-col items-center justify-between md:justify-center gap-2 shadow-sm shrink-0">
+              <span class="font-extrabold uppercase text-sm md:text-base tracking-wider">${hari}</span>
+              ${isAdmin ? `
+                <button onclick="editPetugasKBM('${hari}')" class="text-[10px] bg-amber-400 hover:bg-amber-500 text-slate-900 font-bold px-2.5 py-1 rounded-lg transition shadow">
+                  ✏️ Edit
+                </button>
+              ` : ''}
+            </div>
+
+            <!-- DETAIL DZUHUR & ASHAR (Kanan - Horizontal Grid / Kesamping) -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-3 flex-1 items-stretch">
               
-              <!-- SHOLAT DZUHUR -->
-              <div class="bg-white p-2.5 rounded-xl border border-slate-200 mb-2.5 shadow-2xs">
-                <span class="text-[10px] font-extrabold text-emerald-800 uppercase block border-b border-emerald-100 pb-1 mb-1.5 flex items-center justify-between">
-                  <span>☀️ Dzuhur</span>
-                </span>
-                <p class="text-[11px] text-slate-700 leading-tight mb-1">
-                  <span class="text-[9px] font-bold text-slate-400 uppercase block">Imam:</span>
-                  <span class="font-semibold text-slate-800">${h.dzuhurImam}</span>
-                </p>
-                <p class="text-[11px] text-slate-700 leading-tight">
-                  <span class="text-[9px] font-bold text-slate-400 uppercase block">Muadzin:</span>
-                  <span class="font-semibold text-slate-800">${h.dzuhurMuadzin}</span>
-                </p>
+              <!-- KOTAK DZUHUR -->
+              <div class="bg-white p-3 rounded-xl border border-slate-200/80 flex flex-col justify-center shadow-2xs">
+                <div class="flex items-center justify-between border-b border-emerald-100 pb-1.5 mb-2">
+                  <span class="text-xs font-extrabold text-emerald-800 uppercase flex items-center gap-1.5">
+                    <span>☀️</span> Sholat Dzuhur
+                  </span>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                  <div class="bg-emerald-50/60 p-2 rounded-lg border border-emerald-100/80">
+                    <span class="text-[9px] font-bold text-slate-400 uppercase block">Imam:</span>
+                    <span class="font-bold text-slate-800">${h.dzuhurImam}</span>
+                  </div>
+                  <div class="bg-emerald-50/60 p-2 rounded-lg border border-emerald-100/80">
+                    <span class="text-[9px] font-bold text-slate-400 uppercase block">Muadzin:</span>
+                    <span class="font-bold text-slate-800">${h.dzuhurMuadzin}</span>
+                  </div>
+                </div>
               </div>
 
-              <!-- SHOLAT ASHAR -->
-              <div class="bg-white p-2.5 rounded-xl border border-slate-200 shadow-2xs">
-                <span class="text-[10px] font-extrabold text-teal-800 uppercase block border-b border-teal-100 pb-1 mb-1.5 flex items-center justify-between">
-                  <span>🌤️ Ashar</span>
-                </span>
-                <p class="text-[11px] text-slate-700 leading-tight mb-1">
-                  <span class="text-[9px] font-bold text-slate-400 uppercase block">Imam:</span>
-                  <span class="font-semibold text-slate-800">${h.asharImam}</span>
-                </p>
-                <p class="text-[11px] text-slate-700 leading-tight">
-                  <span class="text-[9px] font-bold text-slate-400 uppercase block">Muadzin:</span>
-                  <span class="font-semibold text-slate-800">${h.asharMuadzin}</span>
-                </p>
+              <!-- KOTAK ASHAR -->
+              <div class="bg-white p-3 rounded-xl border border-slate-200/80 flex flex-col justify-center shadow-2xs">
+                <div class="flex items-center justify-between border-b border-teal-100 pb-1.5 mb-2">
+                  <span class="text-xs font-extrabold text-teal-800 uppercase flex items-center gap-1.5">
+                    <span>🌤️</span> Sholat Ashar
+                  </span>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                  <div class="bg-teal-50/60 p-2 rounded-lg border border-teal-100/80">
+                    <span class="text-[9px] font-bold text-slate-400 uppercase block">Imam:</span>
+                    <span class="font-bold text-slate-800">${h.asharImam}</span>
+                  </div>
+                  <div class="bg-teal-50/60 p-2 rounded-lg border border-teal-100/80">
+                    <span class="text-[9px] font-bold text-slate-400 uppercase block">Muadzin:</span>
+                    <span class="font-bold text-slate-800">${h.asharMuadzin}</span>
+                  </div>
+                </div>
               </div>
 
             </div>
+
           </div>
         `;
       });
