@@ -289,19 +289,19 @@
       <div id="wadah-doa" class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs"></div>
     </section>
 
-    <!-- 5. JADWAL PETUGAS JUMAT -->
+    <!-- 5. JADWAL PETUGAS JUMAT (DESAIN RINGKAS & ELEGAN) -->
     <section id="seksi-jumat" class="bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-xl border border-slate-100 dark:border-slate-800 scroll-mt-20 transition-colors">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 border-b border-slate-100 dark:border-slate-800 pb-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5 border-b border-slate-100 dark:border-slate-800 pb-3">
         <div>
           <h2 class="text-lg font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
             <i class="fa-solid fa-users text-emerald-600 dark:text-emerald-400"></i> Jadwal Petugas Sholat Jumat
           </h2>
         </div>
         <div>
-          <select id="pilih-bulan" onchange="renderJadwalJumat()" class="bg-emerald-50 dark:bg-slate-800 text-emerald-900 dark:text-emerald-300 border border-emerald-200 dark:border-slate-700 text-xs font-semibold px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"></select>
+          <select id="pilih-bulan" onchange="renderJadwalJumat()" class="bg-emerald-50 dark:bg-slate-800 text-emerald-900 dark:text-emerald-300 border border-emerald-200 dark:border-slate-700 text-xs font-semibold px-3 py-1.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"></select>
         </div>
       </div>
-      <div id="wadah-jumat-bulan" class="space-y-4"></div>
+      <div id="wadah-jumat-bulan" class="space-y-3"></div>
     </section>
 
     <!-- 6. LAYANAN KEAGAMAAN -->
@@ -653,7 +653,6 @@
       `;
 
       if (mode === 'mushaf') {
-        // TAMPILAN MUSHAF SATU WAJAH (TEKS MENYAMBUNG)
         html += `
           <div class="p-5 sm:p-7 bg-amber-50/50 dark:bg-slate-800/90 rounded-2xl border-2 border-amber-200/80 dark:border-slate-700 shadow-inner text-right leading-[2.8] sm:leading-[3.2] font-quran ${ukuran} text-slate-900 dark:text-slate-100 selection:bg-emerald-200">
             <div class="text-center font-quran text-2xl sm:text-3xl mb-6 text-emerald-800 dark:text-emerald-400">﷽</div>
@@ -664,7 +663,6 @@
         });
         html += `</div>`;
       } else {
-        // TAMPILAN LIST (LENGKAP, HANYA ARAB, ATAU ARAB & ARTI)
         html += `<div class="space-y-4">`;
         surah.ayat.forEach(a => {
           html += `
@@ -678,13 +676,8 @@
                 ` : ''}
               </div>
 
-              <!-- TEKS ARAB SANGAT JELAS -->
               <p class="font-quran text-right ${ukuran} leading-[2.3] font-bold text-slate-900 dark:text-slate-100 select-all">${a.teksArab}</p>
-
-              <!-- TEKS LATIN -->
               ${mode === 'lengkap' ? `<p class="text-xs text-emerald-800 dark:text-emerald-300 italic">${a.teksLatin}</p>` : ''}
-
-              <!-- TERJEMAHAN BAHASA INDONESIA -->
               ${(mode === 'lengkap' || mode === 'arab_arti') ? `<p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed border-t dark:border-slate-700/50 pt-2">"${a.teksIndonesia}"</p>` : ''}
             </div>
           `;
@@ -1072,6 +1065,7 @@
       return simpanan ? JSON.parse(simpanan) : {};
     }
 
+    /* RENDER JADWAL JUMAT DESAIN RINGKAS & ELEGAN */
     function renderJadwalJumat() {
       const valBulan = document.getElementById('pilih-bulan').value;
       if (!valBulan) return;
@@ -1106,49 +1100,49 @@
         const linkWABilal = dataHarian.waBilal ? `https://api.whatsapp.com/send?phone=${dataHarian.waBilal}&text=${pesanWABilal}` : '';
 
         wadah.innerHTML += `
-          <div class="border dark:border-slate-800 rounded-2xl p-5 bg-slate-50 dark:bg-slate-800/80 hover:border-emerald-300 transition">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b dark:border-slate-700 pb-3 mb-4 gap-2">
+          <div class="border dark:border-slate-800 rounded-xl p-3 bg-slate-50 dark:bg-slate-800/80 hover:border-emerald-300 transition shadow-xs">
+            <!-- TANGGAL & BADGE PASARAN -->
+            <div class="flex items-center justify-between border-b dark:border-slate-700 pb-2 mb-2.5 gap-2">
               <div class="flex items-center gap-2">
-                <span class="bg-emerald-800 text-white font-bold text-xs px-3 py-1 rounded-lg shadow-sm">
+                <span class="bg-emerald-800 text-white font-bold text-[11px] px-2.5 py-0.5 rounded-md shadow-xs">
                   <i class="fa-solid fa-calendar-day mr-1"></i> Jumat, ${strTanggalLengkap}
                 </span>
-                <span class="bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 font-semibold text-xs px-2.5 py-1 rounded-lg">
+                <span class="bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 font-semibold text-[10px] px-2 py-0.5 rounded-md">
                   Pasaran ${pasaran}
                 </span>
               </div>
               ${isAdmin ? `
-                <button onclick="editPetugasJumat('${keyTanggal}', '${strTanggalLengkap}')" class="text-xs bg-amber-500 hover:bg-amber-600 text-white font-semibold px-3 py-1 rounded-lg transition shadow">
-                  <i class="fa-solid fa-pen-to-square"></i> Edit Petugas Jumat Ini
+                <button onclick="editPetugasJumat('${keyTanggal}', '${strTanggalLengkap}')" class="text-[11px] bg-amber-500 hover:bg-amber-600 text-white font-semibold px-2 py-0.5 rounded-md transition shadow-xs">
+                  <i class="fa-solid fa-pen-to-square"></i> Edit
                 </button>
               ` : ''}
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div class="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col justify-between">
+            <!-- KOTAK PETUGAS IMAM & BILAL (SEJAJAR BERSAMA TOMBOL WA) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              <!-- IMAM & KHOTIB -->
+              <div class="bg-white dark:bg-slate-900 px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 flex items-center justify-between">
                 <div>
-                  <span class="text-[11px] font-bold text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-slate-800 px-2 py-0.5 rounded border border-emerald-100 dark:border-slate-700 inline-block mb-1">IMAM & KHOTIB</span>
-                  <h4 class="font-bold text-slate-800 dark:text-slate-100 text-base">${dataHarian.imamKhotib}</h4>
+                  <span class="text-[9px] font-bold text-emerald-700 dark:text-emerald-400 uppercase block">IMAM & KHOTIB</span>
+                  <h4 class="font-bold text-slate-800 dark:text-slate-100 text-xs sm:text-sm">${dataHarian.imamKhotib}</h4>
                 </div>
                 ${isAdmin && linkWAImam ? `
-                  <div class="mt-3 pt-2 border-t border-slate-100 dark:border-slate-800">
-                    <a href="${linkWAImam}" target="_blank" class="inline-flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] font-bold px-3 py-1.5 rounded-lg transition shadow-xs">
-                      <i class="fa-brands fa-whatsapp text-sm"></i> Kirim Pengingat WA
-                    </a>
-                  </div>
+                  <a href="${linkWAImam}" target="_blank" title="Kirim WA Pengingat" class="bg-emerald-600 hover:bg-emerald-700 text-white text-[10px] font-bold px-2 py-1 rounded-md transition flex items-center gap-1 shrink-0 ml-2 shadow-xs">
+                    <i class="fa-brands fa-whatsapp text-xs"></i> <span class="hidden sm:inline">Pengingat WA</span>
+                  </a>
                 ` : ''}
               </div>
 
-              <div class="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col justify-between">
+              <!-- BILAL / MUADZIN -->
+              <div class="bg-white dark:bg-slate-900 px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 flex items-center justify-between">
                 <div>
-                  <span class="text-[11px] font-bold text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-slate-800 px-2 py-0.5 rounded border border-emerald-100 dark:border-slate-700 inline-block mb-1">BILAL / MUADZIN</span>
-                  <h4 class="font-bold text-slate-800 dark:text-slate-100 text-base">${dataHarian.bilal}</h4>
+                  <span class="text-[9px] font-bold text-emerald-700 dark:text-emerald-400 uppercase block">BILAL / MUADZIN</span>
+                  <h4 class="font-bold text-slate-800 dark:text-slate-100 text-xs sm:text-sm">${dataHarian.bilal}</h4>
                 </div>
                 ${isAdmin && linkWABilal ? `
-                  <div class="mt-3 pt-2 border-t border-slate-100 dark:border-slate-800">
-                    <a href="${linkWABilal}" target="_blank" class="inline-flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] font-bold px-3 py-1.5 rounded-lg transition shadow-xs">
-                      <i class="fa-brands fa-whatsapp text-sm"></i> Kirim Pengingat WA
-                    </a>
-                  </div>
+                  <a href="${linkWABilal}" target="_blank" title="Kirim WA Pengingat" class="bg-emerald-600 hover:bg-emerald-700 text-white text-[10px] font-bold px-2 py-1 rounded-md transition flex items-center gap-1 shrink-0 ml-2 shadow-xs">
+                    <i class="fa-brands fa-whatsapp text-xs"></i> <span class="hidden sm:inline">Pengingat WA</span>
+                  </a>
                 ` : ''}
               </div>
             </div>
