@@ -90,10 +90,10 @@
   <!-- KONTEN UTAMA -->
   <main class="max-w-5xl mx-auto px-4 mt-6 mb-12 space-y-8">
 
-    <!-- 1. JADWAL SHOLAT WAKTU NGANJUK + PETUGAS IMAM & MUADZIN HARIAN -->
+    <!-- 1. JADWAL SHOLAT WAKTU NGANJUK + PETUGAS KBM (DZUHUR & ASHAR) -->
     <section id="seksi-sholat" class="bg-white rounded-2xl p-6 shadow-xl border border-emerald-100 scroll-mt-20 space-y-6">
       
-      <!-- WAKTU SHOLAT -->
+      <!-- WAKTU SHOLAT NGANJUK -->
       <div>
         <div class="flex items-center justify-between mb-4 border-b pb-3">
           <h2 class="text-lg font-bold text-emerald-800 flex items-center gap-2">
@@ -128,16 +128,18 @@
         </div>
       </div>
 
-      <!-- PETUGAS IMAM & MUADZIN HARIAN -->
+      <!-- PETUGAS SHOLAT KBM (DZUHUR & ASHAR: SENIN - JUMAT) -->
       <div class="pt-4 border-t border-slate-100">
         <div class="flex items-center justify-between mb-3">
-          <h3 class="text-sm font-bold text-slate-800 flex items-center gap-2">
-            <i class="fa-solid fa-user-check text-emerald-600"></i> Petugas Imam & Muadzin Harian
-          </h3>
-          <span class="text-[11px] text-slate-500 font-medium italic">Sholat 5 Waktu Berjamaah</span>
+          <div>
+            <h3 class="text-sm font-bold text-slate-800 flex items-center gap-2">
+              <i class="fa-solid fa-graduation-cap text-emerald-600"></i> Petugas Sholat KBM Madrasah (Dzuhur & Ashar)
+            </h3>
+            <p class="text-[11px] text-slate-500">Jadwal Imam & Muadzin Hari Efektif KBM (Senin - Jumat)</p>
+          </div>
         </div>
 
-        <div id="wadah-petugas-harian" class="grid grid-cols-1 sm:grid-cols-5 gap-3">
+        <div id="wadah-petugas-kbm" class="grid grid-cols-1 sm:grid-cols-5 gap-3">
           <!-- Dimuat otomatis via JS -->
         </div>
       </div>
@@ -361,13 +363,13 @@
     let jadwalSholatHariIni = null;
     let dataJadwalCSV = {};
 
-    // Default Data Petugas Harian (Subuh, Dzuhur, Ashar, Maghrib, Isya)
-    const harianDefault = {
-      subuh: { imam: "Ustadz Bryan Azzam Maulana", muadzin: "Ahmad Rayhan" },
-      dzuhur: { imam: "Ustadz Ahmad Fauzi, S.Pd.I", muadzin: "Hafiz Wahyu Akmal" },
-      ashar: { imam: "Ustadz Bryan Azzam Maulana", muadzin: "Fathir Rizky" },
-      maghrib: { imam: "Ustadz Ahmad Fauzi, S.Pd.I", muadzin: "Bilal Ridho" },
-      isya: { imam: "Ustadz Bryan Azzam Maulana", muadzin: "Hafiz Wahyu Akmal" }
+    // Default Data KBM (Senin - Jumat khusus Dzuhur & Ashar)
+    const kbmDefault = {
+      Senin: { dzuhurImam: "Ustadz Bryan Azzam", dzuhurMuadzin: "Petugas Kelas X", asharImam: "Ustadz Bryan Azzam", asharMuadzin: "Petugas Kelas X" },
+      Selasa: { dzuhurImam: "Ustadz Bryan Azzam", dzuhurMuadzin: "Petugas Kelas XI", asharImam: "Ustadz Bryan Azzam", asharMuadzin: "Petugas Kelas XI" },
+      Rabu: { dzuhurImam: "Ustadz Ahmad Fauzi", dzuhurMuadzin: "Petugas Kelas XII", asharImam: "Ustadz Ahmad Fauzi", asharMuadzin: "Petugas Kelas XII" },
+      Kamis: { dzuhurImam: "Ustadz Ahmad Fauzi", dzuhurMuadzin: "Petugas Kelas X", asharImam: "Ustadz Ahmad Fauzi", asharMuadzin: "Petugas Kelas X" },
+      Jumat: { dzuhurImam: "Sholat Jumat", dzuhurMuadzin: "Lihat Jadwal Jumat", asharImam: "Ustadz Bryan Azzam", asharMuadzin: "Petugas Remas" }
     };
 
     // Default Data
@@ -511,69 +513,79 @@
 
     setInterval(updateLiveJamAndCountdown, 1000);
 
-    // 3. LOGIC JADWAL PETUGAS HARIAN (IMAM & MUADZIN 5 WAKTU)
-    function ambilDataHarian() {
-      const simpanan = localStorage.getItem('jadwal_harian_masjid');
-      return simpanan ? JSON.parse(simpanan) : harianDefault;
+    // 3. LOGIC PETUGAS KBM (SENIN - JUMAT / DZUHUR & ASHAR)
+    function ambilDataKBM() {
+      const simpanan = localStorage.getItem('jadwal_kbm_masjid');
+      return simpanan ? JSON.parse(simpanan) : kbmDefault;
     }
 
-    function renderJadwalHarian() {
-      const data = ambilDataHarian();
-      const wadah = document.getElementById('wadah-petugas-harian');
+    function renderJadwalKBM() {
+      const data = ambilDataKBM();
+      const wadah = document.getElementById('wadah-petugas-kbm');
       if (!wadah) return;
       wadah.innerHTML = '';
 
-      const listSholat = [
-        { key: 'subuh', nama: 'Subuh' },
-        { key: 'dzuhur', nama: 'Dzuhur' },
-        { key: 'ashar', nama: 'Ashar' },
-        { key: 'maghrib', nama: 'Maghrib' },
-        { key: 'isya', nama: 'Isya' }
-      ];
+      const daftarHari = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'];
 
-      listSholat.forEach(s => {
-        const p = data[s.key] || harianDefault[s.key];
+      daftarHari.forEach(hari => {
+        const h = data[hari] || kbmDefault[hari];
         wadah.innerHTML += `
           <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex flex-col justify-between hover:border-emerald-300 transition">
             <div>
               <div class="flex items-center justify-between border-b border-slate-200 pb-1 mb-2">
-                <span class="font-bold text-emerald-800 uppercase text-xs">${s.nama}</span>
+                <span class="font-bold text-emerald-800 uppercase text-xs">${hari}</span>
                 ${isAdmin ? `
-                  <button onclick="editPetugasHarian('${s.key}', '${s.nama}')" class="text-[10px] bg-amber-400 hover:bg-amber-500 text-slate-900 font-bold px-1.5 py-0.5 rounded transition">
+                  <button onclick="editPetugasKBM('${hari}')" class="text-[10px] bg-amber-400 hover:bg-amber-500 text-slate-900 font-bold px-1.5 py-0.5 rounded transition">
                     ✏️ Edit
                   </button>
                 ` : ''}
               </div>
-              <div class="space-y-1.5 text-[11px]">
-                <p class="text-slate-700 leading-tight">
-                  <span class="text-[10px] font-bold text-emerald-700 uppercase block">Imam:</span>
-                  <span class="font-semibold text-slate-800">${p.imam}</span>
+              
+              <!-- DZUHUR -->
+              <div class="bg-white p-2 rounded-lg border border-slate-100 mb-2 space-y-1">
+                <span class="text-[10px] font-bold text-emerald-700 uppercase block border-b pb-0.5">☀️ Dzuhur</span>
+                <p class="text-[11px] text-slate-700 leading-tight">
+                  <span class="text-[9px] text-slate-400 uppercase block">Imam:</span>
+                  <span class="font-semibold text-slate-800">${h.dzuhurImam}</span>
                 </p>
-                <p class="text-slate-700 leading-tight">
-                  <span class="text-[10px] font-bold text-teal-700 uppercase block">Muadzin:</span>
-                  <span class="font-semibold text-slate-800">${p.muadzin}</span>
+                <p class="text-[11px] text-slate-700 leading-tight">
+                  <span class="text-[9px] text-slate-400 uppercase block">Muadzin:</span>
+                  <span class="font-semibold text-slate-800">${h.dzuhurMuadzin}</span>
                 </p>
               </div>
+
+              <!-- ASHAR -->
+              <div class="bg-white p-2 rounded-lg border border-slate-100 space-y-1">
+                <span class="text-[10px] font-bold text-teal-700 uppercase block border-b pb-0.5">🌤️ Ashar</span>
+                <p class="text-[11px] text-slate-700 leading-tight">
+                  <span class="text-[9px] text-slate-400 uppercase block">Imam:</span>
+                  <span class="font-semibold text-slate-800">${h.asharImam}</span>
+                </p>
+                <p class="text-[11px] text-slate-700 leading-tight">
+                  <span class="text-[9px] text-slate-400 uppercase block">Muadzin:</span>
+                  <span class="font-semibold text-slate-800">${h.asharMuadzin}</span>
+                </p>
+              </div>
+
             </div>
           </div>
         `;
       });
     }
 
-    function editPetugasHarian(key, namaSholat) {
-      const data = ambilDataHarian();
-      const p = data[key] || harianDefault[key];
+    function editPetugasKBM(hari) {
+      const data = ambilDataKBM();
+      const h = data[hari] || kbmDefault[hari];
 
-      const imamBaru = prompt(`[Sholat ${namaSholat}]\nMasukkan Nama Imam:`, p.imam);
-      if (!imamBaru) return;
+      const dzuhurImam = prompt(`[${hari} - Dzuhur]\nMasukkan Nama Imam:`, h.dzuhurImam); if (!dzuhurImam) return;
+      const dzuhurMuadzin = prompt(`[${hari} - Dzuhur]\nMasukkan Nama Muadzin / Petugas:`, h.dzuhurMuadzin); if (!dzuhurMuadzin) return;
+      const asharImam = prompt(`[${hari} - Ashar]\nMasukkan Nama Imam:`, h.asharImam); if (!asharImam) return;
+      const asharMuadzin = prompt(`[${hari} - Ashar]\nMasukkan Nama Muadzin / Petugas:`, h.asharMuadzin); if (!asharMuadzin) return;
 
-      const muadzinBaru = prompt(`[Sholat ${namaSholat}]\nMasukkan Nama Muadzin:`, p.muadzin);
-      if (!muadzinBaru) return;
-
-      data[key] = { imam: imamBaru, muadzin: muadzinBaru };
-      localStorage.setItem('jadwal_harian_masjid', JSON.stringify(data));
-      renderJadwalHarian();
-      alert(`Petugas Sholat ${namaSholat} berhasil diperbarui!`);
+      data[hari] = { dzuhurImam, dzuhurMuadzin, asharImam, asharMuadzin };
+      localStorage.setItem('jadwal_kbm_masjid', JSON.stringify(data));
+      renderJadwalKBM();
+      alert(`Jadwal Petugas KBM hari ${hari} berhasil disimpan!`);
     }
 
     // 4. SENSOR KOMPAS KIBLAT DINAMIS
@@ -911,7 +923,7 @@
         btnAdmin.innerHTML = '<i class="fa-solid fa-lock"></i> Mode Admin';
         btnAdmin.className = "bg-slate-100 text-slate-600 text-xs px-3 py-2 rounded-lg font-semibold flex items-center gap-1.5 hover:bg-slate-200 transition";
       }
-      renderJadwalHarian();
+      renderJadwalKBM();
       renderJadwalJumat();
       renderBerita();
       renderLayanan();
@@ -1123,7 +1135,7 @@
     async function inisialisasi() {
       await muatJadwalDariCSV();
       isiOpsiBulan();
-      renderJadwalHarian();
+      renderJadwalKBM();
       renderJadwalJumat();
       renderBerita();
       renderLayanan();
