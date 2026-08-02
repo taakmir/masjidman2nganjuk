@@ -601,17 +601,23 @@
       }
     }
 
-    /* OPSI BULAN DIBUAT DARI AGUSTUS 2026 HINGGA JULI 2027 (12 BULAN) */
+    /* OPSI BULAN DIBATASI TEPAT SAMPAI JULI 2027 */
     function isiOpsiBulan() {
       const selectBulan = document.getElementById('pilih-bulan');
       selectBulan.innerHTML = '';
       const now = new Date();
       const namaBulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
 
-      // Diubah menjadi 12 bulan agar bisa memilih sampai pertengahan 2028 (termasuk Juli 2027)
-      for (let i = 0; i < 12; i++) {
+      for (let i = 0; i < 24; i++) {
         const d = new Date(now.getFullYear(), now.getMonth() + i, 1);
-        const yyyy = d.getFullYear(); const mm = d.getMonth();
+        const yyyy = d.getFullYear(); 
+        const mm = d.getMonth();
+
+        // Berhenti secara ketat saat bulan melebihi Juli 2027 (Juli = indeks 6)
+        if (yyyy > 2027 || (yyyy === 2027 && mm > 6)) {
+          break;
+        }
+
         const option = document.createElement('option');
         option.value = `${yyyy}-${mm}`;
         option.innerText = `${namaBulan[mm]} ${yyyy}`;
