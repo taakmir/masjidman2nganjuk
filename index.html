@@ -20,6 +20,51 @@
     }
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    /* ANIMASI INTRO FILM & FLASH SILAU BERGERAK */
+    @keyframes introCinematicLogo {
+      0% {
+        transform: scale(0.4) rotate(-5deg);
+        opacity: 0;
+        filter: brightness(3.5) drop-shadow(0 0 60px rgba(251, 191, 36, 1));
+      }
+      50% {
+        transform: scale(1.1) rotate(1deg);
+        opacity: 1;
+        filter: brightness(2) drop-shadow(0 0 45px rgba(251, 191, 36, 0.9));
+      }
+      100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+        filter: brightness(1) drop-shadow(0 8px 24px rgba(251, 191, 36, 0.7));
+      }
+    }
+
+    @keyframes flashSilauSweep {
+      0% {
+        transform: translateX(-200%) skewX(-25deg);
+        opacity: 0;
+      }
+      20% {
+        opacity: 0.9;
+      }
+      60% {
+        transform: translateX(200%) skewX(-25deg);
+        opacity: 0.9;
+      }
+      100% {
+        transform: translateX(200%) skewX(-25deg);
+        opacity: 0;
+      }
+    }
+
+    .animate-intro-film {
+      animation: introCinematicLogo 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .animate-flash-silau {
+      animation: flashSilauSweep 3s ease-in-out 1.2s infinite;
+    }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-800">
@@ -60,12 +105,20 @@
           <i class="fa-solid fa-place-of-worship"></i> BAITUL MUTTAQIN
         </div>
 
-        <!-- CONTAINER LOGO DENGAN EFFECT GOLD LIGHTING PEDESTAL -->
-        <div class="relative my-3 inline-block">
-          <div class="absolute inset-0 bg-amber-400/30 rounded-full blur-2xl scale-125"></div>
-          <img src="logo-masjid.png" 
-               alt="Logo Masjid Baitul Muttaqin MAN 2 Nganjuk" 
-               class="relative z-10 w-36 h-36 md:w-44 md:h-44 mx-auto object-contain filter drop-shadow-[0_8px_20px_rgba(251,191,36,0.7)] transition duration-300 hover:scale-105">
+        <!-- LOGO DENGAN ANIMASI INTRO FILM & FLASH SILAU BERGERAK -->
+        <div class="relative my-2 inline-block animate-intro-film">
+          <!-- Glow Aura Belakang Logo -->
+          <div class="absolute inset-0 bg-amber-400/40 rounded-full blur-3xl scale-125 pointer-events-none"></div>
+
+          <!-- Wrapper Gambar & Efek Sinar Silau -->
+          <div class="relative overflow-hidden rounded-3xl p-2 inline-block">
+            <img src="logo-masjid.png" 
+                 alt="Logo Masjid Baitul Muttaqin MAN 2 Nganjuk" 
+                 class="relative z-10 w-40 h-40 md:w-52 md:h-52 mx-auto object-contain transition duration-300 hover:scale-105">
+            
+            <!-- SWEEP LIGHT FLASH (SILAU BERGERAK) -->
+            <div class="absolute inset-0 z-20 pointer-events-none bg-gradient-to-r from-transparent via-white/80 to-transparent animate-flash-silau"></div>
+          </div>
         </div>
 
         <!-- DIVIDER HIASAN -->
@@ -73,7 +126,7 @@
           <span>❖</span><div class="w-12 h-[1px] bg-amber-400/60"></div><span>☪</span><div class="w-12 h-[1px] bg-amber-400/60"></div><span>❖</span>
         </div>
 
-        <!-- JUDUL MASJID DENGAN TYPOGRAPHY MODERN ELEGANT -->
+        <!-- JUDUL MASJID -->
         <h1 class="text-2xl md:text-4xl font-extrabold tracking-wide uppercase leading-tight text-white drop-shadow-md mt-2">
           MASJID BAITUL MUTTAQIN
         </h1>
@@ -85,7 +138,7 @@
           Pusat Kegiatan Keagamaan, Peradaban Siswa, dan Informasi Takmir Masjid
         </p>
 
-        <!-- PENCERAHAN TAMBAHAN DENGAN BADGE OFFICIAL -->
+        <!-- BADGE OFFICIAL -->
         <div class="mt-4">
           <span class="inline-flex items-center gap-1.5 bg-gradient-to-r from-amber-400 to-amber-500 text-emerald-950 px-4 py-1 rounded-full text-[11px] font-extrabold uppercase tracking-widest shadow-md border border-amber-200">
             <i class="fa-solid fa-circle-check text-xs"></i> Official Website
@@ -94,7 +147,7 @@
 
       </div>
 
-      <!-- BANNER LIVE JAM & COUNTDOWN SHOLAT LEBIH KONTRAST & CERAH -->
+      <!-- BANNER LIVE JAM & COUNTDOWN SHOLAT -->
       <div class="bg-emerald-950/70 backdrop-blur-md border-2 border-amber-400/50 rounded-2xl p-4 w-full max-w-md shadow-2xl flex flex-col items-center gap-1 ring-2 ring-black/10">
         <div class="flex items-center gap-2 text-xs text-emerald-100 font-medium">
           <i class="fa-solid fa-clock text-amber-300 animate-pulse"></i>
