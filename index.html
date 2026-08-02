@@ -7,10 +7,11 @@
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Fonts & Font Awesome Icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     body { font-family: 'Poppins', sans-serif; }
+    .font-arabic { font-family: 'Amiri', serif; }
     .active-sholat {
       border-color: #059669 !important;
       background-color: #ecfdf5 !important;
@@ -23,30 +24,54 @@
 </head>
 <body class="bg-slate-50 text-slate-800">
 
-  <!-- HERO / HEADER -->
-  <header class="bg-gradient-to-r from-emerald-800 to-teal-700 text-white shadow-lg relative">
-    <div class="max-w-5xl mx-auto px-4 py-8 text-center flex flex-col items-center">
-      
-      <!-- LOGO MAN 2 NGANJUK -->
-      <img src="logo-man2.png" 
-           alt="Logo MAN 2 Nganjuk" 
-           class="w-20 h-20 md:w-24 md:h-24 mb-3 object-contain drop-shadow-md bg-white/10 p-2 rounded-2xl border border-white/20">
+  <!-- HERO / HEADER DEKORATIF DENGAN KESAN MIMBAR MASJID & KALIGRAFI -->
+  <header class="relative bg-gradient-to-b from-emerald-950 via-emerald-900 to-teal-900 text-white shadow-2xl overflow-hidden border-b-4 border-amber-400">
+    
+    <!-- PATTERN GEOMETRIS ISLAMI (BACKGROUND OVERLAY) -->
+    <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#fbbf24_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none"></div>
 
-      <div class="inline-block bg-emerald-600/50 backdrop-blur px-4 py-1 rounded-full text-xs tracking-wide uppercase mb-2">
-        Official Website
+    <div class="relative z-10 max-w-5xl mx-auto px-4 pt-7 pb-9 text-center flex flex-col items-center">
+      
+      <!-- KALIGRAFI BISMILLAH -->
+      <div class="font-arabic text-amber-300 text-3xl md:text-5xl font-bold mb-1 tracking-widest drop-shadow-[0_2px_8px_rgba(245,158,11,0.5)] select-none">
+        ﷽
       </div>
 
-      <!-- JUDUL MASJID -->
-      <h1 class="text-2xl md:text-4xl font-extrabold mb-1 tracking-wide uppercase leading-tight">
-        MASJID BAITUL MUTTAQIN<br><span class="text-emerald-200">MAN 2 NGANJUK</span>
-      </h1>
+      <!-- GARIS DEKORATIF ORNAMEN BINTANG EMAS -->
+      <div class="flex items-center gap-3 w-full max-w-xs justify-center mb-5">
+        <div class="h-[1px] bg-gradient-to-r from-transparent via-amber-400 to-transparent flex-1"></div>
+        <i class="fa-solid fa-star text-amber-400 text-xs animate-pulse"></i>
+        <div class="h-[1px] bg-gradient-to-r from-transparent via-amber-400 to-transparent flex-1"></div>
+      </div>
 
-      <p class="text-emerald-100 text-xs md:text-sm max-w-2xl mx-auto mb-4">
-        Pusat Kegiatan Keagamaan, Peradaban Siswa, dan Informasi Takmir Masjid
-      </p>
+      <!-- BINGKAI MIHRAB MIMBAR MASJID (ARCH CONTAINER) -->
+      <div class="relative bg-emerald-950/60 backdrop-blur-md border-2 border-amber-400/50 rounded-t-[60px] rounded-b-2xl p-6 md:p-8 max-w-2xl w-full shadow-2xl mb-5">
+        
+        <!-- CORNER ACCENT ORNAMENTS -->
+        <div class="absolute top-3 left-4 text-amber-400/60 text-sm"><i class="fa-solid fa-kaaba"></i></div>
+        <div class="absolute top-3 right-4 text-amber-400/60 text-sm"><i class="fa-solid fa-kaaba"></i></div>
+
+        <!-- LOGO MAN 2 NGANJUK -->
+        <img src="logo-man2.png" 
+             alt="Logo MAN 2 Nganjuk" 
+             class="w-20 h-20 md:w-24 md:h-24 mx-auto mb-3 object-contain drop-shadow-xl bg-white/10 p-2 rounded-2xl border border-amber-400/40">
+
+        <div class="inline-block bg-amber-400/20 text-amber-200 border border-amber-400/40 px-4 py-1 rounded-full text-[11px] font-bold tracking-widest uppercase mb-2">
+          Official Website
+        </div>
+
+        <!-- JUDUL MASJID -->
+        <h1 class="text-2xl md:text-4xl font-extrabold tracking-wide uppercase leading-tight text-white drop-shadow">
+          MASJID BAITUL MUTTAQIN<br><span class="text-amber-300 font-arabic text-xl md:text-3xl font-normal tracking-normal">MAN 2 NGANJUK</span>
+        </h1>
+
+        <p class="text-emerald-100 text-xs md:text-sm max-w-md mx-auto mt-2 font-light">
+          Pusat Kegiatan Keagamaan, Peradaban Siswa, dan Informasi Takmir Masjid
+        </p>
+      </div>
 
       <!-- BANNER LIVE JAM & COUNTDOWN SHOLAT -->
-      <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 w-full max-w-md shadow-inner flex flex-col items-center gap-1">
+      <div class="bg-emerald-950/80 backdrop-blur-md border border-amber-400/40 rounded-2xl p-4 w-full max-w-md shadow-2xl flex flex-col items-center gap-1">
         <div class="flex items-center gap-2 text-xs text-emerald-100 font-medium">
           <i class="fa-solid fa-clock text-amber-300 animate-pulse"></i>
           <span id="live-tanggal-full">Memuat Tanggal...</span>
@@ -54,7 +79,7 @@
         <div id="live-jam" class="text-3xl font-extrabold tracking-wider text-amber-300 font-mono">
           00:00:00 WIB
         </div>
-        <div id="box-countdown" class="mt-1 bg-emerald-900/80 text-emerald-100 px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1.5 border border-emerald-500/30">
+        <div id="box-countdown" class="mt-1 bg-emerald-900/90 text-emerald-100 px-3.5 py-1 rounded-full text-xs font-semibold flex items-center gap-1.5 border border-emerald-500/40">
           <i class="fa-solid fa-hourglass-half text-amber-300"></i>
           <span id="info-hitung-mundur">Menghitung jadwal sholat...</span>
         </div>
@@ -63,7 +88,7 @@
     </div>
   </header>
 
-  <!-- NAVIGASI MENU TOMBOL ALTERNATIF -->
+  <!-- NAVIGASI MENU -->
   <nav class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-slate-200 shadow-sm">
     <div class="max-w-5xl mx-auto px-4 py-2.5 flex items-center justify-between overflow-x-auto gap-2 no-scrollbar">
       <a href="#seksi-sholat" class="px-3 py-1.5 text-xs font-bold text-slate-700 hover:text-emerald-700 hover:bg-emerald-50 rounded-lg whitespace-nowrap transition flex items-center gap-1.5">
@@ -90,14 +115,14 @@
   <!-- KONTEN UTAMA -->
   <main class="max-w-5xl mx-auto px-4 mt-6 mb-12 space-y-8">
 
-    <!-- 1. JADWAL SHOLAT WAKTU NGANJUK + PETUGAS KBM (DZUHUR & ASHAR) -->
+    <!-- 1. JADWAL WAKTU SHOLAT NGANJUK & JADWAL PETUGAS KBM (SENIN - JUMAT) -->
     <section id="seksi-sholat" class="bg-white rounded-2xl p-6 shadow-xl border border-emerald-100 scroll-mt-20 space-y-6">
       
       <!-- WAKTU SHOLAT NGANJUK -->
       <div>
         <div class="flex items-center justify-between mb-4 border-b pb-3">
           <h2 class="text-lg font-bold text-emerald-800 flex items-center gap-2">
-            <i class="fa-solid fa-mosque"></i> Jadwal Sholat Hari Ini (Nganjuk)
+            <i class="fa-solid fa-mosque"></i> Jadwal Waktu Sholat Hari Ini (Nganjuk)
           </h2>
           <span id="tanggal-hari-ini" class="text-xs font-semibold bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full">
             Memuat...
@@ -128,17 +153,18 @@
         </div>
       </div>
 
-      <!-- PETUGAS SHOLAT KBM (DZUHUR & ASHAR: SENIN - JUMAT) -->
-      <div class="pt-4 border-t border-slate-100">
-        <div class="flex items-center justify-between mb-3">
+      <!-- PETUGAS SHOLAT KBM (KHUSUS SENIN - JUMAT / DZUHUR & ASHAR ONLY) -->
+      <div class="pt-5 border-t border-slate-200">
+        <div class="flex items-center justify-between mb-4">
           <div>
-            <h3 class="text-sm font-bold text-slate-800 flex items-center gap-2">
-              <i class="fa-solid fa-graduation-cap text-emerald-600"></i> Petugas Sholat KBM Madrasah (Dzuhur & Ashar)
+            <h3 class="text-base font-bold text-slate-800 flex items-center gap-2">
+              <i class="fa-solid fa-graduation-cap text-emerald-600"></i> Jadwal Petugas Sholat KBM (Senin - Jumat)
             </h3>
-            <p class="text-[11px] text-slate-500">Jadwal Imam & Muadzin Hari Efektif KBM (Senin - Jumat)</p>
+            <p class="text-xs text-slate-500">Keterangan Petugas Imam & Muadzin Khusus Sholat Dzuhur dan Ashar</p>
           </div>
         </div>
 
+        <!-- WADAH CARD HARI SENIN - JUMAT -->
         <div id="wadah-petugas-kbm" class="grid grid-cols-1 sm:grid-cols-5 gap-3">
           <!-- Dimuat otomatis via JS -->
         </div>
@@ -369,7 +395,7 @@
       Selasa: { dzuhurImam: "Ustadz Bryan Azzam", dzuhurMuadzin: "Petugas Kelas XI", asharImam: "Ustadz Bryan Azzam", asharMuadzin: "Petugas Kelas XI" },
       Rabu: { dzuhurImam: "Ustadz Ahmad Fauzi", dzuhurMuadzin: "Petugas Kelas XII", asharImam: "Ustadz Ahmad Fauzi", asharMuadzin: "Petugas Kelas XII" },
       Kamis: { dzuhurImam: "Ustadz Ahmad Fauzi", dzuhurMuadzin: "Petugas Kelas X", asharImam: "Ustadz Ahmad Fauzi", asharMuadzin: "Petugas Kelas X" },
-      Jumat: { dzuhurImam: "Sholat Jumat", dzuhurMuadzin: "Lihat Jadwal Jumat", asharImam: "Ustadz Bryan Azzam", asharMuadzin: "Petugas Remas" }
+      Jumat: { dzuhurImam: "Sholat Jumat", dzuhurMuadzin: "Petugas Sholat Jumat", asharImam: "Ustadz Bryan Azzam", asharMuadzin: "Petugas Remas" }
     };
 
     // Default Data
@@ -513,7 +539,7 @@
 
     setInterval(updateLiveJamAndCountdown, 1000);
 
-    // 3. LOGIC PETUGAS KBM (SENIN - JUMAT / DZUHUR & ASHAR)
+    // 3. LOGIC PETUGAS KBM (SENIN - JUMAT / DZUHUR & ASHAR ONLY)
     function ambilDataKBM() {
       const simpanan = localStorage.getItem('jadwal_kbm_masjid');
       return simpanan ? JSON.parse(simpanan) : kbmDefault;
@@ -530,39 +556,44 @@
       daftarHari.forEach(hari => {
         const h = data[hari] || kbmDefault[hari];
         wadah.innerHTML += `
-          <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex flex-col justify-between hover:border-emerald-300 transition">
+          <div class="bg-gradient-to-b from-emerald-50 to-slate-50 p-3.5 rounded-2xl border border-emerald-100 flex flex-col justify-between shadow-sm hover:border-emerald-400 hover:shadow-md transition">
             <div>
-              <div class="flex items-center justify-between border-b border-slate-200 pb-1 mb-2">
-                <span class="font-bold text-emerald-800 uppercase text-xs">${hari}</span>
+              <!-- HEADER NAMA HARI -->
+              <div class="flex items-center justify-between bg-emerald-800 text-white px-3 py-1.5 rounded-xl mb-3 shadow-sm">
+                <span class="font-extrabold uppercase text-xs tracking-wider">${hari}</span>
                 ${isAdmin ? `
-                  <button onclick="editPetugasKBM('${hari}')" class="text-[10px] bg-amber-400 hover:bg-amber-500 text-slate-900 font-bold px-1.5 py-0.5 rounded transition">
+                  <button onclick="editPetugasKBM('${hari}')" class="text-[10px] bg-amber-400 hover:bg-amber-500 text-slate-900 font-bold px-2 py-0.5 rounded transition shadow-sm">
                     ✏️ Edit
                   </button>
                 ` : ''}
               </div>
               
-              <!-- DZUHUR -->
-              <div class="bg-white p-2 rounded-lg border border-slate-100 mb-2 space-y-1">
-                <span class="text-[10px] font-bold text-emerald-700 uppercase block border-b pb-0.5">☀️ Dzuhur</span>
-                <p class="text-[11px] text-slate-700 leading-tight">
-                  <span class="text-[9px] text-slate-400 uppercase block">Imam:</span>
+              <!-- SHOLAT DZUHUR -->
+              <div class="bg-white p-2.5 rounded-xl border border-slate-200 mb-2.5 shadow-2xs">
+                <span class="text-[10px] font-extrabold text-emerald-800 uppercase block border-b border-emerald-100 pb-1 mb-1.5 flex items-center justify-between">
+                  <span>☀️ Dzuhur</span>
+                </span>
+                <p class="text-[11px] text-slate-700 leading-tight mb-1">
+                  <span class="text-[9px] font-bold text-slate-400 uppercase block">Imam:</span>
                   <span class="font-semibold text-slate-800">${h.dzuhurImam}</span>
                 </p>
                 <p class="text-[11px] text-slate-700 leading-tight">
-                  <span class="text-[9px] text-slate-400 uppercase block">Muadzin:</span>
+                  <span class="text-[9px] font-bold text-slate-400 uppercase block">Muadzin:</span>
                   <span class="font-semibold text-slate-800">${h.dzuhurMuadzin}</span>
                 </p>
               </div>
 
-              <!-- ASHAR -->
-              <div class="bg-white p-2 rounded-lg border border-slate-100 space-y-1">
-                <span class="text-[10px] font-bold text-teal-700 uppercase block border-b pb-0.5">🌤️ Ashar</span>
-                <p class="text-[11px] text-slate-700 leading-tight">
-                  <span class="text-[9px] text-slate-400 uppercase block">Imam:</span>
+              <!-- SHOLAT ASHAR -->
+              <div class="bg-white p-2.5 rounded-xl border border-slate-200 shadow-2xs">
+                <span class="text-[10px] font-extrabold text-teal-800 uppercase block border-b border-teal-100 pb-1 mb-1.5 flex items-center justify-between">
+                  <span>🌤️ Ashar</span>
+                </span>
+                <p class="text-[11px] text-slate-700 leading-tight mb-1">
+                  <span class="text-[9px] font-bold text-slate-400 uppercase block">Imam:</span>
                   <span class="font-semibold text-slate-800">${h.asharImam}</span>
                 </p>
                 <p class="text-[11px] text-slate-700 leading-tight">
-                  <span class="text-[9px] text-slate-400 uppercase block">Muadzin:</span>
+                  <span class="text-[9px] font-bold text-slate-400 uppercase block">Muadzin:</span>
                   <span class="font-semibold text-slate-800">${h.asharMuadzin}</span>
                 </p>
               </div>
@@ -577,15 +608,15 @@
       const data = ambilDataKBM();
       const h = data[hari] || kbmDefault[hari];
 
-      const dzuhurImam = prompt(`[${hari} - Dzuhur]\nMasukkan Nama Imam:`, h.dzuhurImam); if (!dzuhurImam) return;
-      const dzuhurMuadzin = prompt(`[${hari} - Dzuhur]\nMasukkan Nama Muadzin / Petugas:`, h.dzuhurMuadzin); if (!dzuhurMuadzin) return;
-      const asharImam = prompt(`[${hari} - Ashar]\nMasukkan Nama Imam:`, h.asharImam); if (!asharImam) return;
-      const asharMuadzin = prompt(`[${hari} - Ashar]\nMasukkan Nama Muadzin / Petugas:`, h.asharMuadzin); if (!asharMuadzin) return;
+      const dzuhurImam = prompt(`[Hari ${hari} - Dzuhur]\nMasukkan Nama Imam Dzuhur:`, h.dzuhurImam); if (!dzuhurImam) return;
+      const dzuhurMuadzin = prompt(`[Hari ${hari} - Dzuhur]\nMasukkan Nama Muadzin Dzuhur:`, h.dzuhurMuadzin); if (!dzuhurMuadzin) return;
+      const asharImam = prompt(`[Hari ${hari} - Ashar]\nMasukkan Nama Imam Ashar:`, h.asharImam); if (!asharImam) return;
+      const asharMuadzin = prompt(`[Hari ${hari} - Ashar]\nMasukkan Nama Muadzin Ashar:`, h.asharMuadzin); if (!asharMuadzin) return;
 
       data[hari] = { dzuhurImam, dzuhurMuadzin, asharImam, asharMuadzin };
       localStorage.setItem('jadwal_kbm_masjid', JSON.stringify(data));
       renderJadwalKBM();
-      alert(`Jadwal Petugas KBM hari ${hari} berhasil disimpan!`);
+      alert(`Petugas Sholat KBM hari ${hari} berhasil disimpan!`);
     }
 
     // 4. SENSOR KOMPAS KIBLAT DINAMIS
@@ -1131,7 +1162,7 @@
       } catch (err) { console.log('Gagal memuat jadwal sholat:', err); }
     }
 
-    // Inisialisasi Aplikasi Asinkron
+    // Inisialisasi Aplikasi
     async function inisialisasi() {
       await muatJadwalDariCSV();
       isiOpsiBulan();
