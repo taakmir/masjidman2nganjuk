@@ -22,7 +22,13 @@
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   </style>
 </head>
-<body class="bg-slate-50 text-slate-800">
+<body class="bg-slate-50 text-slate-800 relative">
+
+  <!-- FLOATING IKON LOGIN ADMIN (POJOK KANAN BAWAH LAYAR) -->
+  <button id="btn-login-admin" onclick="toggleAdmin()" title="Mode Admin Takmir" 
+          class="fixed bottom-5 right-5 z-50 bg-slate-800 text-slate-200 hover:bg-emerald-800 hover:text-amber-300 w-12 h-12 rounded-full shadow-2xl border-2 border-slate-600 hover:border-amber-400 flex items-center justify-center text-lg hover:scale-110 active:scale-95 transition-all duration-200 cursor-pointer">
+    <i class="fa-solid fa-lock"></i>
+  </button>
 
   <!-- HERO / HEADER CERAH & ELEGAN DENGAN ORNAMEN ISLAMI MODERN -->
   <header class="relative bg-gradient-to-br from-emerald-700 via-teal-800 to-emerald-900 text-white shadow-2xl overflow-hidden border-b-4 border-amber-400">
@@ -250,11 +256,8 @@
           </h2>
           <p class="text-xs text-slate-500 mt-0.5">Otomatis sync dari Excel/CSV & tetap dapat di-edit manual</p>
         </div>
-        <div class="flex items-center gap-2">
+        <div>
           <select id="pilih-bulan" onchange="renderJadwalJumat()" class="bg-emerald-50 text-emerald-900 border border-emerald-200 text-xs font-semibold px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"></select>
-          <button id="btn-login-admin" onclick="toggleAdmin()" class="bg-slate-100 text-slate-600 text-xs px-3 py-2 rounded-lg font-semibold flex items-center gap-1.5 hover:bg-slate-200 transition">
-            <i class="fa-solid fa-lock"></i> Mode Admin
-          </button>
         </div>
       </div>
       <div id="wadah-jumat-bulan" class="space-y-4"></div>
@@ -348,7 +351,6 @@
             <i class="fa-solid fa-image text-emerald-600"></i> Foto Berita (Pilih Salah Satu)
           </label>
           
-          <!-- Masukkan Link Gambar -->
           <div>
             <span class="text-[10px] text-slate-500 block mb-1">Cara A: Masukkan Link Gambar (ImgBB/Postimages/Google Drive)</span>
             <input type="url" id="input-berita-url" placeholder="https://i.ibb.co/foto-kegiatan.jpg" class="w-full bg-white border border-slate-300 rounded-lg p-2 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none">
@@ -356,7 +358,6 @@
 
           <div class="text-center font-bold text-[10px] text-slate-400 uppercase tracking-widest">— ATAU —</div>
 
-          <!-- Upload dari Galeri HP/Laptop -->
           <div>
             <span class="text-[10px] text-slate-500 block mb-1">Cara B: Upload Langsung dari HP / Galeri Foto</span>
             <input type="file" id="input-berita-file" accept="image/*" onchange="konversiFileGambar(event)" class="w-full text-xs text-slate-600 file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-emerald-600 file:text-white hover:file:bg-emerald-700 cursor-pointer">
@@ -588,7 +589,7 @@
       daftarHari.forEach(hari => {
         wadah.innerHTML += `
           <button onclick="bukaModalPetugasKBM('${hari}')" 
-                  class="group bg-gradient-to-br from-emerald-800 to-teal-900 text-white p-4 rounded-2xl border border-emerald-700/60 shadow-md hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-200 flex flex-col items-center justify-center text-center relative overflow-hidden">
+                  class="group bg-gradient-to-br from-emerald-800 to-teal-900 text-white p-4 rounded-2xl border border-emerald-700/60 shadow-md hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-200 flex flex-col items-center justify-center text-center relative overflow-hidden cursor-pointer">
             <div class="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
             <span class="text-[10px] font-extrabold text-emerald-200 uppercase tracking-widest mb-1">Jadwal</span>
             <span class="text-lg font-black tracking-wide uppercase">${hari}</span>
@@ -666,7 +667,6 @@
       alert(`Petugas Sholat KBM hari ${hari} berhasil disimpan!`);
     }
 
-    // LOGIC FORM BERITA + FOTO
     function bukaModalTambahBerita() {
       tempBase64Gambar = "";
       document.getElementById('input-berita-judul').value = "";
@@ -760,6 +760,7 @@
       }
     }
 
+    // LOGIC TOGGLE MODE ADMIN
     function toggleAdmin() {
       if (isAdmin) {
         isAdmin = false;
@@ -783,12 +784,14 @@
 
       if (isAdmin) {
         elemenAdmin.forEach(el => el.classList.remove('hidden'));
-        btnAdmin.innerHTML = '<i class="fa-solid fa-lock-open text-emerald-600"></i> Admin (Aktif)';
-        btnAdmin.className = "bg-emerald-100 text-emerald-800 text-xs px-3 py-2 rounded-lg font-semibold flex items-center gap-1.5 hover:bg-emerald-200 transition";
+        btnAdmin.innerHTML = '<i class="fa-solid fa-lock-open text-amber-300"></i><span class="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 bg-emerald-400 rounded-full border-2 border-white animate-pulse"></span>';
+        btnAdmin.title = "Mode Admin Aktif (Klik untuk Keluar)";
+        btnAdmin.className = "fixed bottom-5 right-5 z-50 bg-emerald-900 text-amber-300 w-12 h-12 rounded-full shadow-2xl border-2 border-emerald-400 flex items-center justify-center text-lg hover:scale-110 active:scale-95 transition-all duration-200 cursor-pointer";
       } else {
         elemenAdmin.forEach(el => el.classList.add('hidden'));
-        btnAdmin.innerHTML = '<i class="fa-solid fa-lock"></i> Mode Admin';
-        btnAdmin.className = "bg-slate-100 text-slate-600 text-xs px-3 py-2 rounded-lg font-semibold flex items-center gap-1.5 hover:bg-slate-200 transition";
+        btnAdmin.innerHTML = '<i class="fa-solid fa-lock"></i>';
+        btnAdmin.title = "Mode Admin Takmir";
+        btnAdmin.className = "fixed bottom-5 right-5 z-50 bg-slate-800 text-slate-200 hover:bg-emerald-800 hover:text-amber-300 w-12 h-12 rounded-full shadow-2xl border-2 border-slate-600 hover:border-amber-400 flex items-center justify-center text-lg hover:scale-110 active:scale-95 transition-all duration-200 cursor-pointer";
       }
       renderJadwalKBM();
       renderJadwalJumat();
