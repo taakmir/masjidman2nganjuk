@@ -155,7 +155,7 @@
   <!-- KONTEN UTAMA -->
   <main class="max-w-5xl mx-auto px-4 mt-6 mb-12 space-y-8">
 
-    <!-- 1. BERITA & INFORMASI MASJID (DI PALING ATAS) -->
+    <!-- 1. BERITA & INFORMASI MASJID -->
     <section id="seksi-berita" class="bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-xl border border-slate-100 dark:border-slate-800 scroll-mt-20 transition-colors">
       <div class="flex items-center justify-between mb-4 border-b border-slate-100 dark:border-slate-800 pb-3">
         <h2 class="text-lg font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
@@ -169,7 +169,7 @@
       <div id="wadah-berita" class="grid grid-cols-1 md:grid-cols-2 gap-5"></div>
     </section>
 
-    <!-- 2. JADWAL WAKTU SHOLAT NGANJUK & JADWAL PETUGAS KBM -->
+    <!-- 2. JADWAL SHOLAT & PETUGAS KBM -->
     <section id="seksi-sholat" class="bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-xl border border-emerald-100 dark:border-slate-800 scroll-mt-20 space-y-6 transition-colors">
       <div>
         <div class="flex items-center justify-between mb-4 border-b border-slate-100 dark:border-slate-800 pb-3">
@@ -203,7 +203,6 @@
         </div>
       </div>
 
-      <!-- PETUGAS SHOLAT KBM (TOMBOL POPUP SENIN - JUMAT) -->
       <div class="pt-5 border-t border-slate-200 dark:border-slate-800">
         <div class="flex items-center justify-between mb-4">
           <div>
@@ -289,7 +288,7 @@
       <div id="wadah-doa" class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs"></div>
     </section>
 
-    <!-- 5. JADWAL PETUGAS JUMAT (DESAIN RINGKAS & ELEGAN) -->
+    <!-- 5. JADWAL PETUGAS JUMAT -->
     <section id="seksi-jumat" class="bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-xl border border-slate-100 dark:border-slate-800 scroll-mt-20 transition-colors">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5 border-b border-slate-100 dark:border-slate-800 pb-3">
         <div>
@@ -342,11 +341,10 @@
 
   </main>
 
-  <!-- MODAL POP-UP AL-QUR'AN DIGITAL ONLINE -->
+  <!-- MODAL AL-QUR'AN DIGITAL -->
   <div id="modal-quran" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 sm:p-4">
     <div class="bg-white dark:bg-slate-900 rounded-2xl max-w-3xl w-full h-[88vh] flex flex-col p-4 sm:p-5 shadow-2xl relative border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-100">
       
-      <!-- HEADER POPUP -->
       <div class="flex items-center justify-between border-b dark:border-slate-800 pb-3 mb-3">
         <h3 class="text-base sm:text-lg font-bold flex items-center gap-2 text-emerald-800 dark:text-emerald-400">
           <i class="fa-solid fa-quran"></i> Al-Qur'an Digital Standar Mushaf
@@ -354,7 +352,6 @@
         <button onclick="tutupModalQuran()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-2xl font-bold">&times;</button>
       </div>
 
-      <!-- KONTROL MODE TAMPILAN & UKURAN TEKS ARAB -->
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-3 bg-slate-100 dark:bg-slate-800 p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-xs">
         <div class="flex items-center gap-2">
           <label class="font-bold text-slate-700 dark:text-slate-300 whitespace-nowrap">Mode Tampilan:</label>
@@ -376,13 +373,11 @@
         </div>
       </div>
 
-      <!-- KOLOM PENCARIAN SURAH -->
       <div id="box-cari-surah" class="mb-3">
         <input type="text" id="input-cari-surah" onkeyup="cariSurah()" placeholder="🔍 Cari nama surah (contoh: Yasin, Al-Kahf)..." 
                class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl px-3.5 py-2 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none">
       </div>
 
-      <!-- KONTEN SURAH / AYAT -->
       <div id="konten-quran" class="flex-1 overflow-y-auto no-scrollbar space-y-3 text-xs pr-1">
         <div class="text-center py-10 text-slate-400">Memuat daftar surah...</div>
       </div>
@@ -390,7 +385,7 @@
     </div>
   </div>
 
-  <!-- MODAL POP-UP TAMBAH BERITA + UPLOAD FOTO -->
+  <!-- MODAL BERITA -->
   <div id="modal-tambah-berita" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white dark:bg-slate-900 rounded-2xl max-w-lg w-full p-6 shadow-2xl relative border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-100">
       <div class="flex items-center justify-between border-b dark:border-slate-800 pb-3 mb-4">
@@ -448,7 +443,7 @@
     </div>
   </div>
 
-  <!-- MODAL POP-UP RINCIAN PETUGAS SHOLAT KBM (SENIN - JUMAT) -->
+  <!-- MODAL PETUGAS KBM -->
   <div id="modal-petugas-kbm" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white dark:bg-slate-900 rounded-2xl max-w-md w-full p-6 shadow-2xl relative border border-slate-200 dark:border-slate-800">
       <div class="flex items-center justify-between border-b dark:border-slate-800 pb-3 mb-4">
@@ -465,7 +460,7 @@
     </div>
   </div>
 
-  <!-- MODAL POP-UP SUSUNAN PENGURUS TAKMIR -->
+  <!-- MODAL PENGURUS -->
   <div id="modal-pengurus" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white dark:bg-slate-900 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 shadow-2xl relative border border-slate-200 dark:border-slate-800">
       <div class="flex items-center justify-between border-b dark:border-slate-800 pb-3 mb-4">
@@ -486,7 +481,7 @@
     <p>&copy; 2026 Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk. Dibuat dengan HTML & Tailwind CSS.</p>
   </footer>
 
-  <!-- JAVASCRIPT LOGIC LENGKAP INTEGRATED -->
+  <!-- JAVASCRIPT AUTO-SYNC LOGIC -->
   <script>
     const PIN_ADMIN_BENAR = "1234";
     let isAdmin = false;
@@ -557,7 +552,37 @@
       waBilal: "6285850711594"
     };
 
-    /* --- LOGIKA AL-QUR'AN DIGITAL CANGGIH --- */
+    /* --- MENGAMBIL DATA JADWAL DARI CSV SECARA OTOMATIS BERSIH DENGAN CACHE-BUSTER --- */
+    async function muatJadwalDariCSV() {
+      try {
+        // Cache-buster (?v=timestamp) memastikan browser selalu mengambil file CSV terbaru di GitHub
+        const response = await fetch('jadwal_jumat.csv?v=' + new Date().getTime());
+        if (!response.ok) return;
+        const text = await response.text();
+        const baris = text.trim().split(/\r?\n/);
+
+        dataJadwalCSV = {};
+
+        for (let i = 1; i < baris.length; i++) {
+          if (!baris[i].trim()) continue;
+          const kolom = baris[i].split(',').map(item => item.trim().replace(/^"|"$/g, ''));
+          
+          if (kolom.length >= 4) {
+            const keyTanggal = kolom[0];
+            dataJadwalCSV[keyTanggal] = {
+              imamKhotib: kolom[1] || "",
+              waImam: kolom[2] || "",
+              bilal: kolom[3] || "",
+              waBilal: kolom[4] || ""
+            };
+          }
+        }
+      } catch (err) { 
+        console.log("Gagal membaca file jadwal_jumat.csv:", err); 
+      }
+    }
+
+    /* --- AL-QUR'AN DIGITAL LOGIC --- */
     async function bukaModalQuran() {
       document.getElementById('modal-quran').classList.remove('hidden');
       if (dataSemuaSurah.length === 0) {
@@ -713,29 +738,7 @@
       }
     }
 
-    /* --- LOGIKA DATA CSV & SHOLAT --- */
-    async function muatJadwalDariCSV() {
-      try {
-        const response = await fetch('jadwal_jumat.csv');
-        if (!response.ok) return;
-        const text = await response.text();
-        const baris = text.trim().split('\n');
-
-        for (let i = 1; i < baris.length; i++) {
-          const kolom = baris[i].split(',');
-          if (kolom.length >= 4) {
-            const keyTanggal = kolom[0].trim();
-            dataJadwalCSV[keyTanggal] = {
-              imamKhotib: kolom[1].trim(),
-              waImam: kolom[2].trim(),
-              bilal: kolom[3].trim(),
-              waBilal: kolom[4] ? kolom[4].trim() : ""
-            };
-          }
-        }
-      } catch (err) { console.log("Gagal membaca CSV."); }
-    }
-
+    /* --- LOGIKA LAINNYA --- */
     function bukaModalPengurus() { document.getElementById('modal-pengurus').classList.remove('hidden'); }
     function tutupModalPengurus() { document.getElementById('modal-pengurus').classList.add('hidden'); }
     function salinRekening() {
@@ -1065,7 +1068,6 @@
       return simpanan ? JSON.parse(simpanan) : {};
     }
 
-    /* RENDER JADWAL JUMAT DESAIN RINGKAS & ELEGAN */
     function renderJadwalJumat() {
       const valBulan = document.getElementById('pilih-bulan').value;
       if (!valBulan) return;
@@ -1101,7 +1103,6 @@
 
         wadah.innerHTML += `
           <div class="border dark:border-slate-800 rounded-xl p-3 bg-slate-50 dark:bg-slate-800/80 hover:border-emerald-300 transition shadow-xs">
-            <!-- TANGGAL & BADGE PASARAN -->
             <div class="flex items-center justify-between border-b dark:border-slate-700 pb-2 mb-2.5 gap-2">
               <div class="flex items-center gap-2">
                 <span class="bg-emerald-800 text-white font-bold text-[11px] px-2.5 py-0.5 rounded-md shadow-xs">
@@ -1118,9 +1119,7 @@
               ` : ''}
             </div>
 
-            <!-- KOTAK PETUGAS IMAM & BILAL (SEJAJAR BERSAMA TOMBOL WA) -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-              <!-- IMAM & KHOTIB -->
               <div class="bg-white dark:bg-slate-900 px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 flex items-center justify-between">
                 <div>
                   <span class="text-[9px] font-bold text-emerald-700 dark:text-emerald-400 uppercase block">IMAM & KHOTIB</span>
@@ -1133,7 +1132,6 @@
                 ` : ''}
               </div>
 
-              <!-- BILAL / MUADZIN -->
               <div class="bg-white dark:bg-slate-900 px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 flex items-center justify-between">
                 <div>
                   <span class="text-[9px] font-bold text-emerald-700 dark:text-emerald-400 uppercase block">BILAL / MUADZIN</span>
