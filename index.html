@@ -4,9 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Masjid Baitul Muttaqin MAN 2 Nganjuk</title>
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Website Resmi Masjid Baitul Muttaqin MAN 2 Nganjuk. Informasi jadwal sholat Nganjuk, petugas Sholat Jumat, Al-Qur'an digital, kajian siswa, dan kegiatan takmir.">
+  <meta name="keywords" content="masjid baitul muttaqin, man 2 nganjuk, masjid man 2 nganjuk, jadwal jumat man 2 nganjuk, takmir masjid man 2 nganjuk, al quran digital">
+  <meta name="robots" content="index, follow">
+
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Konfigurasi Tailwind untuk Dark Mode -->
+  <!-- Konfigurasi Tailwind Dark Mode -->
   <script>
     tailwind.config = {
       darkMode: 'class'
@@ -122,9 +127,15 @@
   <!-- NAVIGASI MENU -->
   <nav class="sticky top-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur border-b border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
     <div class="max-w-5xl mx-auto px-4 py-2.5 flex items-center justify-between overflow-x-auto gap-2 no-scrollbar">
+      <a href="#seksi-berita" class="px-3 py-1.5 text-xs font-bold text-slate-700 dark:text-slate-300 hover:text-emerald-700 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-slate-800 rounded-lg whitespace-nowrap transition flex items-center gap-1.5">
+        <i class="fa-solid fa-newspaper text-emerald-600 dark:text-emerald-400"></i> Informasi & Berita
+      </a>
       <a href="#seksi-sholat" class="px-3 py-1.5 text-xs font-bold text-slate-700 dark:text-slate-300 hover:text-emerald-700 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-slate-800 rounded-lg whitespace-nowrap transition flex items-center gap-1.5">
         <i class="fa-solid fa-mosque text-emerald-600 dark:text-emerald-400"></i> Jadwal Sholat
       </a>
+      <button onclick="bukaModalQuran()" class="px-3 py-1.5 text-xs font-bold text-emerald-800 dark:text-emerald-300 bg-emerald-100/70 dark:bg-slate-800 hover:bg-emerald-200 dark:hover:bg-slate-700 border border-emerald-300 dark:border-slate-700 rounded-lg whitespace-nowrap transition flex items-center gap-1.5 shadow-xs">
+        <i class="fa-solid fa-quran text-emerald-600 dark:text-emerald-400"></i> Al-Qur'an Digital
+      </button>
       <a href="#seksi-jumat" class="px-3 py-1.5 text-xs font-bold text-slate-700 dark:text-slate-300 hover:text-emerald-700 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-slate-800 rounded-lg whitespace-nowrap transition flex items-center gap-1.5">
         <i class="fa-solid fa-calendar-check text-emerald-600 dark:text-emerald-400"></i> Jadwal Jumat
       </a>
@@ -137,31 +148,27 @@
       <a href="#seksi-infaq" class="px-3 py-1.5 text-xs font-bold text-slate-700 dark:text-slate-300 hover:text-emerald-700 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-slate-800 rounded-lg whitespace-nowrap transition flex items-center gap-1.5">
         <i class="fa-solid fa-hand-holding-dollar text-emerald-600 dark:text-emerald-400"></i> Infaq & Donasi
       </a>
-      <a href="#seksi-berita" class="px-3 py-1.5 text-xs font-bold text-slate-700 dark:text-slate-300 hover:text-emerald-700 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-slate-800 rounded-lg whitespace-nowrap transition flex items-center gap-1.5">
-        <i class="fa-solid fa-newspaper text-emerald-600 dark:text-emerald-400"></i> Informasi & Berita
-      </a>
     </div>
   </nav>
 
   <!-- KONTEN UTAMA -->
   <main class="max-w-5xl mx-auto px-4 mt-6 mb-12 space-y-8">
 
-    <!-- 7. BERITA & INFORMASI MASJID (DIPINDAH KE ATAS DI HP AGAR MUDAH DILIHAT) -->
+    <!-- 1. BERITA & INFORMASI MASJID (TETAP DI PALING ATAS) -->
     <section id="seksi-berita" class="bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-xl border border-slate-100 dark:border-slate-800 scroll-mt-20 transition-colors">
       <div class="flex items-center justify-between mb-4 border-b border-slate-100 dark:border-slate-800 pb-3">
         <h2 class="text-lg font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
-          <i class="fa-solid fa-bullhorn text-emerald-600 dark:text-emerald-400 animate-bounce"></i> Pengurus & Informasi Terbaru
+          <i class="fa-solid fa-bullhorn text-emerald-600 dark:text-emerald-400 animate-bounce"></i> Pengumuman & Informasi Terbaru
         </h2>
         <button onclick="bukaModalTambahBerita()" class="admin-only hidden bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-3 py-1.5 rounded-lg font-semibold flex items-center gap-1.5 transition">
           <i class="fa-solid fa-plus"></i> Tambah Berita Foto
         </button>
       </div>
 
-      <!-- Wadah Berita Responsif (Mobile: 1 kolom besar, Desktop: Grid) -->
       <div id="wadah-berita" class="grid grid-cols-1 md:grid-cols-2 gap-5"></div>
     </section>
 
-    <!-- 1. JADWAL WAKTU SHOLAT NGANJUK & JADWAL PETUGAS KBM -->
+    <!-- 2. JADWAL WAKTU SHOLAT NGANJUK & JADWAL PETUGAS KBM -->
     <section id="seksi-sholat" class="bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-xl border border-emerald-100 dark:border-slate-800 scroll-mt-20 space-y-6 transition-colors">
       <div>
         <div class="flex items-center justify-between mb-4 border-b border-slate-100 dark:border-slate-800 pb-3">
@@ -210,7 +217,7 @@
       </div>
     </section>
 
-    <!-- 2. FITUR KEAGAMAAN -->
+    <!-- 3. FITUR KEAGAMAAN -->
     <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <div class="bg-gradient-to-br from-emerald-900 to-teal-800 text-white rounded-2xl p-5 shadow-lg flex flex-col justify-between border border-emerald-700">
         <div>
@@ -268,7 +275,7 @@
       </div>
     </section>
 
-    <!-- 3. DOA HARIAN -->
+    <!-- 4. DOA HARIAN -->
     <section class="bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-xl border border-slate-100 dark:border-slate-800 transition-colors">
       <div class="flex items-center justify-between mb-4 border-b border-slate-100 dark:border-slate-800 pb-3">
         <h2 class="text-lg font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
@@ -281,7 +288,7 @@
       <div id="wadah-doa" class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs"></div>
     </section>
 
-    <!-- 4. JADWAL PETUGAS JUMAT -->
+    <!-- 5. JADWAL PETUGAS JUMAT -->
     <section id="seksi-jumat" class="bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-xl border border-slate-100 dark:border-slate-800 scroll-mt-20 transition-colors">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 border-b border-slate-100 dark:border-slate-800 pb-4">
         <div>
@@ -296,7 +303,7 @@
       <div id="wadah-jumat-bulan" class="space-y-4"></div>
     </section>
 
-    <!-- 5. LAYANAN KEAGAMAAN -->
+    <!-- 6. LAYANAN KEAGAMAAN -->
     <section id="seksi-layanan" class="bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-xl border border-slate-100 dark:border-slate-800 scroll-mt-20 transition-colors">
       <div class="flex items-center justify-between mb-4 border-b border-slate-100 dark:border-slate-800 pb-3">
         <h2 class="text-lg font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
@@ -309,7 +316,7 @@
       <div id="wadah-layanan" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs"></div>
     </section>
 
-    <!-- 6. INFAQ & DONASI MASJID -->
+    <!-- 7. INFAQ & DONASI MASJID -->
     <section id="seksi-infaq" class="bg-gradient-to-r from-emerald-900 to-teal-800 text-white rounded-2xl p-6 shadow-xl border border-emerald-700 scroll-mt-20">
       <div class="flex flex-col md:flex-row items-center justify-between gap-6">
         <div class="space-y-2 text-center md:text-left">
@@ -333,6 +340,27 @@
     </section>
 
   </main>
+
+  <!-- MODAL POP-UP AL-QUR'AN DIGITAL ONLINE -->
+  <div id="modal-quran" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 sm:p-4">
+    <div class="bg-white dark:bg-slate-900 rounded-2xl max-w-3xl w-full h-[85vh] flex flex-col p-5 shadow-2xl relative border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-100">
+      <div class="flex items-center justify-between border-b dark:border-slate-800 pb-3 mb-3">
+        <h3 class="text-base sm:text-lg font-bold flex items-center gap-2 text-emerald-800 dark:text-emerald-400">
+          <i class="fa-solid fa-quran"></i> Al-Qur'an Digital Online
+        </h3>
+        <button onclick="tutupModalQuran()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-2xl font-bold">&times;</button>
+      </div>
+
+      <div class="mb-3">
+        <input type="text" id="input-cari-surah" onkeyup="cariSurah()" placeholder="🔍 Cari nama surah (contoh: Yasin, Al-Kahf)..." 
+               class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl px-3.5 py-2 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+      </div>
+
+      <div id="konten-quran" class="flex-1 overflow-y-auto no-scrollbar space-y-3 text-xs pr-1">
+        <div class="text-center py-10 text-slate-400">Memuat daftar surah...</div>
+      </div>
+    </div>
+  </div>
 
   <!-- MODAL POP-UP TAMBAH BERITA + UPLOAD FOTO -->
   <div id="modal-tambah-berita" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
@@ -430,13 +458,14 @@
     <p>&copy; 2026 Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk. Dibuat dengan HTML & Tailwind CSS.</p>
   </footer>
 
-  <!-- JAVASCRIPT LOGIC LENGKAP -->
+  <!-- JAVASCRIPT LOGIC LENGKAP INTEGRATED -->
   <script>
     const PIN_ADMIN_BENAR = "1234";
     let isAdmin = false;
     let jadwalSholatHariIni = null;
     let dataJadwalCSV = {};
     let tempBase64Gambar = "";
+    let dataSemuaSurah = [];
 
     const kbmDefault = {
       Senin: { dzuhurImam: "Ustadz M Arief Mahardika, S.Pd", dzuhurMuadzin: "Ahmad Sulthonu Auliya", asharImam: "Ustadz Maryono, S.Pd", asharMuadzin: "Za'im Syihabbudin (XI-A)" },
@@ -499,7 +528,107 @@
       waBilal: "6285850711594"
     };
 
-    // LOGICAL FITUR DARK MODE
+    /* --- LOGIKA AL-QUR'AN DIGITAL --- */
+    async function bukaModalQuran() {
+      document.getElementById('modal-quran').classList.remove('hidden');
+      if (dataSemuaSurah.length === 0) {
+        await muatDaftarSurah();
+      }
+    }
+
+    function tutupModalQuran() {
+      document.getElementById('modal-quran').classList.add('hidden');
+    }
+
+    async function muatDaftarSurah() {
+      const wadah = document.getElementById('konten-quran');
+      wadah.innerHTML = '<div class="text-center py-10 text-slate-400"><i class="fa-solid fa-spinner animate-spin text-xl mb-2"></i><br>Memuat daftar 114 surah...</div>';
+      
+      try {
+        const res = await fetch('https://equran.id/api/v2/surat');
+        const json = await res.json();
+        dataSemuaSurah = json.data;
+        renderDaftarSurah(dataSemuaSurah);
+      } catch (err) {
+        wadah.innerHTML = '<div class="text-center py-10 text-red-500">Gagal memuat Al-Qur\'an. Pastikan koneksi internet aktif.</div>';
+      }
+    }
+
+    function renderDaftarSurah(daftar) {
+      const wadah = document.getElementById('konten-quran');
+      wadah.innerHTML = '';
+
+      let html = '<div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">';
+      daftar.forEach(s => {
+        html += `
+          <div onclick="bukaSurah(${s.nomor})" class="p-3 bg-slate-50 dark:bg-slate-800/80 hover:bg-emerald-50 dark:hover:bg-slate-700/80 border border-slate-200 dark:border-slate-700 rounded-xl cursor-pointer transition flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <span class="w-7 h-7 bg-emerald-600 text-white rounded-lg flex items-center justify-center font-bold text-xs">${s.nomor}</span>
+              <div>
+                <h4 class="font-bold text-slate-800 dark:text-slate-100 text-xs">${s.namaLatin}</h4>
+                <span class="text-[10px] text-slate-500 dark:text-slate-400">${s.arti} • ${s.jumlahAyat} Ayat</span>
+              </div>
+            </div>
+            <span class="font-arabic text-base font-bold text-emerald-700 dark:text-emerald-400">${s.nama}</span>
+          </div>
+        `;
+      });
+      html += '</div>';
+      wadah.innerHTML = html;
+    }
+
+    function cariSurah() {
+      const q = document.getElementById('input-cari-surah').value.toLowerCase();
+      const hasil = dataSemuaSurah.filter(s => s.namaLatin.toLowerCase().includes(q) || s.arti.toLowerCase().includes(q));
+      renderDaftarSurah(hasil);
+    }
+
+    async function bukaSurah(nomor) {
+      const wadah = document.getElementById('konten-quran');
+      wadah.innerHTML = '<div class="text-center py-10 text-slate-400"><i class="fa-solid fa-spinner animate-spin text-xl mb-2"></i><br>Memuat ayat surah...</div>';
+
+      try {
+        const res = await fetch(`https://equran.id/api/v2/surat/${nomor}`);
+        const json = await res.json();
+        const surah = json.data;
+
+        let html = `
+          <div class="mb-4 pb-3 border-b dark:border-slate-800 flex items-center justify-between sticky top-0 bg-white dark:bg-slate-900 z-10 py-1">
+            <button onclick="renderDaftarSurah(dataSemuaSurah)" class="text-xs bg-emerald-100 dark:bg-slate-800 text-emerald-800 dark:text-emerald-300 px-3 py-1.5 rounded-lg font-bold flex items-center gap-1">
+              <i class="fa-solid fa-arrow-left"></i> Kembali ke Daftar Surah
+            </button>
+            <div class="text-right">
+              <h3 class="font-bold text-slate-800 dark:text-slate-100 text-sm">${surah.namaLatin} (${surah.nama})</h3>
+              <span class="text-[10px] text-slate-500">${surah.tempatTurun} • ${surah.jumlahAyat} Ayat</span>
+            </div>
+          </div>
+          <div class="space-y-4">
+        `;
+
+        surah.ayat.forEach(a => {
+          html += `
+            <div class="p-3.5 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-200 dark:border-slate-700 space-y-2">
+              <div class="flex items-center justify-between text-[11px] text-emerald-700 dark:text-emerald-400 font-bold border-b dark:border-slate-700/60 pb-1.5">
+                <span>Ayat ${a.nomorAyat}</span>
+                <audio controls class="h-6 w-36 sm:w-48">
+                  <source src="${a.audio['05']}" type="audio/mpeg">
+                </audio>
+              </div>
+              <p class="font-arabic text-right text-lg sm:text-xl leading-loose font-bold text-slate-800 dark:text-slate-100">${a.teksArab}</p>
+              <p class="text-[11px] text-emerald-800 dark:text-emerald-300 italic">${a.teksLatin}</p>
+              <p class="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">"${a.teksIndonesia}"</p>
+            </div>
+          `;
+        });
+
+        html += '</div>';
+        wadah.innerHTML = html;
+      } catch (err) {
+        wadah.innerHTML = '<div class="text-center py-10 text-red-500">Gagal memuat ayat surah.</div>';
+      }
+    }
+
+    /* --- LOGIKA DARK MODE --- */
     function inisialisasiTema() {
       const temaTersimpan = localStorage.getItem('tema_masjid');
       if (temaTersimpan === 'dark' || (!temaTersimpan && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -524,6 +653,7 @@
       }
     }
 
+    /* --- LOGIKA DATA CSV & SHOLAT --- */
     async function muatJadwalDariCSV() {
       try {
         const response = await fetch('jadwal_jumat.csv');
@@ -902,7 +1032,6 @@
 
         const dataHarian = dataLokal[keyTanggal] || dataJadwalCSV[keyTanggal] || petugasDefault;
 
-        // DRAF PESAN OTOMATIS WHATSAPP
         const pesanWAImam = encodeURIComponent(`Assalamu'alaikum ${dataHarian.imamKhotib}, kami dari Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk mengingatkan jadwal Anda sebagai Imam & Khotib Sholat Jumat pada tanggal ${strTanggalLengkap}. Terima kasih.`);
         const pesanWABilal = encodeURIComponent(`Assalamu'alaikum ${dataHarian.bilal}, kami dari Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk mengingatkan jadwal Anda sebagai Bilal / Muadzin Sholat Jumat pada tanggal ${strTanggalLengkap}. Terima kasih.`);
 
@@ -928,7 +1057,6 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <!-- KOTAK IMAM & KHOTIB -->
               <div class="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col justify-between">
                 <div>
                   <span class="text-[11px] font-bold text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-slate-800 px-2 py-0.5 rounded border border-emerald-100 dark:border-slate-700 inline-block mb-1">IMAM & KHOTIB</span>
@@ -943,7 +1071,6 @@
                 ` : ''}
               </div>
 
-              <!-- KOTAK BILAL / MUADZIN -->
               <div class="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col justify-between">
                 <div>
                   <span class="text-[11px] font-bold text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-slate-800 px-2 py-0.5 rounded border border-emerald-100 dark:border-slate-700 inline-block mb-1">BILAL / MUADZIN</span>
@@ -1289,6 +1416,7 @@
       } catch (err) { console.log('Gagal memuat jadwal sholat:', err); }
     }
 
+    /* INISIALISASI APLIKASI WEB */
     async function inisialisasi() {
       inisialisasiTema();
       await muatJadwalDariCSV();
