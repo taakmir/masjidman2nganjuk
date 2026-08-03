@@ -477,6 +477,31 @@
     </div>
   </div>
 
+  <!-- MODAL PENGINGAT TAKMIR (3 NOMOR PENGURUS) -->
+  <div id="modal-pilihan-takmir" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-900 rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-100 relative">
+      <div class="flex items-center justify-between border-b dark:border-slate-800 pb-3 mb-3">
+        <h3 class="text-base font-bold flex items-center gap-2 text-emerald-800 dark:text-emerald-400">
+          <i class="fa-solid fa-bullhorn"></i> Kirim Pengingat Pengurus Takmir
+        </h3>
+        <button onclick="tutupModalTakmir()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-xl font-bold">&times;</button>
+      </div>
+      
+      <div class="flex items-center justify-between mb-3">
+        <p class="text-xs text-slate-500 dark:text-slate-400">Pilih pengurus takmir yang ingin dihubungi:</p>
+        <button onclick="editKontakTakmir()" class="admin-only hidden bg-amber-400 hover:bg-amber-500 text-slate-900 text-[10px] font-bold px-2 py-1 rounded transition flex items-center gap-1 shadow-xs">
+          <i class="fa-solid fa-pen"></i> Edit Kontak
+        </button>
+      </div>
+
+      <div id="daftar-kontak-takmir" class="space-y-3"></div>
+
+      <div class="mt-5 text-right">
+        <button onclick="tutupModalTakmir()" class="bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 text-slate-700 dark:text-slate-300 text-xs px-4 py-2 rounded-xl font-semibold transition">Batal</button>
+      </div>
+    </div>
+  </div>
+
   <footer class="bg-slate-900 text-slate-400 text-center py-6 text-xs border-t border-slate-800">
     <p>&copy; 2026 Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk. Dibuat dengan HTML & Tailwind CSS.</p>
   </footer>
@@ -490,6 +515,7 @@
     let tempBase64Gambar = "";
     let dataSemuaSurah = [];
     let surahAktifData = null;
+    let dataPesanTakmirAktif = {};
 
     const kbmDefault = {
       Senin: { dzuhurImam: "Ustadz M Arief Mahardika, S.Pd", dzuhurMuadzin: "Ahmad Sulthonu Auliya", asharImam: "Ustadz Maryono, S.Pd", asharMuadzin: "Za'im Syihabbudin (XI-A)" },
@@ -551,6 +577,12 @@
       bilal: "ACHMAD KISYA AL HABSY (XII-C)",
       waBilal: "6281515602138"
     };
+
+    const kontakTakmirDefault = [
+      { nama: "Pengurus Takmir 1 (Ketua / Koordinator)", wa: "6281234567890" },
+      { nama: "Pengurus Takmir 2 (Divisi Imarah)", wa: "6289876543210" },
+      { nama: "Pengurus Takmir 3 (Sie Acara / Remas)", wa: "6285554443332" }
+    ];
 
     /* --- FUNGSI PEMBACA CSV ULTRA-KEBAL --- */
     async function muatJadwalDariCSV() {
@@ -671,6 +703,7 @@ Ttd.
 Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
 
         const pesanWAImam = encodeURIComponent(teksWAImam);
+
         // TEMPLATE PESAN PENGINGAT WA BILAL / MUADZIN
         const teksWABilal = `Assalamu'alaikum Wr. Wb.
 Yth. Sdr/Ananda ${dataHarian.bilal},
@@ -703,9 +736,16 @@ Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
                 </span>
               </div>
               ${isAdmin ? `
-                <button onclick="editPetugasJumat('${keyTanggal}', '${strTanggalLengkap}')" class="text-[11px] bg-amber-500 hover:bg-amber-600 text-white font-semibold px-2 py-0.5 rounded-md transition shadow-xs">
-                  <i class="fa-solid fa-pen-to-square"></i> Edit
-                </button>
+                <div class="flex items-center gap-1.5">
+                  <button onclick="bukaModalTakmir('${keyTanggal}', '${strTanggalLengkap}', '${pasaran}')" 
+                          class="text-[11px] bg-emerald-700 hover:bg-emerald-800 text-white font-semibold px-2.5 py-0.5 rounded-md transition shadow-xs flex items-center gap-1">
+                    <i class="fa-solid fa-bullhorn text-[10px]"></i> Pengingat Takmir
+                  </button>
+                  <button onclick="editPetugasJumat('${keyTanggal}', '${strTanggalLengkap}')" 
+                          class="text-[11px] bg-amber-500 hover:bg-amber-600 text-white font-semibold px-2 py-0.5 rounded-md transition shadow-xs">
+                    <i class="fa-solid fa-pen-to-square"></i> Edit
+                  </button>
+                </div>
               ` : ''}
             </div>
 
@@ -737,6 +777,93 @@ Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
           </div>
         `;
       });
+    }
+
+    /* LOGIK FITUR PENGINGAT TAKMIR */
+    function ambilKontakTakmir() {
+      const simpanan = localStorage.getItem('kontak_takmir_masjid');
+      return simpanan ? JSON.parse(simpanan) : kontakTakmirDefault;
+    }
+
+    function bukaModalTakmir(keyTanggal, strTanggalLengkap, pasaran) {
+      dataPesanTakmirAktif = { keyTanggal, strTanggalLengkap, pasaran };
+      const dataLokal = ambilDataPetugasJumatLokal();
+      const dataHarian = dataJadwalCSV[keyTanggal] || dataLokal[keyTanggal] || petugasDefault;
+      const daftarKontak = ambilKontakTakmir();
+
+      const wadah = document.getElementById('daftar-kontak-takmir');
+      wadah.innerHTML = '';
+
+      daftarKontak.forEach((item) => {
+        const teksWATakmir = `Assalamu'alaikum Wr. Wb.
+
+Yth. Pengurus Takmir Masjid / Sdr. ${item.nama},
+
+Sekadar mengingatkan persiapan pelaksanaan Salat Jumat besok Jumat, ${strTanggalLengkap} / Pasaran ${pasaran} di Masjid Baitul Muttaqin MAN 2 Nganjuk.
+
+📋 JADWAL PETUGAS TERJADWAL:
+• Imam & Khotib  : ${dataHarian.imamKhotib}
+• Bilal / Muadzin: ${dataHarian.bilal}
+
+📢 POIN PENGUMUMAN / HIMBAUAN SEBELUM SHOLAT JUMAT:
+1. Mengisi dan merapatkan shaf depan yang masih kosong terlebih dahulu.
+2. Mengheningkan atau mematikan nada dering HP/gawai selama berada di dalam masjid.
+3. Mendengarkan khutbah Jumat dengan tenang dan khusyuk (dilarang berbicara saat khutbah).
+4. Menjaga kebersihan dan merapikan kembali barang bawaan masing-masing.
+
+Dimohon hadir lebih awal (pukul 11.30 WIB) untuk penyiapan sound system, penyampaian pengumuman di atas, dan pengondisian jamaah.
+
+Atas perhatian dan kerja samanya, kami ucapkan terima kasih.
+
+Wassalamu'alaikum Wr. Wb.
+
+Ttd.
+Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
+
+        const linkWA = item.wa ? `https://api.whatsapp.com/send?phone=${item.wa}&text=${encodeURIComponent(teksWATakmir)}` : '#';
+
+        wadah.innerHTML += `
+          <a href="${linkWA}" target="_blank" onclick="tutupModalTakmir()" 
+             class="flex items-center justify-between p-3 bg-emerald-50 dark:bg-slate-800 hover:bg-emerald-100 dark:hover:bg-slate-700 border border-emerald-200 dark:border-slate-700 rounded-xl transition cursor-pointer">
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 bg-emerald-600 text-white rounded-lg flex items-center justify-center font-bold text-xs">
+                <i class="fa-brands fa-whatsapp text-base"></i>
+              </div>
+              <div>
+                <h4 class="font-bold text-slate-800 dark:text-slate-100 text-xs">${item.nama}</h4>
+                <span class="text-[10px] text-slate-500 dark:text-slate-400">${item.wa || 'Nomor belum diatur'}</span>
+              </div>
+            </div>
+            <span class="text-[10px] bg-emerald-600 text-white font-bold px-2.5 py-1 rounded-lg shadow-xs">Kirim WA</span>
+          </a>
+        `;
+      });
+
+      document.getElementById('modal-pilihan-takmir').classList.remove('hidden');
+    }
+
+    function tutupModalTakmir() {
+      document.getElementById('modal-pilihan-takmir').classList.add('hidden');
+    }
+
+    function editKontakTakmir() {
+      const daftar = ambilKontakTakmir();
+      for (let i = 0; i < 3; i++) {
+        const namaLama = daftar[i] ? daftar[i].nama : `Pengurus ${i+1}`;
+        const waLama = daftar[i] ? daftar[i].wa : `628...`;
+
+        const namaBaru = prompt(`[Kontak ${i+1}]\nMasukkan Nama / Jabatan Pengurus:`, namaLama);
+        if (!namaBaru) return;
+        const waBaru = prompt(`[Kontak ${i+1}]\nMasukkan Nomor WhatsApp (Format 628...):`, waLama);
+        if (!waBaru) return;
+
+        daftar[i] = { nama: namaBaru, wa: waBaru };
+      }
+      localStorage.setItem('kontak_takmir_masjid', JSON.stringify(daftar));
+      if (dataPesanTakmirAktif.keyTanggal) {
+        bukaModalTakmir(dataPesanTakmirAktif.keyTanggal, dataPesanTakmirAktif.strTanggalLengkap, dataPesanTakmirAktif.pasaran);
+      }
+      alert("Daftar 3 Kontak Pengurus Takmir berhasil diperbarui!");
     }
 
     /* AL-QUR'AN DIGITAL LOGIC */
