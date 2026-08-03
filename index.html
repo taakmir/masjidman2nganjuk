@@ -655,8 +655,39 @@
         // PRIORITASKAN CSV DARI GITHUB
         const dataHarian = dataJadwalCSV[keyTanggal] || dataLokal[keyTanggal] || petugasDefault;
 
-        const pesanWAImam = encodeURIComponent(`Assalamu'alaikum ${dataHarian.imamKhotib}, kami dari Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk mengingatkan jadwal Anda sebagai Imam & Khotib Sholat Jumat pada tanggal ${strTanggalLengkap}. Terima kasih.`);
-        const pesanWABilal = encodeURIComponent(`Assalamu'alaikum ${dataHarian.bilal}, kami dari Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk mengingatkan jadwal Anda sebagai Bilal / Muadzin Sholat Jumat pada tanggal ${strTanggalLengkap}. Terima kasih.`);
+        // TEMPLATE PESAN PENGINGAT WA IMAM & KHOTIB RESMI
+        const teksWAImam = `Assalamu'alaikum Wr. Wb.
+Yth. Bapak/Ustadz ${dataHarian.imamKhotib},
+
+Sekadar mengingatkan bahwa besok Jumat, ${strTanggalLengkap} / Pasaran ${pasaran}, Bapak/Ustadz terjadwal sebagai petugas Imam dan Khotib Salat Jumat di Masjid Baitul Muttaqin MAN 2 Nganjuk.
+
+Dimohon untuk dapat mempersiapkan diri dan hadir di lokasi pada pukul 11.45 WIB.
+
+Mohon konfirmasi kehadiran melalui balasan pesan ini. Atas perhatian dan kesediaan Bapak/Ustaz, kami ucapkan terima kasih.
+
+Wassalamu'alaikum Wr. Wb.
+
+Ttd.
+Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
+
+        const pesanWAImam = encodeURIComponent(teksWAImam);
+
+        // TEMPLATE PESAN PENGINGAT WA BILAL / MUADZIN
+        const teksWABilal = `Assalamu'alaikum Wr. Wb.
+Yth. Sdr/Ananda ${dataHarian.bilal},
+
+Sekadar mengingatkan bahwa besok Jumat, ${strTanggalLengkap} / Pasaran ${pasaran}, Anda terjadwal sebagai petugas Bilal / Muadzin Salat Jumat di Masjid Baitul Muttaqin MAN 2 Nganjuk.
+
+Dimohon untuk dapat mempersiapkan diri dan hadir di lokasi pada pukul 11.45 WIB.
+
+Mohon konfirmasi kehadiran melalui balasan pesan ini. Atas perhatian dan kesediaan Anda, kami ucapkan terima kasih.
+
+Wassalamu'alaikum Wr. Wb.
+
+Ttd.
+Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
+
+        const pesanWABilal = encodeURIComponent(teksWABilal);
 
         const linkWAImam = dataHarian.waImam ? `https://api.whatsapp.com/send?phone=${dataHarian.waImam}&text=${pesanWAImam}` : '';
         const linkWABilal = dataHarian.waBilal ? `https://api.whatsapp.com/send?phone=${dataHarian.waBilal}&text=${pesanWABilal}` : '';
