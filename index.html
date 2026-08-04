@@ -4,10 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Masjid Baitul Muttaqin MAN 2 Nganjuk</title>
+  
   <!-- SEO Meta Tags -->
   <meta name="description" content="Website Resmi Masjid Baitul Muttaqin MAN 2 Nganjuk. Informasi jadwal sholat Nganjuk, petugas Sholat Jumat, Al-Qur'an digital, kajian siswa, dan kegiatan takmir.">
   <meta name="keywords" content="masjid baitul muttaqin, man 2 nganjuk, masjid man 2 nganjuk, jadwal jumat man 2 nganjuk, takmir masjid man 2 nganjuk, al quran digital">
   <meta name="robots" content="index, follow">
+
+  <!-- PWA (Progressive Web App) Meta Tags -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="logo-masjid.png">
+  <meta name="theme-color" content="#047857">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Masjid MAN 2">
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -42,6 +51,12 @@
 
   <!-- FLOATING BUTTONS (POJOK KANAN BAWAH LAYAR) -->
   <div class="fixed bottom-5 right-5 z-50 flex items-center gap-2.5">
+    <!-- TOMBOL INSTALL APLIKASI (OTOMATIS TAMPIL JIKA BISA DIINSTALL) -->
+    <button id="btn-install-pwa" onclick="installAplikasi()" title="Install Aplikasi Masjid" 
+            class="hidden bg-amber-400 text-emerald-950 w-12 h-12 rounded-full shadow-2xl border-2 border-amber-200 flex items-center justify-center text-lg hover:scale-110 active:scale-95 transition-all duration-200 cursor-pointer animate-bounce">
+      <i class="fa-solid fa-download"></i>
+    </button>
+
     <!-- TOMBOL MODE GELAP / TERANG -->
     <button id="btn-theme-toggle" onclick="toggleDarkMode()" title="Ganti Mode Gelap/Terang" 
             class="bg-slate-800 text-amber-300 dark:bg-slate-100 dark:text-slate-900 w-12 h-12 rounded-full shadow-2xl border-2 border-slate-600 dark:border-amber-400 flex items-center justify-center text-lg hover:scale-110 active:scale-95 transition-all duration-200 cursor-pointer">
@@ -102,10 +117,13 @@
           Pusat Kegiatan Keagamaan, Peradaban Siswa, dan Informasi Takmir Masjid
         </p>
 
-        <div class="mt-4">
+        <div class="mt-4 flex flex-wrap items-center justify-center gap-2">
           <span class="inline-flex items-center gap-1.5 bg-gradient-to-r from-amber-400 to-amber-500 text-emerald-950 px-4 py-1 rounded-full text-[11px] font-extrabold uppercase tracking-widest shadow-md border border-amber-200">
             <i class="fa-solid fa-circle-check text-xs"></i> Official Website
           </span>
+          <button id="btn-banner-install" onclick="installAplikasi()" class="hidden inline-flex items-center gap-1.5 bg-white text-emerald-900 px-4 py-1 rounded-full text-[11px] font-extrabold uppercase tracking-widest shadow-md border border-amber-300 hover:bg-amber-100 transition">
+            <i class="fa-solid fa-mobile-screen-button text-amber-600"></i> Install Aplikasi
+          </button>
         </div>
       </div>
 
@@ -516,6 +534,43 @@
     let dataSemuaSurah = [];
     let surahAktifData = null;
     let dataPesanTakmirAktif = {};
+    let deferredPrompt = null;
+
+    /* PWA INSTALLATION PROMPT HANDLER */
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      const btnInstallPWA = document.getElementById('btn-install-pwa');
+      const btnBannerInstall = document.getElementById('btn-banner-install');
+      if (btnInstallPWA) btnInstallPWA.classList.remove('hidden');
+      if (btnBannerInstall) btnBannerInstall.classList.remove('hidden');
+    });
+
+    function installAplikasi() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('Pengguna meng-install aplikasi');
+          }
+          deferredPrompt = null;
+          const btnInstallPWA = document.getElementById('btn-install-pwa');
+          const btnBannerInstall = document.getElementById('btn-banner-install');
+          if (btnInstallPWA) btnInstallPWA.classList.add('hidden');
+          if (btnBannerInstall) btnBannerInstall.classList.add('hidden');
+        });
+      } else {
+        alert("Untuk menginstall aplikasi:\n\n• Android (Chrome): Klik titik tiga di pojok kanan atas -> pilih 'Tambahkan ke Layar Utama' / 'Install Aplikasi'.\n• iPhone (Safari): Klik tombol Bagikan (Share) -> pilih 'Tambahkan ke Layar Utama'.");
+      }
+    }
+
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(reg => console.log('Service Worker Terdaftar'))
+          .catch(err => console.log('Gagal mendaftarkan Service Worker:', err));
+      });
+    }
 
     const kbmDefault = {
       Senin: { dzuhurImam: "Ustadz M Arief Mahardika, S.Pd", dzuhurMuadzin: "Ahmad Sulthonu Auliya", asharImam: "Ustadz Maryono, S.Pd", asharMuadzin: "Za'im Syihabbudin (XI-A)" },
