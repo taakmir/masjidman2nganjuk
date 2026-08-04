@@ -1,0 +1,23 @@
+{
+  "name": "Masjid Baitul Muttaqin MAN 2 Nganjuk",
+  "short_name": "Masjid MAN 2",
+  "description": "Official App Masjid Baitul Muttaqin MAN 2 Nganjuk",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#064e3b",
+  "theme_color": "#047857",
+  "icons": [
+    {
+      "src": "logo-masjid.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "logo-masjid.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
