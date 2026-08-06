@@ -490,7 +490,7 @@
   <div id="modal-pengurus" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 sm:p-4">
     <div class="bg-white dark:bg-slate-900 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-4 sm:p-6 shadow-2xl relative border border-slate-200 dark:border-slate-800">
       <div class="flex items-center justify-between border-b dark:border-slate-800 pb-3 mb-4">
-        <h3 class="text-base sm:text-lg font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2"><i class="fa-solid fa-sitemap text-emerald-600 dark:text-emerald-400"></i> Susunan Pengurus Takmir Masjid</h3>
+        <h3 class="text-base sm:text-lg font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2"><i class="fa-solid fa-sitemap text-emerald-600 dark:text-emerald-400"></i> Susunan Pengurus Takmir Masjid SK</h3>
         <div class="flex items-center gap-2">
           <button onclick="editPengurus()" class="admin-only hidden bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold px-2.5 py-1 rounded-lg transition flex items-center gap-1"><i class="fa-solid fa-pen"></i> Edit Pengurus</button>
           <button onclick="tutupModalPengurus()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-xl font-bold">&times;</button>
@@ -664,17 +664,21 @@
       deskripsi: "Infaq Anda dipergunakan untuk operasional kebersihan masjid, pemeliharaan sarana ibadah, serta kegiatan keagamaan siswa MAN 2 Nganjuk."
     };
 
-    const pengurusDefault = {
-      pelindung: "Kepala MAN 2 Nganjuk",
-      ketua: "Ustadz Bryan Azzam Maulana",
-      wakil: "Ustadz Ahmad Fauzi, S.Pd.I",
-      sekretaris: "Muhammad Rayhan (Siswa)",
-      bendahara: "Hafiz Wahyu Akmal",
-      divisi1: "Divisi Imarah (Ibadah & Kajian): OSIS Sekbid Keagamaan",
-      divisi2: "Divisi Ri'ayah (Kebersihan & Sarana): Pengurus Remaja Masjid",
-      divisi3: "Divisi Humas & Publikasi: Tim Media Takmir",
-      divisi4: "Divisi Logistik & Konsumsi: Tim Perlengkapan"
-    };
+    // DATA PENGURUS RESMI SESUAI SK MADRASAH
+    const pengurusDefault = [
+      { jabatan: "Penanggung Jawab", nama: "Ustadz Kasnan, S.Ag, M.Pd.I" },
+      { jabatan: "Pengarah", nama: "Ustadz Uvin Wahyudi, S.Pd.SD" },
+      { jabatan: "Koordinator", nama: "Ustadz Maryono, S.Pd" },
+      { jabatan: "Ketua Takmir", nama: "Ustadz Wahib Abdul Rosyad, S.Ag" },
+      { jabatan: "Wakil Ketua", nama: "Ustadz Moch. Muntaha, S.S" },
+      { jabatan: "Sekretaris", nama: "Ustadz Bryan Azzam Maulana, S.Pd" },
+      { jabatan: "Bendahara", nama: "Ustadz Ahmad Ali Akbar, S.Si" },
+      { jabatan: "Bidang Pendidikan", nama: "• Ustadz Mukhamad Zainal Panani, S.Pd\n• Ustadz Abdul Malik Hasan, S.H.I\n• Ustadz Muhamad Munhamir, S.Sy" },
+      { jabatan: "Bidang Peribadatan", nama: "• Ustadz Mochamad Haris Busronul Hawa, S.Pd.I\n• Ustadz Moh. Nur Aziz, S.Pd" },
+      { jabatan: "Bidang Kebersihan", nama: "• Ustadz Puguh Utomo, S.Sos.\n• Ustadz Muhammad Makrus" },
+      { jabatan: "Bidang Perlengkapan", nama: "• Ustadz M. Arief Mahardika, S.Pd\n• Ustadz Hendra Laksana Putra, S.T." },
+      { jabatan: "Bidang Keputrian", nama: "• Ustadz Miftahul Hidayah, S.Ag, M.Pd.I" }
+    ];
 
     const beritaDefault = [
       { 
@@ -747,8 +751,8 @@
         renderDoa();
       });
 
-      // 7. Pengurus
-      db.ref('pengurus_masjid').on('value', (snap) => {
+      // 7. Pengurus SK (Real-time sync khusus SK)
+      db.ref('pengurus_masjid_sk').on('value', (snap) => {
         dataPengurusRealtime = snap.val() || pengurusDefault;
         renderPengurus();
       });
@@ -1692,79 +1696,64 @@ Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
       }
     }
 
+    // FUNGSI RENDER PENGURUS DENGAN STRUKTUR SK RESMI
     function renderPengurus() {
-      const p = dataPengurusRealtime || pengurusDefault;
+      const daftar = (Array.isArray(dataPengurusRealtime) && dataPengurusRealtime.length) ? dataPengurusRealtime : pengurusDefault;
       const wadah = document.getElementById('wadah-pengurus');
       if (!wadah) return;
 
+      wadah.innerHTML = '';
+
+      let htmlPimpinan = '<div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-4">';
+      let htmlBidang = '<div class="space-y-2.5">';
+
+      daftar.forEach((item, idx) => {
+        const namaFormatted = item.nama.replace(/\n/g, '<br>');
+        if (idx < 7) {
+          htmlPimpinan += `
+            <div class="bg-emerald-50 dark:bg-slate-800 p-3 rounded-xl border border-emerald-200 dark:border-slate-700">
+              <span class="text-[10px] font-bold text-emerald-800 dark:text-emerald-400 uppercase block mb-0.5">${item.jabatan}</span>
+              <h4 class="font-bold text-slate-800 dark:text-slate-100 text-xs sm:text-sm">${namaFormatted}</h4>
+            </div>
+          `;
+        } else {
+          htmlBidang += `
+            <div class="bg-slate-50 dark:bg-slate-800/80 p-3 rounded-xl border border-slate-200 dark:border-slate-700">
+              <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase block mb-1">${item.jabatan}</span>
+              <div class="font-bold text-slate-800 dark:text-slate-100 text-xs leading-relaxed">${namaFormatted}</div>
+            </div>
+          `;
+        }
+      });
+
+      htmlPimpinan += '</div>';
+      htmlBidang += '</div>';
+
       wadah.innerHTML = `
-        <div class="bg-emerald-50 dark:bg-slate-800 p-3 rounded-xl border border-emerald-100 dark:border-slate-700 text-center">
-          <span class="text-[10px] font-bold text-emerald-700 dark:text-emerald-400 uppercase block">Pelindung / Penasihat</span>
-          <h4 class="font-bold text-slate-800 dark:text-slate-100 text-sm">${p.pelindung}</h4>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div class="bg-slate-50 dark:bg-slate-800/80 p-3 rounded-xl border border-slate-200 dark:border-slate-700">
-            <span class="text-[10px] font-bold text-emerald-700 dark:text-emerald-400 uppercase block">Ketua Takmir</span>
-            <h4 class="font-bold text-slate-800 dark:text-slate-100 text-sm">${p.ketua}</h4>
-          </div>
-          <div class="bg-slate-50 dark:bg-slate-800/80 p-3 rounded-xl border border-slate-200 dark:border-slate-700">
-            <span class="text-[10px] font-bold text-emerald-700 dark:text-emerald-400 uppercase block">Wakil Ketua Takmir</span>
-            <h4 class="font-bold text-slate-800 dark:text-slate-100 text-sm">${p.wakil}</h4>
-          </div>
-          <div class="bg-slate-50 dark:bg-slate-800/80 p-3 rounded-xl border border-slate-200 dark:border-slate-700">
-            <span class="text-[10px] font-bold text-emerald-700 dark:text-emerald-400 uppercase block">Sekretaris Takmir</span>
-            <h4 class="font-bold text-slate-800 dark:text-slate-100 text-sm">${p.sekretaris}</h4>
-          </div>
-          <div class="bg-slate-50 dark:bg-slate-800/80 p-3 rounded-xl border border-slate-200 dark:border-slate-700">
-            <span class="text-[10px] font-bold text-emerald-700 dark:text-emerald-400 uppercase block">Bendahara Takmir</span>
-            <h4 class="font-bold text-slate-800 dark:text-slate-100 text-sm">${p.bendahara}</h4>
-          </div>
-        </div>
-
-        <div class="border-t dark:border-slate-800 pt-3">
-          <h4 class="font-bold text-slate-800 dark:text-slate-100 text-xs mb-2">Divisi-Divisi Operasional:</h4>
-          <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-slate-600 dark:text-slate-300">
-            <li class="bg-slate-100 dark:bg-slate-800 p-2 rounded-lg">${p.divisi1}</li>
-            <li class="bg-slate-100 dark:bg-slate-800 p-2 rounded-lg">${p.divisi2}</li>
-            <li class="bg-slate-100 dark:bg-slate-800 p-2 rounded-lg">${p.divisi3}</li>
-            <li class="bg-slate-100 dark:bg-slate-800 p-2 rounded-lg">${p.divisi4}</li>
-          </ul>
-        </div>
+        <h4 class="font-extrabold text-xs text-emerald-800 dark:text-emerald-400 uppercase tracking-wider mb-2"><i class="fa-solid fa-user-shield mr-1"></i> Pimpinan & Pengurus Utama</h4>
+        ${htmlPimpinan}
+        <h4 class="font-extrabold text-xs text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-2"><i class="fa-solid fa-layer-group mr-1"></i> Bidang-Bidang Operasional SK</h4>
+        ${htmlBidang}
       `;
     }
 
     function editPengurus() {
-      const p = dataPengurusRealtime || pengurusDefault;
+      const daftarLama = (Array.isArray(dataPengurusRealtime) && dataPengurusRealtime.length) ? dataPengurusRealtime : pengurusDefault;
+      const daftarBaru = [];
 
-      const pelindung = prompt("Pelindung / Penasihat:", p.pelindung); if (pelindung === null) return;
-      const ketua = prompt("Ketua Takmir:", p.ketua); if (ketua === null) return;
-      const wakil = prompt("Wakil Ketua Takmir:", p.wakil); if (wakil === null) return;
-      const sekretaris = prompt("Sekretaris Takmir:", p.sekretaris); if (sekretaris === null) return;
-      const bendahara = prompt("Bendahara Takmir:", p.bendahara); if (bendahara === null) return;
-      const divisi1 = prompt("Divisi 1 (Imarah):", p.divisi1); if (divisi1 === null) return;
-      const divisi2 = prompt("Divisi 2 (Ri'ayah):", p.divisi2); if (divisi2 === null) return;
-      const divisi3 = prompt("Divisi 3 (Humas):", p.divisi3); if (divisi3 === null) return;
-      const divisi4 = prompt("Divisi 4 (Logistik):", p.divisi4); if (divisi4 === null) return;
+      for (let i = 0; i < daftarLama.length; i++) {
+        const item = daftarLama[i];
+        const namaInput = prompt(`[${item.jabatan}]\nMasukkan Nama Pengurus:`, item.nama);
+        if (namaInput === null) return;
+        daftarBaru.push({ jabatan: item.jabatan, nama: namaInput || item.nama });
+      }
 
-      const dataBaru = { 
-        pelindung: pelindung || p.pelindung, 
-        ketua: ketua || p.ketua, 
-        wakil: wakil || p.wakil, 
-        sekretaris: sekretaris || p.sekretaris, 
-        bendahara: bendahara || p.bendahara, 
-        divisi1: divisi1 || p.divisi1, 
-        divisi2: divisi2 || p.divisi2, 
-        divisi3: divisi3 || p.divisi3, 
-        divisi4: divisi4 || p.divisi4 
-      };
-
-      db.ref('pengurus_masjid').set(dataBaru, (err) => {
+      db.ref('pengurus_masjid_sk').set(daftarBaru, (err) => {
         if (!err) {
-          alert("Susunan Pengurus Takmir berhasil diperbarui dan disinkronkan ke semua HP!");
+          alert("Data Pengurus Takmir SK berhasil diperbarui & disinkronkan ke seluruh HP!");
           renderPengurus();
         } else {
-          alert("Gagal menyimpan ke database: " + err.message);
+          alert("Gagal menyimpan: " + err.message);
         }
       });
     }
