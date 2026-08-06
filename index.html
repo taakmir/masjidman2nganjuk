@@ -1190,7 +1190,11 @@ Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
     }
 
     /* LAINNYA */
-    function bukaModalPengurus() { document.getElementById('modal-pengurus').classList.remove('hidden'); }
+    function bukaModalPengurus() { 
+      renderPengurus(); 
+      document.getElementById('modal-pengurus').classList.remove('hidden'); 
+    }
+    
     function tutupModalPengurus() { document.getElementById('modal-pengurus').classList.add('hidden'); }
     function salinRekening() {
       const rek = document.getElementById('no-rekening').innerText;
@@ -1733,19 +1737,35 @@ Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
     function editPengurus() {
       const p = dataPengurusRealtime || pengurusDefault;
 
-      const pelindung = prompt("Pelindung / Penasihat:", p.pelindung); if (!pelindung) return;
-      const ketua = prompt("Ketua Takmir:", p.ketua); if (!ketua) return;
-      const wakil = prompt("Wakil Ketua Takmir:", p.wakil); if (!wakil) return;
-      const sekretaris = prompt("Sekretaris Takmir:", p.sekretaris); if (!sekretaris) return;
-      const bendahara = prompt("Bendahara Takmir:", p.bendahara); if (!bendahara) return;
-      const divisi1 = prompt("Divisi 1:", p.divisi1); if (!divisi1) return;
-      const divisi2 = prompt("Divisi 2:", p.divisi2); if (!divisi2) return;
-      const divisi3 = prompt("Divisi 3:", p.divisi3); if (!divisi3) return;
-      const divisi4 = prompt("Divisi 4:", p.divisi4); if (!divisi4) return;
+      const pelindung = prompt("Pelindung / Penasihat:", p.pelindung); if (pelindung === null) return;
+      const ketua = prompt("Ketua Takmir:", p.ketua); if (ketua === null) return;
+      const wakil = prompt("Wakil Ketua Takmir:", p.wakil); if (wakil === null) return;
+      const sekretaris = prompt("Sekretaris Takmir:", p.sekretaris); if (sekretaris === null) return;
+      const bendahara = prompt("Bendahara Takmir:", p.bendahara); if (bendahara === null) return;
+      const divisi1 = prompt("Divisi 1 (Imarah):", p.divisi1); if (divisi1 === null) return;
+      const divisi2 = prompt("Divisi 2 (Ri'ayah):", p.divisi2); if (divisi2 === null) return;
+      const divisi3 = prompt("Divisi 3 (Humas):", p.divisi3); if (divisi3 === null) return;
+      const divisi4 = prompt("Divisi 4 (Logistik):", p.divisi4); if (divisi4 === null) return;
 
-      const dataBaru = { pelindung, ketua, wakil, sekretaris, bendahara, divisi1, divisi2, divisi3, divisi4 };
+      const dataBaru = { 
+        pelindung: pelindung || p.pelindung, 
+        ketua: ketua || p.ketua, 
+        wakil: wakil || p.wakil, 
+        sekretaris: sekretaris || p.sekretaris, 
+        bendahara: bendahara || p.bendahara, 
+        divisi1: divisi1 || p.divisi1, 
+        divisi2: divisi2 || p.divisi2, 
+        divisi3: divisi3 || p.divisi3, 
+        divisi4: divisi4 || p.divisi4 
+      };
+
       db.ref('pengurus_masjid').set(dataBaru, (err) => {
-        if (!err) alert("Susunan Pengurus Takmir berhasil diperbarui!");
+        if (!err) {
+          alert("Susunan Pengurus Takmir berhasil diperbarui dan disinkronkan ke semua HP!");
+          renderPengurus();
+        } else {
+          alert("Gagal menyimpan ke database: " + err.message);
+        }
       });
     }
 
