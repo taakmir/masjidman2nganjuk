@@ -50,6 +50,10 @@
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   </style>
+
+  <!-- FIREBASE SDK (COMPAT VERSION FOR VANILLA JS) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 </head>
 <body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-300 relative w-full overflow-x-hidden">
 
@@ -528,8 +532,28 @@
     <p>&copy; 2026 Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk. Dibuat dengan HTML & Tailwind CSS.</p>
   </footer>
 
-  <!-- JAVASCRIPT AUTO-SYNC CSV ADVANCED -->
+  <!-- JAVASCRIPT REAL-TIME FIREBASE SYNC -->
   <script>
+    // ----------------------------------------------------
+    // INISIALISASI FIREBASE REALTIME DATABASE PROYEK ANDA
+    // ----------------------------------------------------
+    const firebaseConfig = {
+      apiKey: "AIzaSyCMtJ535B2CRyTk87_emBjkeO82ZB0uwBw",
+      authDomain: "masjid-baitul-muttaqin.firebaseapp.com",
+      databaseURL: "https://masjid-baitul-muttaqin-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "masjid-baitul-muttaqin",
+      storageBucket: "masjid-baitul-muttaqin.firebasestorage.app",
+      messagingSenderId: "512056286341",
+      appId: "1:512056286341:web:c8c7a98a253e3415fb5dec",
+      measurementId: "G-B6QLSCY5KP"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    // ----------------------------------------------------
+    // VARIABEL GLOBAL & STATE
+    // ----------------------------------------------------
     const PIN_ADMIN_BENAR = "1234";
     let isAdmin = false;
     let jadwalSholatHariIni = null;
@@ -539,6 +563,17 @@
     let surahAktifData = null;
     let dataPesanTakmirAktif = {};
     let deferredPrompt = null;
+
+    // Cache Data Lokal untuk Real-time Sync
+    let dataKBMRealtime = null;
+    let dataBeritaRealtime = [];
+    let dataLayananRealtime = [];
+    let dataDoaRealtime = [];
+    let dataPengurusRealtime = null;
+    let dataInfaqRealtime = null;
+    let dataHikmahRealtime = null;
+    let dataPetugasJumatLokal = {};
+    let dataKontakTakmirRealtime = [];
 
     /* PWA INSTALLATION PROMPT HANDLER */
     window.addEventListener('beforeinstallprompt', (e) => {
@@ -576,7 +611,7 @@
       });
     }
 
-    /* DATA DEFAULT PETUGAS SHOLAT KBM TAHUN AJARAN 2026/2027 (SESUAI DOKUMEN RESMI) */
+    /* DATA DEFAULT */
     const kbmDefault = {
       Senin: { 
         dzuhurImam: "Ustadz M. Arief Mahardika, S.Pd", 
@@ -663,12 +698,72 @@
       waBilal: "6281515602138"
     };
 
-    /* KONTAK DEFAULT TAKMIR RESMI DARI GAMBAR */
     const kontakTakmirDefault = [
       { nama: "Ketua Takmir (Ust. Wahib)", wa: "6285645862299" },
       { nama: "Sekretaris Takmir (Ust. Bryan)", wa: "6289603286661" },
       { nama: "Bendahara Takmir (Ust. Ali Akbar)", wa: "6285645554110" }
     ];
+
+    // ----------------------------------------------------
+    // REAL-TIME LISTENERS FIREBASE (OTOMATIS SYNC KE HP)
+    // ----------------------------------------------------
+    function inisialisasiFirebaseListeners() {
+      // 1. Berita
+      db.ref('berita_masjid').on('value', (snap) => {
+        dataBeritaRealtime = snap.val() || beritaDefault;
+        renderBerita();
+      });
+
+      // 2. Petugas KBM
+      db.ref('jadwal_kbm_masjid').on('value', (snap) => {
+        dataKBMRealtime = snap.val() || kbmDefault;
+        renderJadwalKBM();
+      });
+
+      // 3. Layanan
+      db.ref('layanan_masjid').on('value', (snap) => {
+        dataLayananRealtime = snap.val() || layananDefault;
+        renderLayanan();
+      });
+
+      // 4. Mutiara Hikmah
+      db.ref('mutiara_hikmah_masjid').on('value', (snap) => {
+        dataHikmahRealtime = snap.val() || {
+          teks: '"Barangsiapa menempuh jalan untuk mencari ilmu, maka Allah akan mudahkan baginya jalan menuju surga."',
+          perawi: '— HR. Muslim'
+        };
+        renderMutiaraHikmah();
+      });
+
+      // 5. Infaq
+      db.ref('infaq_masjid').on('value', (snap) => {
+        dataInfaqRealtime = snap.val() || infaqDefault;
+        renderInfaq();
+      });
+
+      // 6. Doa
+      db.ref('doa_masjid').on('value', (snap) => {
+        dataDoaRealtime = snap.val() || doaDefault;
+        renderDoa();
+      });
+
+      // 7. Pengurus
+      db.ref('pengurus_masjid').on('value', (snap) => {
+        dataPengurusRealtime = snap.val() || pengurusDefault;
+        renderPengurus();
+      });
+
+      // 8. Jadwal Jumat Edit Lokal
+      db.ref('jadwal_jumat_masjid').on('value', (snap) => {
+        dataPetugasJumatLokal = snap.val() || {};
+        renderJadwalJumat();
+      });
+
+      // 9. Kontak Takmir
+      db.ref('kontak_takmir_masjid').on('value', (snap) => {
+        dataKontakTakmirRealtime = snap.val() || kontakTakmirDefault;
+      });
+    }
 
     /* --- FUNGSI PEMBACA CSV ULTRA-KEBAL --- */
     async function muatJadwalDariCSV() {
@@ -677,7 +772,6 @@
         if (!response.ok) return;
         let text = await response.text();
         
-        // Hapus BOM UTF-8 jika disisipkan oleh Excel
         text = text.replace(/^\ufeff/, '');
         const baris = text.trim().split(/\r?\n/);
 
@@ -687,14 +781,12 @@
           const line = baris[i].trim();
           if (!line) continue;
           
-          // Deteksi pemisah koma (,) atau titik-koma (;)
           const pemisah = line.includes(';') ? ';' : ',';
           const kolom = line.split(pemisah).map(item => item.trim().replace(/^"|"$/g, ''));
           
           if (kolom.length >= 4) {
             let keyTanggal = kolom[0].trim();
             
-            // Konversi jika format tanggal di Excel adalah DD/MM/YYYY
             if (keyTanggal.includes('/')) {
               const p = keyTanggal.split('/');
               if (p.length === 3) {
@@ -719,7 +811,6 @@
       }
     }
 
-    /* OPSI BULAN DIBATASI TEPAT SAMPAI JULI 2027 */
     function isiOpsiBulan() {
       const selectBulan = document.getElementById('pilih-bulan');
       selectBulan.innerHTML = '';
@@ -731,7 +822,6 @@
         const yyyy = d.getFullYear(); 
         const mm = d.getMonth();
 
-        // Berhenti secara ketat saat bulan melebihi Juli 2027 (Juli = indeks 6)
         if (yyyy > 2027 || (yyyy === 2027 && mm > 6)) {
           break;
         }
@@ -744,10 +834,10 @@
       }
     }
 
-    /* RENDER JADWAL JUMAT */
     function renderJadwalJumat() {
-      const valBulan = document.getElementById('pilih-bulan').value;
-      if (!valBulan) return;
+      const selectBulan = document.getElementById('pilih-bulan');
+      if (!selectBulan || !selectBulan.value) return;
+      const valBulan = selectBulan.value;
       const [tahun, bulanIdx] = valBulan.split('-').map(Number);
       const namaBulanArr = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
 
@@ -758,8 +848,8 @@
         date.setDate(date.getDate() + 1);
       }
 
-      const dataLokal = ambilDataPetugasJumatLokal();
       const wadah = document.getElementById('wadah-jumat-bulan');
+      if (!wadah) return;
       wadah.innerHTML = '';
 
       daftarJumat.forEach(tgl => {
@@ -770,10 +860,8 @@
         const pasaran = hitungPasaranJawa(tgl);
         const strTanggalLengkap = `${tgl.getDate()} ${namaBulanArr[tgl.getMonth()]} ${yyyy}`;
 
-        // PRIORITASKAN CSV DARI GITHUB
-        const dataHarian = dataJadwalCSV[keyTanggal] || dataLokal[keyTanggal] || petugasDefault;
+        const dataHarian = dataJadwalCSV[keyTanggal] || dataPetugasJumatLokal[keyTanggal] || petugasDefault;
 
-        // TEMPLATE PESAN PENGINGAT WA IMAM & KHOTIB RESMI
         const teksWAImam = `Assalamu'alaikum Wr. Wb.
 Yth. Bapak/Ustadz ${dataHarian.imamKhotib},
 
@@ -790,7 +878,6 @@ Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
 
         const pesanWAImam = encodeURIComponent(teksWAImam);
 
-        // TEMPLATE PESAN PENGINGAT WA BILAL / MUADZIN
         const teksWABilal = `Assalamu'alaikum Wr. Wb.
 Yth. Sdr/Ananda ${dataHarian.bilal},
 
@@ -865,17 +952,10 @@ Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
       });
     }
 
-    /* LOGIK FITUR PENGINGAT TAKMIR */
-    function ambilKontakTakmir() {
-      const simpanan = localStorage.getItem('kontak_takmir_masjid');
-      return simpanan ? JSON.parse(simpanan) : kontakTakmirDefault;
-    }
-
     function bukaModalTakmir(keyTanggal, strTanggalLengkap, pasaran) {
       dataPesanTakmirAktif = { keyTanggal, strTanggalLengkap, pasaran };
-      const dataLokal = ambilDataPetugasJumatLokal();
-      const dataHarian = dataJadwalCSV[keyTanggal] || dataLokal[keyTanggal] || petugasDefault;
-      const daftarKontak = ambilKontakTakmir();
+      const dataHarian = dataJadwalCSV[keyTanggal] || dataPetugasJumatLokal[keyTanggal] || petugasDefault;
+      const daftarKontak = dataKontakTakmirRealtime.length ? dataKontakTakmirRealtime : kontakTakmirDefault;
 
       const wadah = document.getElementById('daftar-kontak-takmir');
       wadah.innerHTML = '';
@@ -933,7 +1013,7 @@ Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
     }
 
     function editKontakTakmir() {
-      const daftar = ambilKontakTakmir();
+      const daftar = dataKontakTakmirRealtime.length ? [...dataKontakTakmirRealtime] : [...kontakTakmirDefault];
       for (let i = 0; i < 3; i++) {
         const namaLama = daftar[i] ? daftar[i].nama : `Pengurus ${i+1}`;
         const waLama = daftar[i] ? daftar[i].wa : `628...`;
@@ -945,10 +1025,11 @@ Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
 
         daftar[i] = { nama: namaBaru, wa: waBaru };
       }
-      localStorage.setItem('kontak_takmir_masjid', JSON.stringify(daftar));
-      if (dataPesanTakmirAktif.keyTanggal) {
-        bukaModalTakmir(dataPesanTakmirAktif.keyTanggal, dataPesanTakmirAktif.strTanggalLengkap, dataPesanTakmirAktif.pasaran);
-      }
+      db.ref('kontak_takmir_masjid').set(daftar, (err) => {
+        if (!err && dataPesanTakmirAktif.keyTanggal) {
+          bukaModalTakmir(dataPesanTakmirAktif.keyTanggal, dataPesanTakmirAktif.strTanggalLengkap, dataPesanTakmirAktif.pasaran);
+        }
+      });
       alert("Daftar 3 Kontak Pengurus Takmir berhasil diperbarui!");
     }
 
@@ -1179,13 +1260,8 @@ Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
 
     setInterval(updateLiveJamAndCountdown, 1000);
 
-    function ambilDataKBM() {
-      const simpanan = localStorage.getItem('jadwal_kbm_masjid');
-      return simpanan ? JSON.parse(simpanan) : kbmDefault;
-    }
-
     function renderJadwalKBM() {
-      const data = ambilDataKBM();
+      const data = dataKBMRealtime || kbmDefault;
       const wadah = document.getElementById('wadah-petugas-kbm');
       if (!wadah) return;
       wadah.innerHTML = '';
@@ -1208,7 +1284,7 @@ Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
     }
 
     function bukaModalPetugasKBM(hari) {
-      const data = ambilDataKBM();
+      const data = dataKBMRealtime || kbmDefault;
       const h = data[hari] || kbmDefault[hari];
 
       document.getElementById('modal-kbm-judul').innerHTML = `<i class="fa-solid fa-calendar-day text-emerald-600"></i> Petugas Sholat Hari ${hari}`;
@@ -1259,7 +1335,7 @@ Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
     }
 
     function editPetugasKBM(hari) {
-      const data = ambilDataKBM();
+      const data = dataKBMRealtime || kbmDefault;
       const h = data[hari] || kbmDefault[hari];
 
       const dzuhurImam = prompt(`[Hari ${hari} - Dzuhur]\nMasukkan Nama Imam Dzuhur:`, h.dzuhurImam); if (!dzuhurImam) return;
@@ -1267,10 +1343,13 @@ Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
       const asharImam = prompt(`[Hari ${hari} - Ashar]\nMasukkan Nama Imam Ashar:`, h.asharImam); if (!asharImam) return;
       const asharMuadzin = prompt(`[Hari ${hari} - Ashar]\nMasukkan Nama Muadzin Ashar:`, h.asharMuadzin); if (!asharMuadzin) return;
 
-      data[hari] = { dzuhurImam, dzuhurMuadzin, asharImam, asharMuadzin };
-      localStorage.setItem('jadwal_kbm_masjid', JSON.stringify(data));
-      bukaModalPetugasKBM(hari);
-      alert(`Petugas Sholat KBM hari ${hari} berhasil disimpan!`);
+      const updated = { ...data, [hari]: { dzuhurImam, dzuhurMuadzin, asharImam, asharMuadzin } };
+      db.ref('jadwal_kbm_masjid').set(updated, (err) => {
+        if (!err) {
+          bukaModalPetugasKBM(hari);
+          alert(`Petugas Sholat KBM hari ${hari} berhasil disimpan dan disinkronkan!`);
+        }
+      });
     }
 
     function bukaModalTambahBerita() {
@@ -1306,22 +1385,19 @@ Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
 
       const fotoFinal = tempBase64Gambar || urlGambar || "";
 
-      const daftarBerita = ambilDataBerita();
+      const daftarBerita = [...dataBeritaRealtime];
       daftarBerita.unshift({ kategori, judul, deskripsi, gambar: fotoFinal });
-      localStorage.setItem('berita_masjid', JSON.stringify(daftarBerita));
 
-      renderBerita();
-      tutupModalTambahBerita();
-      alert("Berita foto berhasil diterbitkan!");
-    }
-
-    function ambilDataBerita() {
-      const simpanan = localStorage.getItem('berita_masjid');
-      return simpanan ? JSON.parse(simpanan) : beritaDefault;
+      db.ref('berita_masjid').set(daftarBerita, (err) => {
+        if (!err) {
+          tutupModalTambahBerita();
+          alert("Berita foto berhasil diterbitkan dan disinkronkan ke seluruh HP jamaah!");
+        }
+      });
     }
 
     function renderBerita() {
-      const daftarBerita = ambilDataBerita();
+      const daftarBerita = dataBeritaRealtime.length ? dataBeritaRealtime : beritaDefault;
       const wadah = document.getElementById('wadah-berita');
       if(!wadah) return;
       wadah.innerHTML = '';
@@ -1359,10 +1435,9 @@ Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
 
     function hapusBerita(index) {
       if (confirm("Apakah Anda yakin ingin menghapus berita ini?")) {
-        const daftarBerita = ambilDataBerita();
+        const daftarBerita = [...dataBeritaRealtime];
         daftarBerita.splice(index, 1);
-        localStorage.setItem('berita_masjid', JSON.stringify(daftarBerita));
-        renderBerita();
+        db.ref('berita_masjid').set(daftarBerita);
       }
     }
 
@@ -1416,33 +1491,21 @@ Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
       return pasarans[((diffDays % 5) + 5) % 5];
     }
 
-    function ambilDataPetugasJumatLokal() {
-      const simpanan = localStorage.getItem('jadwal_jumat_masjid');
-      return simpanan ? JSON.parse(simpanan) : {};
-    }
-
     function editPetugasJumat(keyTanggal, labelTanggal) {
-      const dataLokal = ambilDataPetugasJumatLokal();
-      const dataLama = dataJadwalCSV[keyTanggal] || dataLokal[keyTanggal] || petugasDefault;
+      const dataLama = dataJadwalCSV[keyTanggal] || dataPetugasJumatLokal[keyTanggal] || petugasDefault;
 
       const imamKhotib = prompt(`[${labelTanggal}]\nMasukkan Nama Imam & Khotib:`, dataLama.imamKhotib); if (!imamKhotib) return;
       const waImam = prompt(`[${labelTanggal}]\nMasukkan No WhatsApp Imam & Khotib (Format 628...):`, dataLama.waImam); if (!waImam) return;
       const bilal = prompt(`[${labelTanggal}]\nMasukkan Nama Bilal / Muadzin:`, dataLama.bilal); if (!bilal) return;
       const waBilal = prompt(`[${labelTanggal}]\nMasukkan No WhatsApp Bilal (Format 628...):`, dataLama.waBilal); if (!waBilal) return;
 
-      dataLokal[keyTanggal] = { imamKhotib, waImam, bilal, waBilal };
-      localStorage.setItem('jadwal_jumat_masjid', JSON.stringify(dataLokal));
-      renderJadwalJumat();
-      alert(`Jadwal Jumat tanggal ${labelTanggal} berhasil disimpan!`);
-    }
-
-    function ambilDataLayanan() {
-      const simpanan = localStorage.getItem('layanan_masjid');
-      return simpanan ? JSON.parse(simpanan) : layananDefault;
+      db.ref(`jadwal_jumat_masjid/${keyTanggal}`).set({ imamKhotib, waImam, bilal, waBilal }, (err) => {
+        if (!err) alert(`Jadwal Jumat tanggal ${labelTanggal} berhasil disimpan dan disinkronkan!`);
+      });
     }
 
     function renderLayanan() {
-      const daftar = ambilDataLayanan();
+      const daftar = dataLayananRealtime.length ? dataLayananRealtime : layananDefault;
       const wadah = document.getElementById('wadah-layanan');
       if (!wadah) return;
       wadah.innerHTML = '';
@@ -1473,15 +1536,15 @@ Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
       const deskripsi = prompt("Masukkan Deskripsi Layanan:"); if (!deskripsi) return;
       const ikon = prompt("Masukkan Ikon FontAwesome:", "fa-hand-holding-heart");
 
-      const daftar = ambilDataLayanan();
+      const daftar = [...dataLayananRealtime];
       daftar.push({ judul, deskripsi, ikon: ikon || "fa-hand-holding-heart" });
-      localStorage.setItem('layanan_masjid', JSON.stringify(daftar));
-      renderLayanan();
-      alert("Layanan baru berhasil ditambahkan!");
+      db.ref('layanan_masjid').set(daftar, (err) => {
+        if (!err) alert("Layanan baru berhasil ditambahkan!");
+      });
     }
 
     function editLayanan(index) {
-      const daftar = ambilDataLayanan();
+      const daftar = [...dataLayananRealtime];
       const item = daftar[index];
 
       const judul = prompt("Edit Judul Layanan:", item.judul); if (!judul) return;
@@ -1489,23 +1552,21 @@ Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
       const ikon = prompt("Edit Ikon FontAwesome:", item.ikon || "fa-hand-holding-heart");
 
       daftar[index] = { judul, deskripsi, ikon };
-      localStorage.setItem('layanan_masjid', JSON.stringify(daftar));
-      renderLayanan();
-      alert("Layanan berhasil diperbarui!");
+      db.ref('layanan_masjid').set(daftar, (err) => {
+        if (!err) alert("Layanan berhasil diperbarui!");
+      });
     }
 
     function hapusLayanan(index) {
       if (confirm("Apakah Anda yakin ingin menghapus layanan ini?")) {
-        const daftar = ambilDataLayanan();
+        const daftar = [...dataLayananRealtime];
         daftar.splice(index, 1);
-        localStorage.setItem('layanan_masjid', JSON.stringify(daftar));
-        renderLayanan();
+        db.ref('layanan_masjid').set(daftar);
       }
     }
 
     function renderMutiaraHikmah() {
-      const simpanan = localStorage.getItem('mutiara_hikmah_masjid');
-      const data = simpanan ? JSON.parse(simpanan) : {
+      const data = dataHikmahRealtime || {
         teks: '"Barangsiapa menempuh jalan untuk mencari ilmu, maka Allah akan mudahkan baginya jalan menuju surga."',
         perawi: '— HR. Muslim'
       };
@@ -1514,8 +1575,7 @@ Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
     }
 
     function editMutiaraHikmah() {
-      const simpanan = localStorage.getItem('mutiara_hikmah_masjid');
-      const dataLama = simpanan ? JSON.parse(simpanan) : {
+      const dataLama = dataHikmahRealtime || {
         teks: '"Barangsiapa menempuh jalan untuk mencari ilmu, maka Allah akan mudahkan baginya jalan menuju surga."',
         perawi: '— HR. Muslim'
       };
@@ -1523,9 +1583,9 @@ Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
       const teksBaru = prompt("Masukkan Teks Mutiara Hikmah / Hadits Baru:", dataLama.teks); if(!teksBaru) return;
       const perawiBaru = prompt("Masukkan Perawi / Sumber:", dataLama.perawi); if(!perawiBaru) return;
 
-      localStorage.setItem('mutiara_hikmah_masjid', JSON.stringify({ teks: teksBaru, perawi: perawiBaru }));
-      renderMutiaraHikmah();
-      alert("Mutiara Hikmah berhasil diperbarui!");
+      db.ref('mutiara_hikmah_masjid').set({ teks: teksBaru, perawi: perawiBaru }, (err) => {
+        if (!err) alert("Mutiara Hikmah berhasil diperbarui!");
+      });
     }
 
     let tasbihCount = 0;
@@ -1549,8 +1609,7 @@ Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
     }
 
     function renderInfaq() {
-      const simpanan = localStorage.getItem('infaq_masjid');
-      const data = simpanan ? JSON.parse(simpanan) : infaqDefault;
+      const data = dataInfaqRealtime || infaqDefault;
       document.getElementById('infaq-bank').innerText = data.bank;
       document.getElementById('no-rekening').innerText = data.noRek;
       document.getElementById('infaq-an').innerText = data.an;
@@ -1558,26 +1617,20 @@ Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
     }
 
     function editInfaq() {
-      const simpanan = localStorage.getItem('infaq_masjid');
-      const data = simpanan ? JSON.parse(simpanan) : infaqDefault;
+      const data = dataInfaqRealtime || infaqDefault;
 
       const bank = prompt("Masukkan Nama Bank / E-Wallet:", data.bank); if (!bank) return;
       const noRek = prompt("Masukkan Nomor Rekening / Nomor HP:", data.noRek); if (!noRek) return;
       const an = prompt("Masukkan Atas Nama (a.n):", data.an); if (!an) return;
       const deskripsi = prompt("Masukkan Deskripsi Infaq:", data.deskripsi); if (!deskripsi) return;
 
-      localStorage.setItem('infaq_masjid', JSON.stringify({ bank, noRek, an, deskripsi }));
-      renderInfaq();
-      alert("Informasi Infaq berhasil diperbarui!");
-    }
-
-    function ambilDataDoa() {
-      const simpanan = localStorage.getItem('doa_masjid');
-      return simpanan ? JSON.parse(simpanan) : doaDefault;
+      db.ref('infaq_masjid').set({ bank, noRek, an, deskripsi }, (err) => {
+        if (!err) alert("Informasi Infaq berhasil diperbarui!");
+      });
     }
 
     function renderDoa() {
-      const daftar = ambilDataDoa();
+      const daftar = dataDoaRealtime.length ? dataDoaRealtime : doaDefault;
       const wadah = document.getElementById('wadah-doa');
       if (!wadah) return;
       wadah.innerHTML = '';
@@ -1606,15 +1659,15 @@ Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
       const arab = prompt("Masukkan Teks Bacaan / Arab:"); if (!arab) return;
       const arti = prompt("Masukkan Arti / Terjemahan:"); if (!arti) return;
 
-      const daftar = ambilDataDoa();
+      const daftar = [...dataDoaRealtime];
       daftar.push({ judul, arab, arti });
-      localStorage.setItem('doa_masjid', JSON.stringify(daftar));
-      renderDoa();
-      alert("Doa baru berhasil ditambahkan!");
+      db.ref('doa_masjid').set(daftar, (err) => {
+        if (!err) alert("Doa baru berhasil ditambahkan!");
+      });
     }
 
     function editDoa(index) {
-      const daftar = ambilDataDoa();
+      const daftar = [...dataDoaRealtime];
       const item = daftar[index];
 
       const judul = prompt("Edit Judul Doa:", item.judul); if (!judul) return;
@@ -1622,23 +1675,21 @@ Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
       const arti = prompt("Edit Arti Doa:", item.arti); if (!arti) return;
 
       daftar[index] = { judul, arab, arti };
-      localStorage.setItem('doa_masjid', JSON.stringify(daftar));
-      renderDoa();
-      alert("Doa berhasil diperbarui!");
+      db.ref('doa_masjid').set(daftar, (err) => {
+        if (!err) alert("Doa berhasil diperbarui!");
+      });
     }
 
     function hapusDoa(index) {
       if (confirm("Apakah Anda yakin ingin menghapus doa ini?")) {
-        const daftar = ambilDataDoa();
+        const daftar = [...dataDoaRealtime];
         daftar.splice(index, 1);
-        localStorage.setItem('doa_masjid', JSON.stringify(daftar));
-        renderDoa();
+        db.ref('doa_masjid').set(daftar);
       }
     }
 
     function renderPengurus() {
-      const simpanan = localStorage.getItem('pengurus_masjid');
-      const p = simpanan ? JSON.parse(simpanan) : pengurusDefault;
+      const p = dataPengurusRealtime || pengurusDefault;
       const wadah = document.getElementById('wadah-pengurus');
       if (!wadah) return;
 
@@ -1680,8 +1731,7 @@ Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
     }
 
     function editPengurus() {
-      const simpanan = localStorage.getItem('pengurus_masjid');
-      const p = simpanan ? JSON.parse(simpanan) : pengurusDefault;
+      const p = dataPengurusRealtime || pengurusDefault;
 
       const pelindung = prompt("Pelindung / Penasihat:", p.pelindung); if (!pelindung) return;
       const ketua = prompt("Ketua Takmir:", p.ketua); if (!ketua) return;
@@ -1694,9 +1744,9 @@ Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
       const divisi4 = prompt("Divisi 4:", p.divisi4); if (!divisi4) return;
 
       const dataBaru = { pelindung, ketua, wakil, sekretaris, bendahara, divisi1, divisi2, divisi3, divisi4 };
-      localStorage.setItem('pengurus_masjid', JSON.stringify(dataBaru));
-      renderPengurus();
-      alert("Susunan Pengurus Takmir berhasil diperbarui!");
+      db.ref('pengurus_masjid').set(dataBaru, (err) => {
+        if (!err) alert("Susunan Pengurus Takmir berhasil diperbarui!");
+      });
     }
 
     function aktifkanKompas() {
@@ -1750,16 +1800,9 @@ Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
     /* INISIALISASI UTAMA */
     async function inisialisasi() {
       inisialisasiTema();
+      inisialisasiFirebaseListeners();
       await muatJadwalDariCSV();
       isiOpsiBulan();
-      renderJadwalKBM();
-      renderJadwalJumat();
-      renderBerita();
-      renderLayanan();
-      renderMutiaraHikmah();
-      renderInfaq();
-      renderDoa();
-      renderPengurus();
       ambilJadwalSholat();
     }
 
