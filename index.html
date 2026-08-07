@@ -59,7 +59,7 @@
 
   <!-- FLOATING BUTTONS (POJOK KANAN BAWAH LAYAR) -->
   <div class="fixed bottom-4 right-4 z-50 flex items-center gap-2">
-    <!-- TOMBOL INSTALL APLIKASI (OTOMATIS TAMPIL JIKA BISA DIINSTALL) -->
+    <!-- TOMBOL INSTALL APLIKASI -->
     <button id="btn-install-pwa" onclick="installAplikasi()" title="Install Aplikasi Masjid" 
             class="hidden bg-amber-400 text-emerald-950 w-11 h-11 sm:w-12 sm:h-12 rounded-full shadow-2xl border-2 border-amber-200 flex items-center justify-center text-base sm:text-lg hover:scale-110 active:scale-95 transition-all duration-200 cursor-pointer animate-bounce">
       <i class="fa-solid fa-download"></i>
@@ -78,7 +78,7 @@
     </button>
   </div>
 
-  <!-- HERO / HEADER CERAH & ELEGAN DENGAN ORNAMEN ISLAMI MODERN -->
+  <!-- HERO / HEADER CERAH & ELEGAN -->
   <header class="relative bg-gradient-to-br from-emerald-700 via-teal-800 to-emerald-900 text-white shadow-2xl overflow-hidden border-b-4 border-amber-400">
     <div class="absolute inset-0 opacity-15 bg-[radial-gradient(#fef08a_1.5px,transparent_1.5px)] [background-size:20px_20px] pointer-events-none"></div>
     <div class="absolute -top-24 -left-24 w-72 sm:w-96 h-72 sm:h-96 bg-emerald-400/20 rounded-full blur-3xl pointer-events-none"></div>
@@ -151,7 +151,7 @@
     </div>
   </header>
 
-  <!-- NAVIGASI MENU -->
+  <!-- NAVIGASI MENU (LENGKAP DENGAN DHUHA & TARTIL) -->
   <nav class="sticky top-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur border-b border-slate-200 dark:border-slate-800 shadow-sm transition-colors w-full">
     <div class="max-w-5xl mx-auto px-2 sm:px-4 py-2 flex items-center justify-start sm:justify-between overflow-x-auto gap-1.5 sm:gap-2 no-scrollbar w-full">
       <a href="#seksi-berita" class="px-2.5 py-1.5 text-xs font-bold text-slate-700 dark:text-slate-300 hover:text-emerald-700 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-slate-800 rounded-lg whitespace-nowrap transition flex items-center gap-1.5 shrink-0">
@@ -246,51 +246,59 @@
       </div>
     </section>
 
-    <!-- SEKSI SHOLAT DHUHA & TARTIL AL-QUR'AN (OTOMATIS MEMBACA JADWAL_DHUHA.CSV) -->
+    <!-- 3. SEKSI SHOLAT DHUHA & TARTIL AL-QUR'AN (MODERN & RINGKAS TAMPILAN LEGA) -->
     <section id="seksi-dhuha" class="bg-white dark:bg-slate-900 rounded-2xl p-4 sm:p-6 shadow-xl border border-amber-100 dark:border-slate-800 scroll-mt-20 transition-colors">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4 border-b border-slate-100 dark:border-slate-800 pb-3">
+      
+      <!-- HEADER & FILTER BULAN -->
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-4 border-b border-slate-100 dark:border-slate-800 pb-3">
         <div>
           <h2 class="text-base sm:text-lg font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
-            <i class="fa-solid fa-sun text-amber-500"></i> Jadwal Sholat Dhuha & Tartil Al-Qur'an
+            <i class="fa-solid fa-sun text-amber-500"></i> Jadwal Sholat Dhuha & Tartil
           </h2>
           <p class="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400">Pembiasaan Sholat Dhuha & Pemandu Tartil Siswa MAN 2 Nganjuk</p>
         </div>
-        <span id="badge-dhuha-hari-ini" class="self-start sm:self-auto text-[11px] sm:text-xs font-semibold bg-amber-50 dark:bg-amber-950/80 text-amber-700 dark:text-amber-300 px-2.5 py-1 rounded-full border border-amber-200 dark:border-amber-800">
-          <i class="fa-solid fa-calendar-day mr-1"></i> Jadwal Dhuha
-        </span>
+
+        <!-- Filter Pilihan Bulan -->
+        <div class="flex items-center gap-2">
+          <label class="text-xs font-semibold text-slate-600 dark:text-slate-300 whitespace-nowrap">Filter Bulan:</label>
+          <select id="pilih-bulan-dhuha" onchange="renderJadwalDhuha()" class="w-full sm:w-auto bg-amber-50 dark:bg-slate-800 text-amber-900 dark:text-amber-300 border border-amber-200 dark:border-slate-700 text-xs font-bold px-3 py-1.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 cursor-pointer shadow-xs">
+            <option value="semua">Semua Jadwal</option>
+          </select>
+        </div>
       </div>
 
       <!-- Highlight Petugas Hari Ini / Terdekat -->
-      <div id="box-dhuha-hari-ini" class="mb-4 p-3.5 sm:p-4 bg-gradient-to-r from-emerald-800 to-teal-800 text-white rounded-xl shadow-md border border-emerald-700">
+      <div id="box-dhuha-hari-ini" class="mb-4 p-3.5 bg-gradient-to-r from-emerald-800 via-teal-800 to-emerald-900 text-white rounded-xl shadow-md border border-emerald-700/80">
         <div class="text-[10px] sm:text-xs font-bold text-amber-300 uppercase tracking-wider mb-1 flex items-center gap-1.5">
-          <i class="fa-solid fa-star"></i> Petugas Dhuha & Tartil Hari Ini / Terdekat
+          <i class="fa-solid fa-star text-amber-400"></i> Petugas Dhuha Hari Ini / Terdekat
         </div>
         <div id="konten-dhuha-hari-ini" class="text-xs">
           <span class="text-emerald-100">Memuat data petugas dhuha...</span>
         </div>
       </div>
 
-      <!-- Tabel Lengkap Jadwal Dhuha -->
-      <div class="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800">
+      <!-- Tabel Jadwal Ringkas (Max Height 320px + Sticky Header) -->
+      <div class="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800 max-h-[320px] overflow-y-auto shadow-inner no-scrollbar">
         <table class="w-full text-left border-collapse text-xs">
-          <thead class="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 uppercase text-[10px]">
+          <thead class="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 uppercase text-[10px] sticky top-0 z-10 shadow-xs">
             <tr>
-              <th class="p-2.5 border-b dark:border-slate-700 text-center">NO</th>
-              <th class="p-2.5 border-b dark:border-slate-700">HARI & TANGGAL</th>
-              <th class="p-2.5 border-b dark:border-slate-700">KELAS</th>
-              <th class="p-2.5 border-b dark:border-slate-700">PEMANDU TARTIL</th>
+              <th class="p-2.5 border-b dark:border-slate-700 text-center w-12 bg-slate-100 dark:bg-slate-800">NO</th>
+              <th class="p-2.5 border-b dark:border-slate-700 bg-slate-100 dark:bg-slate-800">HARI & TANGGAL</th>
+              <th class="p-2.5 border-b dark:border-slate-700 bg-slate-100 dark:bg-slate-800">KELAS</th>
+              <th class="p-2.5 border-b dark:border-slate-700 bg-slate-100 dark:bg-slate-800">PEMANDU TARTIL</th>
             </tr>
           </thead>
           <tbody id="tabel-body-dhuha" class="divide-y divide-slate-100 dark:divide-slate-800">
             <tr>
-              <td colspan="4" class="p-4 text-center text-slate-400">Memuat jadwal dari file jadwal_dhuha.csv...</td>
+              <td colspan="4" class="p-4 text-center text-slate-400">Memuat jadwal dari file CSV...</td>
             </tr>
           </tbody>
         </table>
       </div>
+
     </section>
 
-    <!-- 3. FITUR KEAGAMAAN -->
+    <!-- 4. FITUR KEAGAMAAN (MUTIARA HIKMAH, TASBIH, KOMPAS) -->
     <section class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
       <div class="bg-gradient-to-br from-emerald-900 to-teal-800 text-white rounded-2xl p-4 sm:p-5 shadow-lg flex flex-col justify-between border border-emerald-700">
         <div>
@@ -348,7 +356,7 @@
       </div>
     </section>
 
-    <!-- 4. DOA HARIAN -->
+    <!-- 5. DOA HARIAN -->
     <section class="bg-white dark:bg-slate-900 rounded-2xl p-4 sm:p-6 shadow-xl border border-slate-100 dark:border-slate-800 transition-colors">
       <div class="flex items-center justify-between mb-4 border-b border-slate-100 dark:border-slate-800 pb-3">
         <h2 class="text-base sm:text-lg font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
@@ -361,7 +369,7 @@
       <div id="wadah-doa" class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 text-xs"></div>
     </section>
 
-    <!-- 5. JADWAL PETUGAS JUMAT -->
+    <!-- 6. JADWAL PETUGAS JUMAT -->
     <section id="seksi-jumat" class="bg-white dark:bg-slate-900 rounded-2xl p-4 sm:p-6 shadow-xl border border-slate-100 dark:border-slate-800 scroll-mt-20 transition-colors">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 sm:mb-5 border-b border-slate-100 dark:border-slate-800 pb-3">
         <div>
@@ -376,7 +384,7 @@
       <div id="wadah-jumat-bulan" class="space-y-3"></div>
     </section>
 
-    <!-- 6. LAYANAN KEAGAMAAN -->
+    <!-- 7. LAYANAN KEAGAMAAN -->
     <section id="seksi-layanan" class="bg-white dark:bg-slate-900 rounded-2xl p-4 sm:p-6 shadow-xl border border-slate-100 dark:border-slate-800 scroll-mt-20 transition-colors">
       <div class="flex items-center justify-between mb-4 border-b border-slate-100 dark:border-slate-800 pb-3">
         <h2 class="text-base sm:text-lg font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
@@ -389,7 +397,7 @@
       <div id="wadah-layanan" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 text-xs"></div>
     </section>
 
-    <!-- 7. INFAQ & DONASI MASJID -->
+    <!-- 8. INFAQ & DONASI MASJID -->
     <section id="seksi-infaq" class="bg-gradient-to-r from-emerald-900 to-teal-800 text-white rounded-2xl p-4 sm:p-6 shadow-xl border border-emerald-700 scroll-mt-20">
       <div class="flex flex-col md:flex-row items-center justify-between gap-5 sm:gap-6">
         <div class="space-y-2 text-center md:text-left">
@@ -550,7 +558,7 @@
     </div>
   </div>
 
-  <!-- MODAL PENGINGAT TAKMIR (3 NOMOR PENGURUS) -->
+  <!-- MODAL PENGINGAT TAKMIR -->
   <div id="modal-pilihan-takmir" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 sm:p-4">
     <div class="bg-white dark:bg-slate-900 rounded-2xl max-w-md w-full p-4 sm:p-6 shadow-2xl border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-100 relative">
       <div class="flex items-center justify-between border-b dark:border-slate-800 pb-3 mb-3">
@@ -611,6 +619,7 @@
     let surahAktifData = null;
     let dataPesanTakmirAktif = {};
     let deferredPrompt = null;
+    let daftarBulanDhuha = new Set();
 
     // Cache Data Lokal untuk Real-time Sync
     let dataKBMRealtime = null;
@@ -712,7 +721,6 @@
       deskripsi: "Infaq Anda dipergunakan untuk operasional kebersihan masjid, pemeliharaan sarana ibadah, serta kegiatan keagamaan siswa MAN 2 Nganjuk."
     };
 
-    // DATA PENGURUS RESMI SESUAI SK MADRASAH
     const pengurusDefault = [
       { jabatan: "Penanggung Jawab", nama: "Ustadz Kasnan, S.Ag, M.Pd.I" },
       { jabatan: "Pengarah", nama: "Ustadz Uvin Wahyudi, S.Pd.SD" },
@@ -760,25 +768,21 @@
     // REAL-TIME LISTENERS FIREBASE (OTOMATIS SYNC KE HP)
     // ----------------------------------------------------
     function inisialisasiFirebaseListeners() {
-      // 1. Berita
       db.ref('berita_masjid').on('value', (snap) => {
         dataBeritaRealtime = snap.val() || beritaDefault;
         renderBerita();
       });
 
-      // 2. Petugas KBM
       db.ref('jadwal_kbm_masjid').on('value', (snap) => {
         dataKBMRealtime = snap.val() || kbmDefault;
         renderJadwalKBM();
       });
 
-      // 3. Layanan
       db.ref('layanan_masjid').on('value', (snap) => {
         dataLayananRealtime = snap.val() || layananDefault;
         renderLayanan();
       });
 
-      // 4. Mutiara Hikmah
       db.ref('mutiara_hikmah_masjid').on('value', (snap) => {
         dataHikmahRealtime = snap.val() || {
           teks: '"Barangsiapa menempuh jalan untuk mencari ilmu, maka Allah akan mudahkan baginya jalan menuju surga."',
@@ -787,31 +791,26 @@
         renderMutiaraHikmah();
       });
 
-      // 5. Infaq
       db.ref('infaq_masjid').on('value', (snap) => {
         dataInfaqRealtime = snap.val() || infaqDefault;
         renderInfaq();
       });
 
-      // 6. Doa
       db.ref('doa_masjid').on('value', (snap) => {
         dataDoaRealtime = snap.val() || doaDefault;
         renderDoa();
       });
 
-      // 7. Pengurus SK (Real-time sync khusus SK)
       db.ref('pengurus_masjid_sk').on('value', (snap) => {
         dataPengurusRealtime = snap.val() || pengurusDefault;
         renderPengurus();
       });
 
-      // 8. Jadwal Jumat Edit Lokal
       db.ref('jadwal_jumat_masjid').on('value', (snap) => {
         dataPetugasJumatLokal = snap.val() || {};
         renderJadwalJumat();
       });
 
-      // 9. Kontak Takmir
       db.ref('kontak_takmir_masjid').on('value', (snap) => {
         dataKontakTakmirRealtime = snap.val() || kontakTakmirDefault;
       });
@@ -863,7 +862,7 @@
       }
     }
 
-    /* --- FUNGSI PEMBACA CSV JADWAL SHOLAT DHUHA & TARTIL --- */
+    /* --- FUNGSI PEMBACA CSV JADWAL SHOLAT DHUHA & TARTIL (COMPACT & FILTER BULAN) --- */
     async function muatJadwalDhuhaCSV() {
       try {
         const response = await fetch('jadwal_dhuha.csv?v=' + Date.now());
@@ -874,6 +873,7 @@
         const baris = text.trim().split(/\r?\n/);
 
         dataDhuhaCSV = {};
+        daftarBulanDhuha.clear();
 
         for (let i = 1; i < baris.length; i++) {
           const line = baris[i].trim();
@@ -886,7 +886,6 @@
             let rawTanggal = kolom[2].trim();
             let keyTanggal = rawTanggal;
 
-            // Standarisasi tanggal ke YYYY-MM-DD
             if (rawTanggal.includes('/')) {
               const p = rawTanggal.split('/');
               if (p.length === 3) {
@@ -895,30 +894,63 @@
               }
             }
 
+            const bulanKey = keyTanggal.substring(0, 7); // "YYYY-MM"
+            daftarBulanDhuha.add(bulanKey);
+
             dataDhuhaCSV[keyTanggal] = {
               no: kolom[0],
               hari: kolom[1],
               tanggal: rawTanggal,
               kelas: kolom[3],
-              pemandu: kolom[4]
+              pemandu: kolom[4],
+              bulanKey: bulanKey
             };
           }
         }
+
+        isiOpsiBulanDhuha();
         renderJadwalDhuha();
       } catch (err) {
         console.log("Gagal membaca file jadwal_dhuha.csv:", err);
       }
     }
 
+    function isiOpsiBulanDhuha() {
+      const select = document.getElementById('pilih-bulan-dhuha');
+      if (!select) return;
+
+      const namaBulanMap = {
+        '01': 'Januari', '02': 'Februari', '03': 'Maret', '04': 'April',
+        '05': 'Mei', '06': 'Juni', '07': 'Juli', '08': 'Agustus',
+        '09': 'September', '10': 'Oktober', '11': 'November', '12': 'Desember'
+      };
+
+      const now = new Date();
+      const currentBulanKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+
+      let optionsHTML = '<option value="semua">Semua Jadwal</option>';
+      const sortedBulan = Array.from(daftarBulanDhuha).sort();
+
+      sortedBulan.forEach(bKey => {
+        const [th, bl] = bKey.split('-');
+        const namaBulan = namaBulanMap[bl] || bl;
+        const selected = (bKey === currentBulanKey) ? 'selected' : '';
+        optionsHTML += `<option value="${bKey}" ${selected}>${namaBulan} ${th}</option>`;
+      });
+
+      select.innerHTML = optionsHTML;
+    }
+
     function renderJadwalDhuha() {
       const tbody = document.getElementById('tabel-body-dhuha');
       const boxHariIni = document.getElementById('konten-dhuha-hari-ini');
+      const filterBulan = document.getElementById('pilih-bulan-dhuha')?.value || 'semua';
       if (!tbody) return;
 
-      const keys = Object.keys(dataDhuhaCSV);
+      const keys = Object.keys(dataDhuhaCSV).sort();
       if (keys.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="4" class="p-4 text-center text-slate-400">File <code>jadwal_dhuha.csv</code> belum diupload ke GitHub atau format belum sesuai.</td></tr>';
-        if(boxHariIni) boxHariIni.innerHTML = '<span class="text-amber-200">Belum ada data jadwal Dhuha dari file CSV.</span>';
+        tbody.innerHTML = '<tr><td colspan="4" class="p-4 text-center text-slate-400">File <code>jadwal_dhuha.csv</code> belum diupload atau kosong.</td></tr>';
+        if(boxHariIni) boxHariIni.innerHTML = '<span class="text-amber-200">Belum ada data jadwal Dhuha.</span>';
         return;
       }
 
@@ -928,17 +960,12 @@
       const dd = String(now.getDate()).padStart(2, '0');
       const todayStr = `${yyyy}-${mm}-${dd}`;
 
-      let htmlTabel = '';
+      // Highlight Petugas Hari Ini / Terdekat
       let petugasHariIni = dataDhuhaCSV[todayStr] || null;
-
-      // Jika hari ini tidak ada jadwal, cari tanggal mendatang terdekat
       if (!petugasHariIni) {
-        const upcomingKeys = keys.filter(k => k >= todayStr).sort();
-        if (upcomingKeys.length > 0) {
-          petugasHariIni = dataDhuhaCSV[upcomingKeys[0]];
-        } else {
-          petugasHariIni = dataDhuhaCSV[keys[keys.length - 1]];
-        }
+        const upcomingKeys = keys.filter(k => k >= todayStr);
+        if (upcomingKeys.length > 0) petugasHariIni = dataDhuhaCSV[upcomingKeys[0]];
+        else petugasHariIni = dataDhuhaCSV[keys[keys.length - 1]];
       }
 
       if (boxHariIni && petugasHariIni) {
@@ -956,20 +983,34 @@
         `;
       }
 
-      keys.forEach(k => {
+      // Filter berdasarkan Pilihan Bulan
+      let filteredKeys = keys;
+      if (filterBulan !== 'semua') {
+        filteredKeys = keys.filter(k => dataDhuhaCSV[k].bulanKey === filterBulan);
+      }
+
+      if (filteredKeys.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4" class="p-4 text-center text-slate-400">Tidak ada jadwal Dhuha untuk bulan ini.</td></tr>';
+        return;
+      }
+
+      let htmlTabel = '';
+      filteredKeys.forEach(k => {
         const item = dataDhuhaCSV[k];
         const isToday = (k === todayStr);
-        const bgClass = isToday ? 'bg-amber-100/90 dark:bg-amber-950/70 font-bold text-amber-950 dark:text-amber-200 ring-2 ring-amber-400' : 'hover:bg-emerald-50/50 dark:hover:bg-slate-800/50';
+        const bgClass = isToday 
+          ? 'bg-amber-100/90 dark:bg-amber-950/70 font-bold text-amber-950 dark:text-amber-200 ring-2 ring-amber-400' 
+          : 'hover:bg-emerald-50/50 dark:hover:bg-slate-800/50';
 
         htmlTabel += `
           <tr class="${bgClass} transition">
-            <td class="p-2.5 text-center font-bold text-slate-500 dark:text-slate-400">${item.no}</td>
-            <td class="p-2.5 whitespace-nowrap">
+            <td class="p-2 text-center font-bold text-slate-500 dark:text-slate-400">${item.no}</td>
+            <td class="p-2 whitespace-nowrap">
               <span class="font-bold block text-slate-800 dark:text-slate-100">${item.hari}</span>
               <span class="text-[10px] text-slate-500 dark:text-slate-400">${item.tanggal}</span>
             </td>
-            <td class="p-2.5 font-bold text-emerald-700 dark:text-emerald-400">${item.kelas}</td>
-            <td class="p-2.5 font-medium text-slate-700 dark:text-slate-200">${item.pemandu}</td>
+            <td class="p-2 font-bold text-emerald-700 dark:text-emerald-400">${item.kelas}</td>
+            <td class="p-2 font-medium text-slate-700 dark:text-slate-200">${item.pemandu}</td>
           </tr>
         `;
       });
@@ -979,6 +1020,7 @@
 
     function isiOpsiBulan() {
       const selectBulan = document.getElementById('pilih-bulan');
+      if (!selectBulan) return;
       selectBulan.innerHTML = '';
       const now = new Date();
       const namaBulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
@@ -988,9 +1030,7 @@
         const yyyy = d.getFullYear(); 
         const mm = d.getMonth();
 
-        if (yyyy > 2027 || (yyyy === 2027 && mm > 6)) {
-          break;
-        }
+        if (yyyy > 2027 || (yyyy === 2027 && mm > 6)) break;
 
         const option = document.createElement('option');
         option.value = `${yyyy}-${mm}`;
@@ -1858,7 +1898,6 @@ Takmir Masjid Baitul Muttaqin MAN 2 Nganjuk`;
       }
     }
 
-    // FUNGSI RENDER PENGURUS DENGAN STRUKTUR SK RESMI
     function renderPengurus() {
       const daftar = (Array.isArray(dataPengurusRealtime) && dataPengurusRealtime.length) ? dataPengurusRealtime : pengurusDefault;
       const wadah = document.getElementById('wadah-pengurus');
